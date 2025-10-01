@@ -1,5 +1,5 @@
 locals {
-  // Path resolution
+  // Source resolution
   terragrunt_scale_catalog_url = try(values.terragrunt_scale_catalog_url, "github.com/gruntwork-io/terragrunt-scale-catalog")
   terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "main")
 
@@ -39,8 +39,8 @@ unit "resource_group" {
   path   = "state/resource-group"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     name     = local.state_resource_group_name
     location = local.location
@@ -50,11 +50,11 @@ unit "resource_group" {
 unit "storage_account" {
   source = "${local.terragrunt_scale_catalog_url}//units/azure/state/storage-account?ref=${local.terragrunt_scale_catalog_ref}"
 
-  path   = "state/storage-account"
+  path = "state/storage-account"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     resource_group_config_path = "../resource-group"
 
@@ -68,8 +68,8 @@ unit "storage_container" {
   path   = "state/storage-container"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     storage_account_config_path = "../storage-account"
 
@@ -86,8 +86,8 @@ unit "plan_app" {
   path   = "oidc/plan/app"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     display_name = "${local.oidc_resource_prefix}-plan"
     description  = "Entra ID application used by Gruntwork Pipelines for plans"
@@ -99,8 +99,8 @@ unit "plan_service_principal" {
   path   = "oidc/plan/service-principal"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     app_config_path = "../app"
   }
@@ -111,8 +111,8 @@ unit "plan_flexible_federated_identity_credential" {
   path   = "oidc/plan/flexible-federated-identity-credential"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     app_config_path = "../app"
 
@@ -131,8 +131,8 @@ unit "plan_service_principal_to_sub_reader_role_assignment" {
   path   = "oidc/plan/service-principal-to-sub-reader-role-assignment"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     service_principal_config_path = "../service-principal"
 
@@ -146,8 +146,8 @@ unit "plan_service_principal_to_state_contributor_role_assignment" {
   path   = "oidc/plan/service-principal-to-state-contributor-role-assignment"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     service_principal_config_path = "../service-principal"
     scope_config_path             = "../../../state/storage-account"
@@ -164,8 +164,8 @@ unit "apply_app" {
   path   = "oidc/apply/app"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     display_name = "${local.oidc_resource_prefix}-apply"
     description  = "Entra ID application used by Gruntwork Pipelines for applies and destroys"
@@ -177,8 +177,8 @@ unit "apply_service_principal" {
   path   = "oidc/apply/service-principal"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     app_config_path = "../app"
   }
@@ -189,8 +189,8 @@ unit "apply_federated_identity_credential" {
   path   = "oidc/apply/federated-identity-credential"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     app_config_path = "../app"
 
@@ -209,8 +209,8 @@ unit "apply_service_principal_to_state_contributor_role_assignment" {
   path   = "oidc/apply/service-principal-to-state-contributor-role-assignment"
 
   values = {
-    url = local.terragrunt_scale_catalog_url
-    ref = local.terragrunt_scale_catalog_ref
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
 
     service_principal_config_path = "../service-principal"
     scope_config_path             = "../../../state/storage-account"

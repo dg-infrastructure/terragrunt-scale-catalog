@@ -3,7 +3,7 @@ include "root" {
 }
 
 terraform {
-  source = "${values.url}//modules/azure/storage-account?ref=${values.ref}"
+  source = "${values.base_url}//modules/azure/storage-account?ref=${values.ref}"
 }
 
 dependency "resource_group" {
