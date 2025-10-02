@@ -24,3 +24,9 @@ variable "account_replication_type" {
   description = "The replication type of the storage account"
   default     = "GRS"
 }
+
+variable "versioning_enabled" {
+  type        = bool
+  description = "Whether to enable versioning on the storage account"
+  default     = true
+}
