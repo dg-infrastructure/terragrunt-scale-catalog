@@ -11,11 +11,15 @@ locals {
   state_storage_container_name = try(values.state_storage_container_name, "tfstate")
 
   // OIDC values
-  org_name             = values.org_name
-  repo_name            = values.repo_name
   oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
+
+  github_token_actions_domain = try(values.github_token_actions_domain, "token.actions.githubusercontent.com")
+
+  github_org_name  = values.github_org_name
+  github_repo_name = values.github_repo_name
+
   audiences            = try(values.audiences, ["api://AzureADTokenExchange"])
-  issuer               = try(values.issuer, "https://token.actions.githubusercontent.com")
+  issuer               = try(values.issuer, "https://${local.github_token_actions_domain}")
   deploy_branch        = try(values.deploy_branch, "main")
 
   plan_service_principal_to_sub_role_definition_assignment = try(
@@ -122,7 +126,7 @@ unit "plan_flexible_federated_identity_credential" {
     audiences = local.audiences
     issuer    = local.issuer
 
-    claims_matching_expression_value = "claims['sub'] matches 'repo:${local.org_name}/${local.repo_name}:*'"
+    claims_matching_expression_value = "claims['sub'] matches 'repo:${local.github_org_name}/${local.github_repo_name}:*'"
   }
 }
 
@@ -200,7 +204,7 @@ unit "apply_federated_identity_credential" {
     audiences = local.audiences
     issuer    = local.issuer
 
-    subject = "repo:${local.org_name}/${local.repo_name}:refs/heads/${local.deploy_branch}"
+    subject = "repo:${local.github_org_name}/${local.github_repo_name}:refs/heads/${local.deploy_branch}"
   }
 }
 
