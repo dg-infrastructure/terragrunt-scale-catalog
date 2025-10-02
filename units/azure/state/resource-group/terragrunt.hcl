@@ -3,7 +3,7 @@ include "root" {
 }
 
 terraform {
-  source = "${values.url}//modules/azure/resource-group?ref=${values.ref}"
+  source = "${values.base_url}//modules/azure/resource-group?ref=${values.ref}"
 }
 
 inputs = {

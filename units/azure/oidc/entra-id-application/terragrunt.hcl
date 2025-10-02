@@ -3,7 +3,7 @@ include "root" {
 }
 
 terraform {
-  source = "${values.url}//modules/azure/entra-id-application?ref=${values.ref}"
+  source = "${values.base_url}//modules/azure/entra-id-application?ref=${values.ref}"
 }
 
 inputs = {
