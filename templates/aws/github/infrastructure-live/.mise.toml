@@ -1,0 +1,3 @@
+[tools]
+terragrunt = "{{ .TerragruntVersion }}"
+opentofu = "{{ .OpenTofuVersion }}"
