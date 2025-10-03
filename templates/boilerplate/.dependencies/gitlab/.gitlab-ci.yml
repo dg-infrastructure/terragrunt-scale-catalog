@@ -1,0 +1,11 @@
+workflow:
+  name: GruntworkPipelines
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+include:
+  - component: gitlab.com/gruntwork-io/pipelines-workflows/pipelines@{{ .PipelinesWorkflowRef }}
+
+variables:
+  GIT_DEPTH: 0

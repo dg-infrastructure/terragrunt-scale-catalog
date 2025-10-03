@@ -1,0 +1,12 @@
+variables:
+  - name: PipelinesWorkflowsRef
+    type: string
+    description: The Git reference for the Pipelines GitHub Actions workflow.
+    default: "v4"
+    order: 1
+
+  - name: DeployBranch
+    type: string
+    description: The branch with live infrastructure to be deployed.
+    default: "main"
+    order: 2

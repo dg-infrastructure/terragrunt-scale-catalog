@@ -15,7 +15,6 @@ resource "aws_iam_role" "role" {
 
         Condition = {
           (var.condition_operator) = {
-            (var.aud_key) = var.aud_value
             (var.sub_key) = var.sub_value
           }
         }

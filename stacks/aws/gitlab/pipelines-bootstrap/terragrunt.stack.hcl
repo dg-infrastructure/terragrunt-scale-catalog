@@ -1,7 +1,7 @@
 locals {
   // Source resolution
   terragrunt_scale_catalog_url = try(values.terragrunt_scale_catalog_url, "github.com/gruntwork-io/terragrunt-scale-catalog")
-  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "main")
+  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.0.0")
 
   // OIDC values
   oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
@@ -16,7 +16,7 @@ locals {
   gitlab_project_name = try(values.gitlab_project_name, "")
 
   aud_key   = try(values.aud_key, "${local.gitlab_server_domain}:aud")
-  aud_value = try(values.aud_value, "https://${local.gitlab_server_domain}")
+  aud_value = try(values.aud_value, "https://${local.gitlab_server_domain}/${local.gitlab_group_name}")
 
   default_client_id_list = [
     local.aud_value,
