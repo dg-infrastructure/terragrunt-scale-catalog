@@ -13,3 +13,8 @@ variables:
     type: string
     description: The version of Azure CLI to use.
     default: "2.77.0"
+
+  - name: PythonVersion
+    type: string
+    description: The version of Python to use.
+    default: "3.10.11"

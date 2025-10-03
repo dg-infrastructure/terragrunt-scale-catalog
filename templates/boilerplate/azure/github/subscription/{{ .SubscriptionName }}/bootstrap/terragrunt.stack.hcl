@@ -21,4 +21,3 @@ stack "bootstrap" {
     state_storage_container_name = local.sub_hcl.locals.state_storage_container_name
   }
 }
-

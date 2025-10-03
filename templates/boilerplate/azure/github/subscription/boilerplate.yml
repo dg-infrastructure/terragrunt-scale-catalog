@@ -10,15 +10,15 @@ variables:
     order: 1
     default: "v1.0.0"
 
-  - name: SubscriptionName
-    type: string
-    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
-    order: 2
-
   - name: OIDCResourcePrefix
     type: string
     description: The prefix for the OIDC resources you using to bootstrap Pipelines.
     default: "pipelines"
+    order: 2
+
+  - name: SubscriptionName
+    type: string
+    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
     order: 3
 
   - name: GitHubOrgName
@@ -33,5 +33,5 @@ variables:
 
   - name: AzureLocation
     type: string
-    description: The Azure region for resources.
+    description: The Azure region you are bootstrapping Pipelines in.
     order: 6

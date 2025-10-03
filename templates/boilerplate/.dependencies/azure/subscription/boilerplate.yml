@@ -6,12 +6,12 @@ variables:
 
   - name: AzureTenantID
     type: string
-    description: The Azure tenant ID for OIDC authentication.
+    description: The Azure tenant ID for the tenant you are bootstrapping Pipelines in.
     order: 2
 
   - name: AzureSubscriptionID
     type: string
-    description: The Azure subscription ID for OIDC authentication.
+    description: The Azure subscription ID for the subscription you are bootstrapping Pipelines in.
     order: 3
 
   - name: StateResourceGroupName
