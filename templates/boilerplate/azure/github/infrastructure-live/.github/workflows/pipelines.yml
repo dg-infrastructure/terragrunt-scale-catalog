@@ -1,0 +1,25 @@
+name: Pipelines
+run-name: "[GWP]: ${{ "{{" }} github.event.commits[0].message || github.event.pull_request.title || 'No commit message' {{ "}}" }}"
+on:
+  push:
+    branches:
+      - "{{ .DeployBranch }}"
+    paths-ignore:
+      - ".github/**"
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths-ignore:
+      - ".github/**"
+
+# Permissions to assume roles and create pull requests
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  GruntworkPipelines:
+    uses: gruntwork-io/pipelines-workflows/.github/workflows/pipelines.yml@{{ .PipelinesWorkflowsRef }}

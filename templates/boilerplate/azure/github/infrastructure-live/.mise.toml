@@ -1,0 +1,4 @@
+[tools]
+terragrunt = "{{ .TerragruntVersion }}"
+opentofu = "{{ .OpenTofuVersion }}"
+azure-cli = "{{ .AzureCLIVersion }}"
