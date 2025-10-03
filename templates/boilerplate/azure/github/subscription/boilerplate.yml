@@ -1,3 +1,8 @@
+dependencies:
+  - name: azure-subscription
+    template-url: ../../../.dependencies/azure/subscription
+    output-folder: .
+
 variables:
   - name: SubscriptionName
     type: string

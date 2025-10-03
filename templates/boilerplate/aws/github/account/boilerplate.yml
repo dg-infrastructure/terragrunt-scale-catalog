@@ -1,6 +1,6 @@
 dependencies:
   - name: aws-account
-    template-url: ../../.dependencies/aws/account
+    template-url: ../../../.dependencies/aws/account
     output-folder: .
 
 variables:

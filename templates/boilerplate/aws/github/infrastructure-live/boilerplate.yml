@@ -1,12 +1,12 @@
 dependencies:
   - name: common
-    template-url: ../../.dependencies/common
+    template-url: ../../../.dependencies/common
     output-folder: .
   - name: github
-    template-url: ../../.dependencies/github
+    template-url: ../../../.dependencies/github
     output-folder: .
   - name: aws-base
-    template-url: ../../.dependencies/aws/base
+    template-url: ../../../.dependencies/aws/base
     output-folder: .
   - name: account
     template-url: ../account
