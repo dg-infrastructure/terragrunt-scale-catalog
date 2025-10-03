@@ -15,7 +15,6 @@ locals {
   gitlab_group_name   = try(values.gitlab_group_name, "")
   gitlab_project_name = try(values.gitlab_project_name, "")
 
-  aud_key   = try(values.aud_key, "${local.gitlab_server_domain}:aud")
   aud_value = try(values.aud_value, "https://${local.gitlab_server_domain}/${local.gitlab_group_name}")
 
   default_client_id_list = [
@@ -145,8 +144,6 @@ unit "plan_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_plan_value
-    aud_key   = local.aud_key
-    aud_value = local.aud_value
   }
 }
 
@@ -191,8 +188,6 @@ unit "apply_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_apply_value
-    aud_key   = local.aud_key
-    aud_value = local.aud_value
   }
 }
 

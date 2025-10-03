@@ -17,7 +17,6 @@ locals {
   github_org_name  = try(values.github_org_name, "")
   github_repo_name = try(values.github_repo_name, "")
 
-  aud_key   = try(values.aud_key, "${local.github_token_actions_domain}:aud")
   aud_value = try(values.aud_value, "sts.amazonaws.com")
 
   default_client_id_list = [
@@ -147,8 +146,6 @@ unit "plan_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_plan_value
-    aud_key   = local.aud_key
-    aud_value = local.aud_value
   }
 }
 
@@ -193,8 +190,6 @@ unit "apply_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_apply_value
-    aud_key   = local.aud_key
-    aud_value = local.aud_value
   }
 }
 
