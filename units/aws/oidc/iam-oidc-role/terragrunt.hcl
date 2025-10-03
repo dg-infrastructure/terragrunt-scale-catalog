@@ -23,9 +23,7 @@ inputs = {
 
   sub_key   = values.sub_key
   sub_value = values.sub_value
-  aud_key   = values.aud_key
 
-  aud_value            = try(values.aud_value, "sts.amazonaws.com")
   max_session_duration = try(values.max_session_duration, 12 * 60 * 60)
   permissions_boundary = try(values.permissions_boundary, null)
   tags                 = try(values.tags, {})
