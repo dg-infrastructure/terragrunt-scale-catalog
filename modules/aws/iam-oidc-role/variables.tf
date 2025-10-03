@@ -18,23 +18,12 @@ variable "sub_value" {
   type        = string
 }
 
-variable "aud_key" {
-  description = "The key for the aud condition."
-  type        = string
-}
-
 // Optional Variables
 
 variable "path" {
   description = "The path of the role."
   type        = string
   default     = "/"
-}
-
-variable "aud_value" {
-  description = "The value for the aud condition."
-  type        = string
-  default     = "sts.amazonaws.com"
 }
 
 variable "condition_operator" {
