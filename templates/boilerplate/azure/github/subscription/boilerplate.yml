@@ -1,0 +1,31 @@
+variables:
+  - name: SubscriptionName
+    type: string
+    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
+    order: 1
+
+  - name: TerragruntScaleCatalogRef
+    type: string
+    description: The Git reference of the Terragrunt Scale catalog to use.
+    order: 2
+
+  - name: OIDCResourcePrefix
+    type: string
+    description: The prefix for the OIDC resources you using to bootstrap Pipelines.
+    default: "pipelines"
+    order: 3
+
+  - name: GitHubOrgName
+    type: string
+    description: The name of the GitHub organization you are bootstrapping Pipelines in.
+    order: 4
+
+  - name: GitHubRepoName
+    type: string
+    description: The name of the GitHub repository you are bootstrapping Pipelines in.
+    order: 5
+
+  - name: AzureLocation
+    type: string
+    description: The Azure region for resources.
+    order: 6

@@ -1,0 +1,32 @@
+dependencies:
+  - name: aws-account
+    template-url: ../../.dependencies/aws/account
+    output-folder: .
+
+variables:
+  - name: AccountName
+    type: string
+    description: The name of the first account you are bootstrapping Pipelines in.
+    order: 1
+
+  - name: TerragruntScaleCatalogRef
+    type: string
+    description: The Git reference of the Terragrunt catalog to use.
+    default: "v1.0.0"
+    order: 2
+
+  - name: OIDCResourcePrefix
+    type: string
+    description: The prefix for the OIDC resources you using to bootstrap Pipelines.
+    default: "pipelines"
+    order: 3
+
+  - name: GitHubOrgName
+    type: string
+    description: The name of the GitHub organization you are bootstrapping Pipelines in.
+    order: 4
+
+  - name: GitHubRepoName
+    type: string
+    description: The name of the GitHub repository you are bootstrapping Pipelines in.
+    order: 5
