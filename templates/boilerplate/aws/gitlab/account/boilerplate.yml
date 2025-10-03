@@ -21,12 +21,12 @@ variables:
     default: "pipelines"
     order: 3
 
-  - name: GitHubOrgName
+  - name: GitLabGroupName
     type: string
-    description: The name of the GitHub organization you are bootstrapping Pipelines in.
+    description: The name of the GitLab group you are bootstrapping Pipelines in.
     order: 4
 
-  - name: GitHubRepoName
+  - name: GitLabProjectName
     type: string
-    description: The name of the GitHub repository you are bootstrapping Pipelines in.
+    description: The name of the GitLab project you are bootstrapping Pipelines in.
     order: 5
