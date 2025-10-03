@@ -46,8 +46,6 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `oidc_resource_prefix` | Prefix for IAM resources | `pipelines` |
 | `gitlab_server_domain` | GitLab server domain | `gitlab.com` |
 | `oidc_provider_url` | Full OIDC provider URL | `https://gitlab.com` |
-| `aud_key` | Audience claim key | `gitlab.com:aud` |
-| `aud_value` | Audience claim value | `https://gitlab.com` |
 | `client_id_list` | OIDC client IDs | `["https://gitlab.com"]` |
 | `deploy_branch` | Branch allowed to apply | `main` |
 | `sub_key` | Subject claim key | `gitlab.com:sub` |

@@ -47,8 +47,6 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `github_token_actions_domain` | GitHub Actions token domain | `token.actions.githubusercontent.com` |
 | `github_server_domain` | GitHub server domain (for Enterprise) | `github.com` |
 | `oidc_provider_url` | Full OIDC provider URL | `https://token.actions.githubusercontent.com` |
-| `aud_key` | Audience claim key | `token.actions.githubusercontent.com:aud` |
-| `aud_value` | Audience claim value | `sts.amazonaws.com` |
 | `client_id_list` | OIDC client IDs | `["sts.amazonaws.com"]` |
 | `deploy_branch` | Branch allowed to apply | `main` |
 | `sub_key` | Subject claim key | `token.actions.githubusercontent.com:sub` |

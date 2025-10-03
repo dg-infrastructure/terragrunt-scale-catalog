@@ -17,10 +17,6 @@ module "oidc_role" {
   sub_key   = "token.actions.githubusercontent.com:sub"
   sub_value = "repo:my-org/my-repo:ref:refs/heads/main"
 
-  # Audience claim
-  aud_key   = "token.actions.githubusercontent.com:aud"
-  aud_value = "sts.amazonaws.com"
-
   # Use StringEquals for exact matching (recommended for apply/deploy roles)
   condition_operator = "StringEquals"
 }
@@ -38,9 +34,6 @@ module "plan_role" {
   # Allow any branch to run plans
   sub_key   = "token.actions.githubusercontent.com:sub"
   sub_value = "repo:my-org/my-repo:*"
-
-  aud_key   = "token.actions.githubusercontent.com:aud"
-  aud_value = "sts.amazonaws.com"
 
   # Use StringLike for pattern matching
   condition_operator = "StringLike"
@@ -60,9 +53,6 @@ module "apply_role" {
   sub_key   = "token.actions.githubusercontent.com:sub"
   sub_value = "repo:my-org/my-repo:ref:refs/heads/main"
 
-  aud_key   = "token.actions.githubusercontent.com:aud"
-  aud_value = "sts.amazonaws.com"
-
   # Use StringEquals for exact matching
   condition_operator = "StringEquals"
 }
@@ -76,9 +66,7 @@ module "apply_role" {
 | oidc_provider_arn | The ARN of the OIDC provider | `string` | n/a | yes |
 | sub_key | The key for the subject claim condition | `string` | n/a | yes |
 | sub_value | The value for the subject claim condition | `string` | n/a | yes |
-| aud_key | The key for the audience claim condition | `string` | n/a | yes |
 | path | The path of the IAM role | `string` | `"/"` | no |
-| aud_value | The value for the audience claim condition | `string` | `"sts.amazonaws.com"` | no |
 | condition_operator | The operator for comparing claims (use StringEquals for applies, StringLike for plans) | `string` | `"StringEquals"` | no |
 | max_session_duration | The maximum session duration in seconds for the role | `number` | `43200` (12 hours) | no |
 | permissions_boundary | The ARN of the permissions boundary to attach to the role | `string` | `null` | no |
