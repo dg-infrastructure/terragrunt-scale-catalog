@@ -1,3 +1,17 @@
+dependencies:
+  - name: common
+    template-url: ../../.dependencies/common
+    output-folder: .
+  - name: aws-base
+    template-url: ../../.dependencies/aws/base
+    output-folder: .
+  - name: aws-account
+    template-url: ../../.dependencies/aws/account
+    output-folder: .
+  - name: gitlab
+    template-url: ../../.dependencies/gitlab
+    output-folder: .
+
 variables:
   - name: AccountName
     type: string
@@ -65,3 +79,38 @@ variables:
     default: "v4"
     order: 12
 
+  - name: CustomWorkflowHostRelativePath
+    type: string
+    description: The relative path to a custom workflow host (leave empty to use default gitlab.com/gruntwork-io/pipelines-workflows).
+    default: ""
+    order: 13
+
+  - name: PipelinesWorkflowRef
+    type: string
+    description: The Git reference of the Pipelines workflows to use (for GitLab).
+    default: "v4"
+    order: 14
+
+  - name: PipelinesBinaryURL
+    type: string
+    description: Custom URL for the Pipelines binary (optional).
+    default: ""
+    order: 15
+
+  - name: ApiBaseURL
+    type: string
+    description: Custom API base URL (optional).
+    default: ""
+    order: 16
+
+  - name: PipelinesActionsRef
+    type: string
+    description: The Git reference for Pipelines actions (optional).
+    default: ""
+    order: 17
+
+  - name: PipelinesGitLabInitRef
+    type: string
+    description: The Git reference for Pipelines GitLab init (optional).
+    default: ""
+    order: 18

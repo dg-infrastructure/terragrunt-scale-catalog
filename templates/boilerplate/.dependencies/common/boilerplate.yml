@@ -1,0 +1,18 @@
+variables:
+  - name: TerragruntVersion
+    type: string
+    description: The version of Terragrunt to use.
+    default: "0.88.0"
+    order: 1
+
+  - name: OpenTofuVersion
+    type: string
+    description: The version of OpenTofu to use.
+    default: "1.10.6"
+    order: 2
+
+  - name: DeployBranch
+    type: string
+    description: The branch to use for bootstrapping Pipelines.
+    default: "main"
+    order: 3

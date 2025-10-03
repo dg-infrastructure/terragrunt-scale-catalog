@@ -1,3 +1,17 @@
+dependencies:
+  - name: common
+    template-url: ../../.dependencies/common
+    output-folder: .
+  - name: aws-base
+    template-url: ../../.dependencies/aws/base
+    output-folder: .
+  - name: aws-account
+    template-url: ../../.dependencies/aws/account
+    output-folder: .
+  - name: github
+    template-url: ../../.dependencies/github
+    output-folder: .
+
 variables:
   - name: AccountName
     type: string

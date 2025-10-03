@@ -17,4 +17,3 @@ stack "bootstrap" {
     state_bucket_name = local.account_hcl.locals.state_bucket_name
   }
 }
-

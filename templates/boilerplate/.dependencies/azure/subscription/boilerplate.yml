@@ -1,0 +1,13 @@
+variables:
+  - name: SubscriptionName
+    type: string
+    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
+
+  - name: AzureTenantID
+    type: string
+    description: The Azure tenant ID for OIDC authentication.
+
+  - name: AzureSubscriptionID
+    type: string
+    description: The Azure subscription ID for OIDC authentication.
+

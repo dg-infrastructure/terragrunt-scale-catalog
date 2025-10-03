@@ -1,3 +1,19 @@
+dependencies:
+  - name: common
+    template-url: ../../.dependencies/common
+    output-folder: .
+  - name: github
+    template-url: ../../.dependencies/github
+    output-folder: .
+  # The azure dependency actually overrides content from the common dependency,
+  # so we need to depend on it after the common dependency.
+  - name: azure-base
+    template-url: ../../.dependencies/azure/base
+    output-folder: .
+  - name: azure-subscription
+    template-url: ../../.dependencies/azure/subscription
+    output-folder: .
+
 variables:
   - name: SubscriptionName
     type: string
@@ -25,48 +41,58 @@ variables:
     description: The Azure region to configure the Azure provider for in the subscription you are bootstrapping.
     order: 5
 
+  - name: AzureTenantID
+    type: string
+    description: The Azure tenant ID for OIDC authentication.
+    order: 6
+
+  - name: AzureSubscriptionID
+    type: string
+    description: The Azure subscription ID for OIDC authentication.
+    order: 7
+
   - name: GitHubOrgName
     type: string
     description: The name of the GitHub organization you are bootstrapping Pipelines in.
-    order: 6
+    order: 8
 
   - name: GitHubRepoName
     type: string
     description: The name of the GitHub repository you are bootstrapping Pipelines in.
-    order: 7
+    order: 9
 
   - name: OIDCResourcePrefix
     type: string
     description: The prefix for the OIDC resources you using to bootstrap Pipelines.
     default: "pipelines"
-    order: 8
+    order: 10
 
   - name: TerragruntVersion
     type: string
     description: The version of Terragrunt to use.
     default: "0.88.0"
-    order: 9
+    order: 11
 
   - name: OpenTofuVersion
     type: string
     description: The version of OpenTofu to use.
     default: "1.10.6"
-    order: 10
+    order: 12
 
   - name: TerragruntScaleCatalogRef
     type: string
     description: The Git reference of the Terragrunt catalog to use.
     default: "v1.0.0"
-    order: 11
+    order: 13
 
   - name: DeployBranch
     type: string
     description: The branch to use for bootstrapping Pipelines.
     default: "main"
-    order: 12
+    order: 14
 
   - name: PipelinesWorkflowsRef
     type: string
     description: The Git reference of the Pipelines workflows to use.
     default: "v4"
-    order: 13
+    order: 15
