@@ -6,19 +6,21 @@ locals {
   state_storage_container_name = local.sub_hcl.locals.state_storage_container_name
 }
 
-remote_state {
-  backend = "azurerm"
-  generate = {
-    path      = "backend.tf"
-    if_exists = "overwrite"
-  }
-  config = {
-    resource_group_name  = local.state_resource_group_name
-    storage_account_name = local.state_storage_account_name
-    container_name       = local.state_storage_container_name
-    key                  = "${path_relative_to_include()}/tofu.tfstate"
-  }
-}
+# FIXME: Uncomment the code below when you've successfully bootstrapped Pipelines state.
+#
+# remote_state {
+#   backend = "azurerm"
+#   generate = {
+#     path      = "backend.tf"
+#     if_exists = "overwrite"
+#   }
+#   config = {
+#     resource_group_name  = local.state_resource_group_name
+#     storage_account_name = local.state_storage_account_name
+#     container_name       = local.state_storage_container_name
+#     key                  = "${path_relative_to_include()}/tofu.tfstate"
+#   }
+# }
 
 generate "provider" {
   path      = "provider.tf"
