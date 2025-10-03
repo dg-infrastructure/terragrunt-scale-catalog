@@ -16,7 +16,7 @@ locals {
   gitlab_project_name = try(values.gitlab_project_name, "")
 
   aud_key   = try(values.aud_key, "${local.gitlab_server_domain}:aud")
-  aud_value = try(values.aud_value, "https://${local.gitlab_server_domain}")
+  aud_value = try(values.aud_value, "https://${local.gitlab_server_domain}/${local.gitlab_group_name}")
 
   default_client_id_list = [
     local.aud_value,
