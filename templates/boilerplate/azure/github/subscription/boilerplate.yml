@@ -4,14 +4,15 @@ dependencies:
     output-folder: .
 
 variables:
-  - name: SubscriptionName
-    type: string
-    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
-    order: 1
-
   - name: TerragruntScaleCatalogRef
     type: string
     description: The Git reference of the Terragrunt Scale catalog to use.
+    order: 1
+    default: "v1.0.0"
+
+  - name: SubscriptionName
+    type: string
+    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
     order: 2
 
   - name: OIDCResourcePrefix
