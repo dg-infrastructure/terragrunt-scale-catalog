@@ -14,6 +14,10 @@ stack "bootstrap" {
     gitlab_group_name   = "{{ .GitLabGroupName }}"
     gitlab_project_name = "{{ .GitLabProjectName }}"
 
+    {{- if .Issuer }}
+    issuer = "{{ .Issuer }}"
+    {{- end }}
+
     state_bucket_name = local.account_hcl.locals.state_bucket_name
   }
 }

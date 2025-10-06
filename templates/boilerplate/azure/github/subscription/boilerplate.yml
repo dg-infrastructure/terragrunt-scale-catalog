@@ -4,34 +4,40 @@ dependencies:
     output-folder: .
 
 variables:
+  - name: SubscriptionName
+    type: string
+    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
+    order: 1
+
+  - name: GitHubOrgName
+    type: string
+    description: The name of the GitHub organization you are bootstrapping Pipelines in.
+    order: 2
+
+  - name: GitHubRepoName
+    type: string
+    description: The name of the GitHub repository you are bootstrapping Pipelines in.
+    order: 3
+
+  - name: AzureLocation
+    type: string
+    description: The Azure region you are bootstrapping Pipelines in.
+    order: 4
+
   - name: TerragruntScaleCatalogRef
     type: string
     description: The Git reference of the Terragrunt Scale catalog to use.
-    order: 1
+    order: 5
     default: "v1.0.0"
 
   - name: OIDCResourcePrefix
     type: string
     description: The prefix for the OIDC resources you using to bootstrap Pipelines.
     default: "pipelines"
-    order: 2
-
-  - name: SubscriptionName
-    type: string
-    description: The name of the first Azure subscription you are bootstrapping Pipelines in.
-    order: 3
-
-  - name: GitHubOrgName
-    type: string
-    description: The name of the GitHub organization you are bootstrapping Pipelines in.
-    order: 4
-
-  - name: GitHubRepoName
-    type: string
-    description: The name of the GitHub repository you are bootstrapping Pipelines in.
-    order: 5
-
-  - name: AzureLocation
-    type: string
-    description: The Azure region you are bootstrapping Pipelines in.
     order: 6
+
+  - name: Issuer
+    type: string
+    description: The issuer URL for the OIDC provider (is computed dynamically from the SCM provider if not specified).
+    default: ""
+    order: 7

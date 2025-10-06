@@ -10,9 +10,9 @@ locals {
 
   github_server_domain = try(values.github_server_domain, "github.com")
 
-  default_oidc_provider_url = "https://${local.github_token_actions_domain}"
+  default_issuer = "https://${local.github_token_actions_domain}"
 
-  oidc_provider_url = try(values.oidc_provider_url, local.default_oidc_provider_url)
+  issuer = try(values.issuer, local.default_issuer)
 
   github_org_name  = try(values.github_org_name, "")
   github_repo_name = try(values.github_repo_name, "")
@@ -124,7 +124,7 @@ unit "oidc_provider" {
     base_url = local.terragrunt_scale_catalog_url
     ref      = local.terragrunt_scale_catalog_ref
 
-    url = local.oidc_provider_url
+    url = local.issuer
 
     client_id_list = local.client_id_list
   }

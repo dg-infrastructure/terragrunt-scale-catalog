@@ -14,6 +14,10 @@ stack "bootstrap" {
     github_org_name  = "{{ .GitHubOrgName }}"
     github_repo_name = "{{ .GitHubRepoName }}"
 
+    {{- if .Issuer }}
+    issuer = "{{ .Issuer }}"
+    {{- end }}
+
     state_bucket_name = local.account_hcl.locals.state_bucket_name
   }
 }
