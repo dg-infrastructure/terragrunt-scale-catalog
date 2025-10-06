@@ -14,6 +14,10 @@ stack "bootstrap" {
     github_org_name  = "{{ .GitHubOrgName }}"
     github_repo_name = "{{ .GitHubRepoName }}"
 
+    {{- if .Issuer }}
+    issuer = "{{ .Issuer }}"
+    {{- end }}
+
     location = "{{ .AzureLocation }}"
 
     state_resource_group_name    = local.sub_hcl.locals.state_resource_group_name

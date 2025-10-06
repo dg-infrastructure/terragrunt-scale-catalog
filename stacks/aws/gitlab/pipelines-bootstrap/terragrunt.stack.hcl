@@ -8,9 +8,9 @@ locals {
 
   gitlab_server_domain = try(values.gitlab_server_domain, "gitlab.com")
 
-  default_oidc_provider_url = "https://${local.gitlab_server_domain}"
+  default_issuer = "https://${local.gitlab_server_domain}"
 
-  oidc_provider_url = try(values.oidc_provider_url, local.default_oidc_provider_url)
+  issuer = try(values.issuer, local.default_issuer)
 
   gitlab_group_name   = try(values.gitlab_group_name, "")
   gitlab_project_name = try(values.gitlab_project_name, "")
@@ -122,7 +122,7 @@ unit "oidc_provider" {
     base_url = local.terragrunt_scale_catalog_url
     ref      = local.terragrunt_scale_catalog_ref
 
-    url = local.oidc_provider_url
+    url = local.issuer
 
     client_id_list = local.client_id_list
   }
