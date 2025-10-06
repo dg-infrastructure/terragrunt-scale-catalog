@@ -23,4 +23,10 @@ variables:
     type: string
     description: The prefix for the OIDC resources you using to bootstrap Pipelines.
     default: "pipelines"
-    order: 3
+    order: 5
+
+  - name: Partition
+    type: string
+    description: The AWS partition to use (aws, aws-us-gov, or aws-cn).
+    default: "aws"
+    order: 6
