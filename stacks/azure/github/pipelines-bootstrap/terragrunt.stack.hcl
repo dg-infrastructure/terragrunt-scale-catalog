@@ -208,18 +208,17 @@ unit "apply_federated_identity_credential" {
   }
 }
 
-unit "apply_service_principal_to_state_contributor_role_assignment" {
-  source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/service-principal-to-scope-role-assignment?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/apply/service-principal-to-state-contributor-role-assignment"
+unit "apply_service_principal_to_sub_contributor_role_assignment" {
+  source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/service-principal-to-sub-role-assignment?ref=${local.terragrunt_scale_catalog_ref}"
+  path   = "oidc/apply/service-principal-to-sub-contributor-role-assignment"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
     ref      = local.terragrunt_scale_catalog_ref
 
     service_principal_config_path = "../service-principal"
-    scope_config_path             = "../../../state/storage-account"
 
     role_definition_name = local.apply_service_principal_to_state_role_definition_assignment
-    description          = "Assign Contributor role to service principal at the state scope"
+    description          = "Assign Contributor role to service principal at the subscription scope"
   }
 }
