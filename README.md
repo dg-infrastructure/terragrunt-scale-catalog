@@ -62,6 +62,39 @@ Terragrunt stack configurations that compose multiple units into complete infras
 - **`stacks/aws/gitlab/pipelines-bootstrap/`** - Bootstrap AWS resources for Gruntwork Pipelines (GitLab CI) with OIDC
 - **`stacks/azure/github/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitHub Actions) with OIDC
 
+### Templates (`templates/`)
+
+Templates for quickly scaffolding new Terragrunt Scale infrastructure repositories. These templates provide a standardized starting point for different cloud providers and CI/CD platforms.
+
+#### Boilerplate Templates (`templates/boilerplate/`)
+
+Boilerplate repository templates that include all necessary Terragrunt configurations, dependencies, and structure for bootstrapping Gruntwork Pipelines.
+
+**AWS Templates:**
+
+- **`aws/github/`** - Complete AWS + GitHub Actions setup
+  - `account/` - Account-level bootstrap configuration
+    - `{{ .AccountName }}/_global/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
+- **`aws/gitlab/`** - Complete AWS + GitLab CI setup
+  - `account/` - Account-level bootstrap configuration
+    - `{{ .AccountName }}/_global/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
+**Azure Templates:**
+
+- **`azure/github/`** - Complete Azure + GitHub Actions setup
+  - `subscription/` - Subscription-level bootstrap configuration
+    - `{{ .SubscriptionName }}/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
 ## Documentation
 
 Detailed documentation for each component can be found in their respective directories:
@@ -69,6 +102,7 @@ Detailed documentation for each component can be found in their respective direc
 - [Modules Documentation](modules/)
 - [Units Documentation](units/)
 - [Stacks Documentation](stacks/)
+- [Templates Documentation](templates/)
 
 ## Use Cases
 
