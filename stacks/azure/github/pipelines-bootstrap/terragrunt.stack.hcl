@@ -204,7 +204,7 @@ unit "apply_federated_identity_credential" {
     audiences = local.audiences
     issuer    = local.issuer
 
-    subject = "repo:${local.github_org_name}/${local.github_repo_name}:refs/heads/${local.deploy_branch}"
+    subject = "repo:${local.github_org_name}/${local.github_repo_name}:ref:refs/heads/${local.deploy_branch}"
   }
 }
 
