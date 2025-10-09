@@ -1,0 +1,16 @@
+dependencies:
+  - name: common
+    template-url: ../../../.dependencies/common
+    output-folder: .
+  - name: gitlab
+    template-url: ../../../.dependencies/gitlab
+    output-folder: .
+  # The azure dependency actually overrides content from the common dependency,
+  # so we need to depend on it after the common dependency.
+  - name: azure-base
+    template-url: ../../../.dependencies/azure/base
+    output-folder: .
+  - name: azure-subscription
+    template-url: ../subscription
+    output-folder: .
+
