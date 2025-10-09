@@ -34,6 +34,50 @@ locals {
     values.apply_service_principal_to_state_role_definition_assignment,
     "Contributor",
   )
+
+  // Custom role definition permissions
+  // Plan role: Read-only access for generating Terraform plans
+  default_plan_custom_role_actions = [
+    "*/read",
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Resources/deployments/read",
+    "Microsoft.Resources/deployments/operations/read",
+    "Microsoft.Storage/storageAccounts/listKeys/action",
+    "Microsoft.Storage/storageAccounts/blobServices/containers/read",
+  ]
+
+  // Apply role: Full management for bootstrap stack resources
+  default_apply_custom_role_actions = [
+    "*/read",
+    // Resource Groups
+    "Microsoft.Resources/subscriptions/resourceGroups/*",
+    // Deployments
+    "Microsoft.Resources/deployments/*",
+    // Storage Accounts & Containers (state backend)
+    "Microsoft.Storage/storageAccounts/*",
+    "Microsoft.Storage/storageAccounts/blobServices/*",
+    "Microsoft.Storage/storageAccounts/blobServices/containers/*",
+    "Microsoft.Storage/storageAccounts/fileServices/*",
+    "Microsoft.Storage/storageAccounts/queueServices/*",
+    "Microsoft.Storage/storageAccounts/tableServices/*",
+    // Role Assignments (to assign roles to service principals)
+    "Microsoft.Authorization/roleAssignments/*",
+    // Role Definitions (to manage custom roles)
+    "Microsoft.Authorization/roleDefinitions/*",
+    // Locks, Policies (read-only for safety)
+    "Microsoft.Authorization/locks/read",
+    "Microsoft.Authorization/policyAssignments/read",
+  ]
+
+  plan_custom_role_actions = try(
+    values.plan_custom_role_actions,
+    local.default_plan_custom_role_actions,
+  )
+
+  apply_custom_role_actions = try(
+    values.apply_custom_role_actions,
+    local.default_apply_custom_role_actions,
+  )
 }
 
 // State units
@@ -130,9 +174,24 @@ unit "plan_flexible_federated_identity_credential" {
   }
 }
 
-unit "plan_service_principal_to_sub_reader_role_assignment" {
+unit "plan_custom_role_definition" {
+  source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/custom-role-definition?ref=${local.terragrunt_scale_catalog_ref}"
+  path   = "oidc/plan/custom-role-definition"
+
+  values = {
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
+
+    name        = "${local.oidc_resource_prefix}-plan-custom-role"
+    description = "Custom role for Gruntwork Pipelines plan service principal with read-only permissions"
+
+    actions = local.plan_custom_role_actions
+  }
+}
+
+unit "plan_service_principal_to_plan_custom_role_assignment" {
   source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/service-principal-to-sub-role-assignment?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/service-principal-to-sub-reader-role-assignment"
+  path   = "oidc/plan/service-principal-to-plan-custom-role-assignment"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -140,8 +199,8 @@ unit "plan_service_principal_to_sub_reader_role_assignment" {
 
     service_principal_config_path = "../service-principal"
 
-    role_definition_name = local.plan_service_principal_to_sub_role_definition_assignment
-    description          = "Assign Reader role to service principal at the subscription scope"
+    role_definition_name = "${local.oidc_resource_prefix}-plan-custom-role"
+    description          = "Assign custom plan role to service principal at the subscription scope"
   }
 }
 
@@ -208,9 +267,24 @@ unit "apply_federated_identity_credential" {
   }
 }
 
-unit "apply_service_principal_to_sub_contributor_role_assignment" {
+unit "apply_custom_role_definition" {
+  source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/custom-role-definition?ref=${local.terragrunt_scale_catalog_ref}"
+  path   = "oidc/apply/custom-role-definition"
+
+  values = {
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
+
+    name        = "${local.oidc_resource_prefix}-apply-custom-role"
+    description = "Custom role for Gruntwork Pipelines apply service principal with deployment permissions"
+
+    actions = local.apply_custom_role_actions
+  }
+}
+
+unit "apply_service_principal_to_apply_custom_role_assignment" {
   source = "${local.terragrunt_scale_catalog_url}//units/azure/oidc/service-principal-to-sub-role-assignment?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/apply/service-principal-to-sub-contributor-role-assignment"
+  path   = "oidc/apply/service-principal-to-apply-custom-role-assignment"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -218,7 +292,7 @@ unit "apply_service_principal_to_sub_contributor_role_assignment" {
 
     service_principal_config_path = "../service-principal"
 
-    role_definition_name = local.apply_service_principal_to_state_role_definition_assignment
-    description          = "Assign Contributor role to service principal at the subscription scope"
+    role_definition_name = "${local.oidc_resource_prefix}-apply-custom-role"
+    description          = "Assign custom apply role to service principal at the subscription scope"
   }
 }

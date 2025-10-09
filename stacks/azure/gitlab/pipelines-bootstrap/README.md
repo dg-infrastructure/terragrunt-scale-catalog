@@ -17,15 +17,17 @@ This Terragrunt stack bootstraps Azure infrastructure for GitLab CI/CD with OIDC
 - Entra ID Application for plan operations
 - Service Principal for the application
 - Flexible Federated Identity Credential (allows any branch on a given project to assume the role)
-- Default Reader role assignment at subscription level
-- Default Contributor role assignment to state storage
+- Custom role definition with read-only permissions for Azure resources
+- Custom role assignment at subscription level
+- Contributor role assignment to state storage account (scoped for security)
 
 ### OIDC Resources for Apply Operations
 
 - Entra ID Application for apply operations
 - Service Principal for the application
 - Static Federated Identity Credential (main branch only)
-- Default Contributor role assignment to state storage
+- Custom role definition with full management permissions for bootstrap resources
+- Custom role assignment at subscription level
 
 ## Usage
 
@@ -110,6 +112,74 @@ subject: project_path:my-group/my-project:ref_type:branch:ref:main
 
 This only allows applies from the `main` branch.
 
+## Custom Role Permissions
+
+This stack creates custom Azure RBAC roles that provide least-privilege access for ongoing maintenance of bootstrap resources.
+
+### Plan Custom Role (Read-Only)
+
+Permissions granted:
+
+- `*/read` - Read all Azure resources
+- `Microsoft.Resources/subscriptions/resourceGroups/read`
+- `Microsoft.Resources/deployments/read`
+- `Microsoft.Resources/deployments/operations/read`
+- `Microsoft.Storage/storageAccounts/listKeys/action` - Access state storage keys
+- `Microsoft.Storage/storageAccounts/blobServices/containers/read`
+
+**Purpose**: Generate Terraform plans without making any changes.
+
+### Apply Custom Role (Full Management)
+
+Permissions granted:
+
+- `*/read` - Read all Azure resources
+- `Microsoft.Resources/subscriptions/resourceGroups/*` - Manage resource groups
+- `Microsoft.Resources/deployments/*` - Manage deployments
+- `Microsoft.Storage/storageAccounts/*` - Manage storage accounts and all services
+- `Microsoft.Authorization/roleAssignments/*` - Manage role assignments
+- `Microsoft.Authorization/roleDefinitions/*` - Manage custom role definitions
+
+**Purpose**: Create, update, and destroy all bootstrap stack resources.
+
+### Customizing Permissions
+
+You can override the default permissions by providing custom actions:
+
+```hcl
+values = {
+  plan_custom_role_actions = [
+    "*/read",
+    "Microsoft.Compute/virtualMachines/read",
+    # Add additional read permissions as needed
+  ]
+
+  apply_custom_role_actions = [
+    "*/read",
+    "Microsoft.Resources/subscriptions/resourceGroups/*",
+    "Microsoft.Compute/virtualMachines/*",
+    # Add additional permissions as needed
+  ]
+}
+```
+
+### Entra ID Permissions
+
+**Important**: Azure RBAC custom roles only grant permissions for Azure Resource Manager operations. To manage Entra ID resources (applications, service principals, federated credentials), the user or system performing the bootstrap must have appropriate **Azure AD directory roles** assigned:
+
+- **Application Administrator** - Minimum required role
+- **Cloud Application Administrator** - Alternative role
+- **Global Administrator** - Full access (use sparingly)
+
+These directory roles must be assigned manually by a Global Administrator and are **separate from Azure RBAC roles**.
+
+**During Initial Bootstrap**: The user running the stack needs Owner (Azure RBAC) + Application Administrator (Directory Role).
+
+**For Ongoing Maintenance**: The service principals will have:
+
+- Azure resources: Managed via custom RBAC roles (sufficient for all Azure RM resources)
+- Entra ID resources: Require directory role assignment (must be granted separately)
+
 ## Security Considerations
 
 ### Branch Protection
@@ -122,9 +192,11 @@ The apply role is restricted to the `deploy_branch` (default: `main`). Ensure yo
 
 ### Least Privilege
 
-By default, the stack grants minimal permissions (Reader for plan subscription access, Contributor for state storage).
+This stack implements least-privilege access through custom roles:
 
-Only add the permissions you need, and only on the resources each role needs to access (read-only for plan, read-write for apply).
+- **Plan role**: Read-only access at subscription level plus scoped Contributor access to state storage only
+- **Apply role**: Full management of bootstrap resources at subscription level, scoped to necessary operations
+- **No redundant roles**: Built-in Reader and Contributor roles at subscription level have been removed to avoid permission overlap
 
 ## Outputs
 
@@ -142,4 +214,3 @@ Only add the permissions you need, and only on the resources each role needs to 
 ## Related Documentation
 
 - [GitLab CI/CD with Azure](https://docs.gitlab.com/ee/ci/cloud_deployment/#configure-openid-connect-with-azure)
-
