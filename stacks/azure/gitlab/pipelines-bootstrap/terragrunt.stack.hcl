@@ -22,7 +22,7 @@ locals {
   gitlab_group_name   = try(values.gitlab_group_name, "")
   gitlab_project_name = try(values.gitlab_project_name, "")
 
-  audiences = try(values.audiences, ["api://AzureADTokenExchange"])
+  audiences = try(values.audiences, ["https://${local.gitlab_server_domain}/${local.gitlab_group_name}"])
 
   deploy_branch = try(values.deploy_branch, "main")
 
