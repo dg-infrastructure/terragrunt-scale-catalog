@@ -1,8 +1,8 @@
-# Azure GitHub Pipelines Bootstrap Stack
+# Azure GitLab Pipelines Bootstrap Stack
 
 ## Overview
 
-This Terragrunt stack bootstraps Azure infrastructure for GitHub Actions with OIDC authentication. It creates all necessary Azure resources to enable secure, keyless authentication from GitHub Actions workflows to your Azure subscription for [Gruntwork Pipelines](https://www.gruntwork.io/platform/pipelines).
+This Terragrunt stack bootstraps Azure infrastructure for GitLab CI/CD with OIDC authentication. It creates all necessary Azure resources to enable secure, keyless authentication from GitLab pipelines to your Azure subscription for [Gruntwork Pipelines](https://www.gruntwork.io/platform/pipelines).
 
 ## What This Stack Creates
 
@@ -16,10 +16,10 @@ This Terragrunt stack bootstraps Azure infrastructure for GitHub Actions with OI
 
 - Entra ID Application for plan operations
 - Service Principal for the application
-- Flexible Federated Identity Credential (allows any branch on a given repository to assume the role)
+- Flexible Federated Identity Credential (allows any branch on a given project to assume the role)
 - Custom role definition with read-only permissions for Azure resources
 - Custom role assignment at subscription level
-- Contributor role assignment to state storage account
+- Contributor role assignment to state storage account (scoped for security)
 
 ### OIDC Resources for Apply Operations
 
@@ -42,8 +42,8 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `location` | Azure region for resources | `East US` |
 | `state_resource_group_name` | Resource group for state storage | `tofu-state-rg` |
 | `state_storage_account_name` | Storage account name (globally unique) | `tfstate12345678` |
-| `github_org_name` | GitHub organization or username | `my-org` |
-| `github_repo_name` | GitHub repository name | `infrastructure` |
+| `gitlab_group_name` | GitLab group name | `my-group` |
+| `gitlab_project_name` | GitLab project name | `infrastructure` |
 
 ### Optional
 
@@ -53,9 +53,9 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `terragrunt_scale_catalog_ref` | Git ref to use | `main` |
 | `state_storage_container_name` | Container name for state files | `tfstate` |
 | `oidc_resource_prefix` | Prefix for Entra ID resources | `pipelines` |
-| `github_token_actions_domain` | GitHub Actions token domain | `token.actions.githubusercontent.com` |
+| `gitlab_server_domain` | GitLab server domain | `gitlab.com` |
 | `audiences` | OIDC audiences | `["api://AzureADTokenExchange"]` |
-| `issuer` | OIDC issuer URL | `https://token.actions.githubusercontent.com` |
+| `issuer` | OIDC issuer URL | `https://gitlab.com` |
 | `deploy_branch` | Branch allowed for applies | `main` |
 | `plan_service_principal_to_sub_role_definition_assignment` | Role for plan SP at subscription level | `Reader` |
 | `plan_service_principal_to_state_role_definition_assignment` | Role for plan SP on state storage | `Contributor` |
@@ -65,7 +65,7 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 
 ```mermaid
 flowchart TD
-    A[GitHub Actions Workflow] -->|1. Request OIDC token| B[GitHub]
+    A[GitLab CI/CD Pipeline] -->|1. Request OIDC token| B[GitLab]
     B -->|2. Issue JWT with sub, aud claims| A
     A -->|3. Call Azure Entra ID with token| C[Entra ID]
 
@@ -75,8 +75,8 @@ flowchart TD
         C -->|Token validated| D[Plan App & SP]
         C -->|Token validated| E[Apply App & SP]
 
-        D[Plan App & Service Principal<br/>Flexible Credential: repo:org/repo:*<br/>Reader + State Contributor]
-        E[Apply App & Service Principal<br/>Static Credential: repo:org/repo:ref:refs/heads/main<br/>State Contributor]
+        D[Plan App & Service Principal<br/>Flexible Credential: project_path:group/project:*<br/>Reader + State Contributor]
+        E[Apply App & Service Principal<br/>Static Credential: project_path:group/project:ref_type:branch:ref:main<br/>State Contributor]
 
         D --> F[State Storage]
         E --> F[State Storage]
@@ -92,13 +92,13 @@ flowchart TD
 Uses a **flexible federated identity credential** with claim matching:
 
 ```text
-claims['sub'] matches 'repo:my-org/my-repo:*'
+claims['sub'] matches 'project_path:my-group/my-project:*'
 ```
 
 This allows plans from:
 
 - Any branch
-- Pull requests
+- Merge requests
 
 **Note**: Requires Azure CLI (`az rest` command) due to Beta API usage.
 
@@ -107,7 +107,7 @@ This allows plans from:
 Uses a **static federated identity credential** with exact subject:
 
 ```text
-subject: repo:my-org/my-repo:ref:refs/heads/main
+subject: project_path:my-group/my-project:ref_type:branch:ref:main
 ```
 
 This only allows applies from the `main` branch.
@@ -186,8 +186,8 @@ These directory roles must be assigned manually by a Global Administrator and ar
 
 The apply role is restricted to the `deploy_branch` (default: `main`). Ensure you have branch protection rules:
 
-- Require pull request reviews
-- Require status checks to pass
+- Require merge request approvals
+- Require pipeline to succeed
 - Restrict who can push
 
 ### Least Privilege
@@ -213,4 +213,4 @@ This stack implements least-privilege access through custom roles:
 
 ## Related Documentation
 
-- [GitHub Actions with Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure)
+- [GitLab CI/CD with Azure](https://docs.gitlab.com/ee/ci/cloud_deployment/#configure-openid-connect-with-azure)

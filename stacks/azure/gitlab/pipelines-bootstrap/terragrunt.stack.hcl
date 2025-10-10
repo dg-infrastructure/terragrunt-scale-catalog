@@ -13,14 +13,18 @@ locals {
   // OIDC values
   oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
 
-  github_token_actions_domain = try(values.github_token_actions_domain, "token.actions.githubusercontent.com")
+  gitlab_server_domain = try(values.gitlab_server_domain, "gitlab.com")
 
-  github_org_name  = values.github_org_name
-  github_repo_name = values.github_repo_name
+  default_issuer = "https://${local.gitlab_server_domain}"
 
-  audiences            = try(values.audiences, ["api://AzureADTokenExchange"])
-  issuer               = try(values.issuer, "https://${local.github_token_actions_domain}")
-  deploy_branch        = try(values.deploy_branch, "main")
+  issuer = try(values.issuer, local.default_issuer)
+
+  gitlab_group_name   = try(values.gitlab_group_name, "")
+  gitlab_project_name = try(values.gitlab_project_name, "")
+
+  audiences = try(values.audiences, ["https://${local.gitlab_server_domain}/${local.gitlab_group_name}"])
+
+  deploy_branch = try(values.deploy_branch, "main")
 
   plan_service_principal_to_sub_role_definition_assignment = try(
     values.plan_service_principal_to_sub_role_definition_assignment,
@@ -161,7 +165,7 @@ unit "plan_flexible_federated_identity_credential" {
     audiences = local.audiences
     issuer    = local.issuer
 
-    claims_matching_expression_value = "claims['sub'] matches 'repo:${local.github_org_name}/${local.github_repo_name}:*'"
+    claims_matching_expression_value = "claims['sub'] matches 'project_path:${local.gitlab_group_name}/${local.gitlab_project_name}:*'"
   }
 }
 
@@ -254,7 +258,7 @@ unit "apply_federated_identity_credential" {
     audiences = local.audiences
     issuer    = local.issuer
 
-    subject = "repo:${local.github_org_name}/${local.github_repo_name}:ref:refs/heads/${local.deploy_branch}"
+    subject = "project_path:${local.gitlab_group_name}/${local.gitlab_project_name}:ref_type:branch:ref:${local.deploy_branch}"
   }
 }
 
@@ -287,3 +291,4 @@ unit "apply_service_principal_to_apply_custom_role_assignment" {
     description          = "Assign custom apply role to service principal at the subscription scope"
   }
 }
+
