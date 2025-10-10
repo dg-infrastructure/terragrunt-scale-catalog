@@ -39,8 +39,6 @@ locals {
     "Contributor",
   )
 
-  // Custom role definition permissions
-  // Plan role: Read-only access for generating Terraform plans
   default_plan_custom_role_actions = [
     "*/read",
     "Microsoft.Resources/subscriptions/resourceGroups/read",
@@ -50,25 +48,18 @@ locals {
     "Microsoft.Storage/storageAccounts/blobServices/containers/read",
   ]
 
-  // Apply role: Full management for bootstrap stack resources
   default_apply_custom_role_actions = [
     "*/read",
-    // Resource Groups
     "Microsoft.Resources/subscriptions/resourceGroups/*",
-    // Deployments
     "Microsoft.Resources/deployments/*",
-    // Storage Accounts & Containers (state backend)
     "Microsoft.Storage/storageAccounts/*",
     "Microsoft.Storage/storageAccounts/blobServices/*",
     "Microsoft.Storage/storageAccounts/blobServices/containers/*",
     "Microsoft.Storage/storageAccounts/fileServices/*",
     "Microsoft.Storage/storageAccounts/queueServices/*",
     "Microsoft.Storage/storageAccounts/tableServices/*",
-    // Role Assignments (to assign roles to service principals)
     "Microsoft.Authorization/roleAssignments/*",
-    // Role Definitions (to manage custom roles)
     "Microsoft.Authorization/roleDefinitions/*",
-    // Locks, Policies (read-only for safety)
     "Microsoft.Authorization/locks/read",
     "Microsoft.Authorization/policyAssignments/read",
   ]
