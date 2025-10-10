@@ -56,7 +56,7 @@ locals {
           "s3:GetBucketPolicy",
           "s3:GetBucketPublicAccessBlock",
           "s3:PutLifecycleConfiguration",
-          "s3:PutBucketOwnershipControls"
+          "s3:PutBucketOwnershipControls",
         ]
         Resource = "arn:aws:s3:::${local.state_bucket_name}"
       },
@@ -66,6 +66,7 @@ locals {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
+          "s3:DeleteObject",
         ]
         Resource = "arn:aws:s3:::${local.state_bucket_name}/*"
       },
@@ -129,6 +130,7 @@ locals {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
+          "s3:DeleteObject",
         ]
         Resource = "arn:aws:s3:::${local.state_bucket_name}/*"
       },
