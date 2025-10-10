@@ -69,6 +69,31 @@ locals {
         ]
         Resource = "arn:aws:s3:::${local.state_bucket_name}/*"
       },
+      {
+        Sid    = "AllowReadOnlyS3ActionsOnTestBuckets"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket",
+          "s3:GetBucketVersioning",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLogging",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetBucketPolicy",
+          "s3:GetBucketPublicAccessBlock",
+          "s3:GetBucketTagging",
+          "s3:GetBucketOwnershipControls",
+          "s3:GetLifecycleConfiguration"
+        ]
+        Resource = "arn:aws:s3:::test-pipelines-*"
+      },
+      {
+        Sid    = "AllowReadOnlyS3ActionsOnTestBucketObjects"
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+        ]
+        Resource = "arn:aws:s3:::test-pipelines-*/*"
+      },
     ]
   })
   default_apply_iam_policy = jsonencode({
@@ -106,6 +131,45 @@ locals {
           "s3:GetObject",
         ]
         Resource = "arn:aws:s3:::${local.state_bucket_name}/*"
+      },
+      {
+        Sid    = "AllowFullS3ActionsOnTestBuckets"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket",
+          "s3:GetBucketVersioning",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLogging",
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:PutBucketPublicAccessBlock",
+          "s3:PutBucketTagging",
+          "s3:PutBucketPolicy",
+          "s3:DeleteBucketPolicy",
+          "s3:PutBucketVersioning",
+          "s3:PutEncryptionConfiguration",
+          "s3:PutBucketAcl",
+          "s3:PutBucketLogging",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetBucketPolicy",
+          "s3:GetBucketPublicAccessBlock",
+          "s3:GetBucketTagging",
+          "s3:PutLifecycleConfiguration",
+          "s3:GetLifecycleConfiguration",
+          "s3:PutBucketOwnershipControls",
+          "s3:GetBucketOwnershipControls"
+        ]
+        Resource = "arn:aws:s3:::test-pipelines-*"
+      },
+      {
+        Sid    = "AllowFullS3ActionsOnTestBucketObjects"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ]
+        Resource = "arn:aws:s3:::test-pipelines-*/*"
       },
     ]
   })
