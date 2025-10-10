@@ -61,6 +61,7 @@ Terragrunt stack configurations that compose multiple units into complete infras
 - **`stacks/aws/github/pipelines-bootstrap/`** - Bootstrap AWS resources for Gruntwork Pipelines (GitHub Actions) with OIDC
 - **`stacks/aws/gitlab/pipelines-bootstrap/`** - Bootstrap AWS resources for Gruntwork Pipelines (GitLab CI) with OIDC
 - **`stacks/azure/github/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitHub Actions) with OIDC
+- **`stacks/azure/gitlab/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitLab CI) with OIDC
 
 ### Templates (`templates/`)
 
@@ -89,6 +90,13 @@ Boilerplate repository templates that include all necessary Terragrunt configura
 **Azure Templates:**
 
 - **`azure/github/`** - Complete Azure + GitHub Actions setup
+  - `subscription/` - Subscription-level bootstrap configuration
+    - `{{ .SubscriptionName }}/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
+- **`azure/gitlab/`** - Complete Azure + GitLab CI setup
   - `subscription/` - Subscription-level bootstrap configuration
     - `{{ .SubscriptionName }}/bootstrap/` - Bootstrap stack configuration
     - `boilerplate.yml` - Template variables and dependencies
