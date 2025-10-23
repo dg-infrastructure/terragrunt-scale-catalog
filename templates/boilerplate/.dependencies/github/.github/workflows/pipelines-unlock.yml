@@ -1,0 +1,47 @@
+######################################################################################################################
+# Gruntwork Pipelines Unlock Workflow
+#
+# This workflow implements a mechanism to allow engineers to manually unlock a state file. This is helpful as
+# there are several real world scenarios where state files can be erroneously left locked in a CI-managed pipeline, such
+# as when an operator cancels a CI job mid-execution.
+#
+#
+# This workflow uses the same authentication mechanisms as pipelines to access the state file lock and
+# run the force-unlock command.
+#
+######################################################################################################################
+
+name: Pipelines Unlock
+run-name: "[GWP]: Pipelines Unlock"
+on:
+  workflow_dispatch:
+    inputs:
+      lock_id:
+        description: "The ID of the lock, usually a GUID. This is generally found in the console output when Terraform/OpenTofu command fails due to a timeout waiting to acquire a lock. (required if not running unlock_all)"
+        required: false
+        type: string
+      unit_path:
+        description: "Path to the Terragrunt Unit directory where the lock is held (everything up to but not including terragrunt.hcl - required if not running unlock_all)"
+        required: false
+        type: string
+      stack_path:
+        description: "Path to a Terragrunt Stack directory (everything up to but not including terragrunt.stack.hcl) that generates content required to run unlock in a specified Terragrunt Unit"
+        required: false
+        type: string
+      unlock_all:
+        description: "Forcibly reset all locks by deleting the dynamodb table"
+        required: false
+        type: boolean
+
+permissions:
+  id-token: write # Required to assume OIDC roles and create pull requests
+  actions: read # Required to manage artifacts via REST API
+
+jobs:
+  GruntworkPipelines:
+    uses: gruntwork-io/pipelines-workflows/.github/workflows/pipelines-unlock.yml@{{ .PipelinesWorkflowsRef }}
+    with:
+      lock_id: ${{ "{{" }} inputs.lock_id {{ "}}" }}
+      unit_path: ${{ "{{" }} inputs.unit_path {{ "}}" }}
+      unlock_all: ${{ "{{" }} inputs.unlock_all {{ "}}" }}
+      stack_path: ${{ "{{" }} inputs.stack_path {{ "}}" }}
