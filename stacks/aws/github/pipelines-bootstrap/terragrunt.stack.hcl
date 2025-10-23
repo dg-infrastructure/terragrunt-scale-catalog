@@ -1,7 +1,7 @@
 locals {
   // Source resolution
   terragrunt_scale_catalog_url = try(values.terragrunt_scale_catalog_url, "github.com/gruntwork-io/terragrunt-scale-catalog")
-  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.0.0")
+  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.1.0")
 
   // OIDC values
   oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
@@ -33,10 +33,17 @@ locals {
 
   state_bucket_name = values.state_bucket_name
 
-  default_plan_iam_policy = templatefile("${get_parent_terragrunt_dir()}/default_plan_iam_policy.json", {
+  bootstrap_iam_policy_prefix = try(values.bootstrap_iam_policy, "default")
+
+  plan_iam_policy_template_path  = "${get_parent_terragrunt_dir()}/${local.bootstrap_iam_policy_prefix}_plan_iam_policy.json"
+  apply_iam_policy_template_path = "${get_parent_terragrunt_dir()}/${local.bootstrap_iam_policy_prefix}_apply_iam_policy.json"
+
+  default_plan_iam_policy = templatefile(local.plan_iam_policy_template_path, {
     state_bucket_name = local.state_bucket_name
   })
-  default_apply_iam_policy = templatefile("${get_parent_terragrunt_dir()}/default_apply_iam_policy.json", {})
+  default_apply_iam_policy = templatefile(local.apply_iam_policy_template_path, {
+    state_bucket_name = local.state_bucket_name
+  })
 
   plan_iam_policy  = try(values.plan_iam_policy, local.default_plan_iam_policy)
   apply_iam_policy = try(values.apply_iam_policy, local.default_apply_iam_policy)
