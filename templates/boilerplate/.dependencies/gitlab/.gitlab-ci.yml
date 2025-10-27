@@ -1,3 +1,29 @@
+spec:
+  inputs:
+    pipelines_workflow:
+      default: "infrachanges"
+      options: ["infrachanges", "drift-detection", "unlock-unit", "unlock-all"]
+    pipelines_drift_detection_filter:
+      type: string
+      description: "[drift-detection] Limit drift detection to units matching filter https://docs.gruntwork.io/2.0/docs/pipelines/guides/running-drift-detection#drift-detection-filter"
+      default: ""
+    pipelines_drift_detection_branch:
+      type: string
+      description: "[drift-detection] The branch name used for drift remediation MRs"
+      default: "drift-detection"
+    pipelines_unlock_unit_path:
+      type: string
+      description: "[unlock-unit] Path to the Terragrunt Unit directory where the lock is held (everything up to but not including terragrunt.hcl)"
+      default: ""
+    pipelines_unlock_unit_lock_id:
+      type: string
+      description: "[unlock-unit] The ID of the lock, usually a GUID. This is generally found in the console output when Terraform/OpenTofu command fails due to a timeout waiting to acquire a lock"
+      default: ""
+    pipelines_unlock_unit_stack_path:
+      type: string
+      description: "[unlock-unit] Path to a Terragrunt Stack directory (everything up to but not including terragrunt.stack.hcl) that generates content required to run unlock in a specified Terragrunt Unit"
+      default: ""
+---
 workflow:
   name: GruntworkPipelines
   rules:
@@ -5,7 +31,14 @@ workflow:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 include:
-  - component: gitlab.com/gruntwork-io/pipelines-workflows/pipelines@{{ .PipelinesWorkflowRef }}
+  - component: $CI_SERVER_FQDN/gruntwork-io/pipelines-workflows/pipelines@{{ .PipelinesWorkflowRef }}
+    inputs:
+      pipelines_workflow: $[[ inputs.pipelines_workflow ]]
+      pipelines_drift_detection_filter: $[[ inputs.pipelines_drift_detection_filter ]]
+      pipelines_drift_detection_branch: $[[ inputs.pipelines_drift_detection_branch ]]
+      pipelines_unlock_unit_path: $[[ inputs.pipelines_unlock_unit_path ]]
+      pipelines_unlock_unit_lock_id: $[[ inputs.pipelines_unlock_unit_lock_id ]]
+      pipelines_unlock_unit_stack_path: $[[ inputs.pipelines_unlock_unit_stack_path ]]
 
 variables:
   GIT_DEPTH: 0
