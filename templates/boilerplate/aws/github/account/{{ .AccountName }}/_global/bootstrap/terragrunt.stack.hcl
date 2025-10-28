@@ -19,5 +19,33 @@ stack "bootstrap" {
     {{- end }}
 
     state_bucket_name = local.account_hcl.locals.state_bucket_name
+
+    {{- if .OIDCProviderImportARN }}
+    oidc_provider_import_arn = "{{ .OIDCProviderImportARN }}"
+    {{- end}}
+
+    {{- if .PlanIAMRoleImportExisting }}
+    plan_iam_role_import_existing = {{ .PlanIAMRoleImportExisting }}
+    {{- end }}
+
+    {{- if .PlanIAMPolicyImportARN }}
+    plan_iam_policy_import_arn = "{{ .PlanIAMPolicyImportARN }}"
+    {{- end }}
+
+    {{- if .PlanIAMRolePolicyAttachmentImportARN }}
+    plan_iam_role_policy_attachment_import_arn = {{ .PlanIAMRolePolicyAttachmentImportARN }}
+    {{- end }}
+
+    {{- if .ApplyIAMRoleImportExisting }}
+    apply_iam_role_import_existing = {{ .ApplyIAMRoleImportExisting }}
+    {{- end }}
+
+    {{- if .ApplyIAMPolicyImportARN }}
+    apply_iam_policy_import_arn = "{{ .ApplyIAMPolicyImportARN }}"
+    {{- end }}
+
+    {{- if .ApplyIAMRolePolicyAttachmentImportARN }}
+    apply_iam_role_policy_attachment_import_arn = {{ .ApplyIAMRolePolicyAttachmentImportARN }}
+    {{- end }}
   }
 }

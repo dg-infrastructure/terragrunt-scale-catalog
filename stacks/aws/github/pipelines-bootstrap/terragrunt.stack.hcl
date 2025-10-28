@@ -131,6 +131,16 @@ locals {
 
   plan_iam_policy  = try(values.plan_iam_policy, local.default_plan_iam_policy)
   apply_iam_policy = try(values.apply_iam_policy, local.default_apply_iam_policy)
+
+  oidc_provider_import_arn = try(values.oidc_provider_import_arn, "")
+
+  plan_iam_role_import_existing = try(values.plan_iam_role_import_existing, false)
+  plan_iam_policy_import_arn = try(values.plan_iam_policy_import_arn, "")
+  plan_iam_role_policy_attachment_import_arn = try(values.plan_iam_role_policy_attachment_import_arn, "")
+
+  apply_iam_role_import_existing = try(values.apply_iam_role_import_existing, false)
+  apply_iam_policy_import_arn = try(values.apply_iam_policy_import_arn, "")
+  apply_iam_role_policy_attachment_import_arn = try(values.apply_iam_role_policy_attachment_import_arn, "")
 }
 
 // State units
@@ -146,6 +156,8 @@ unit "oidc_provider" {
     url = local.issuer
 
     client_id_list = local.client_id_list
+
+    import_arn = local.oidc_provider_import_arn
   }
 }
 
@@ -165,6 +177,8 @@ unit "plan_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_plan_value
+
+    import_existing = local.plan_iam_role_import_existing
   }
 }
 
@@ -179,6 +193,8 @@ unit "plan_iam_policy" {
     name = "${local.oidc_resource_prefix}-plan"
 
     policy = local.plan_iam_policy
+
+    import_arn = local.plan_iam_policy_import_arn
   }
 }
 
@@ -192,6 +208,8 @@ unit "plan_iam_role_policy_attachment" {
 
     iam_role_config_path   = "../iam-role"
     iam_policy_config_path = "../iam-policy"
+
+    import_arn = local.plan_iam_role_policy_attachment_import_arn
   }
 }
 
@@ -209,6 +227,8 @@ unit "apply_iam_role" {
 
     sub_key   = local.sub_key
     sub_value = local.sub_apply_value
+
+    import_existing = local.apply_iam_role_import_existing
   }
 }
 
@@ -225,6 +245,8 @@ unit "apply_iam_policy" {
     name = "${local.oidc_resource_prefix}-apply"
 
     policy = local.apply_iam_policy
+
+    import_arn = local.apply_iam_policy_import_arn
   }
 }
 
@@ -238,5 +260,7 @@ unit "apply_iam_role_policy_attachment" {
 
     iam_role_config_path   = "../iam-role"
     iam_policy_config_path = "../iam-policy"
+
+    import_arn = local.apply_iam_role_policy_attachment_import_arn
   }
 }
