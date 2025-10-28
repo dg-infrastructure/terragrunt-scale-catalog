@@ -33,7 +33,7 @@ stack "bootstrap" {
     {{- end }}
 
     {{- if .PlanIAMRolePolicyAttachmentImportARN }}
-    plan_iam_role_policy_attachment_import_arn = {{ .PlanIAMRolePolicyAttachmentImportARN }}
+    plan_iam_role_policy_attachment_import_arn = "{{ .PlanIAMRolePolicyAttachmentImportARN }}"
     {{- end }}
 
     {{- if .ApplyIAMRoleImportExisting }}
@@ -45,7 +45,7 @@ stack "bootstrap" {
     {{- end }}
 
     {{- if .ApplyIAMRolePolicyAttachmentImportARN }}
-    apply_iam_role_policy_attachment_import_arn = {{ .ApplyIAMRolePolicyAttachmentImportARN }}
+    apply_iam_role_policy_attachment_import_arn = "{{ .ApplyIAMRolePolicyAttachmentImportARN }}"
     {{- end }}
   }
 }
