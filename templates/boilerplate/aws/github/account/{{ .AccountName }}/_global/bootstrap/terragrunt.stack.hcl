@@ -9,6 +9,8 @@ stack "bootstrap" {
   path   = "bootstrap"
 
   values = {
+    terragrunt_scale_catalog_ref = "{{ .TerragruntScaleCatalogRef }}"
+
     oidc_resource_prefix = "{{ .OIDCResourcePrefix }}"
 
     github_org_name  = "{{ .GitHubOrgName }}"
