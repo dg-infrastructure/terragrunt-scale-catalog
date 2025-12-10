@@ -18,8 +18,9 @@ resource "null_resource" "flexible_federated_identity_credential" {
   }
 
   provisioner "local-exec" {
-    when    = create
-    command = <<EOT
+    when        = create
+    interpreter = ["bash", "-c"]
+    command     = <<EOT
       az rest --method post \
               --url 'https://graph.microsoft.com/beta${self.triggers.application_id}/federatedIdentityCredentials' \
               --headers 'Content-Type=application/json' \
@@ -28,8 +29,9 @@ resource "null_resource" "flexible_federated_identity_credential" {
   }
 
   provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
+    when        = destroy
+    interpreter = ["bash", "-c"]
+    command     = <<EOT
       CREDENTIAL_ID=$(
         az rest --method get \
           --url 'https://graph.microsoft.com/beta${self.triggers.application_id}/federatedIdentityCredentials' \
