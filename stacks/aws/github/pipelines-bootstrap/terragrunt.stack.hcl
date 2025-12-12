@@ -19,9 +19,12 @@ locals {
 
   aud_value = try(values.aud_value, "sts.amazonaws.com")
 
-  default_client_id_list = [
-    local.aud_value,
-  ]
+  additional_audiences = try(values.additional_audiences, [])
+
+  default_client_id_list = concat(
+    [local.aud_value],
+    local.additional_audiences,
+  )
 
   client_id_list = try(values.client_id_list, local.default_client_id_list)
 

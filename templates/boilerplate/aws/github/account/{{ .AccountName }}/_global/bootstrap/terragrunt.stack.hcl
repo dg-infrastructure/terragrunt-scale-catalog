@@ -20,6 +20,10 @@ stack "bootstrap" {
     issuer = "{{ .Issuer }}"
     {{- end }}
 
+    {{- if .AdditionalAudiences }}
+    additional_audiences = {{ toJson .AdditionalAudiences }}
+    {{- end }}
+
     state_bucket_name = local.account_hcl.locals.state_bucket_name
 
     {{- if .OIDCProviderImportExisting }}
