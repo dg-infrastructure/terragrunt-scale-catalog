@@ -48,72 +48,38 @@ variables:
     default: false
     order: 8
 
-  - name: OIDCProviderImportARN
-    type: string
-    description: ARN of an existing OIDC provider to import.
-    default: "{{if .OIDCProviderImportExisting}}arn:aws:iam::{{.AWSAccountID}}:oidc-provider/{{if .Issuer}}{{trimPrefix .Issuer \"https://\"}}{{else}}token.actions.githubusercontent.com{{end}}{{end}}"
-    order: 9
-
   - name: PlanIAMRoleImportExisting
     type: bool
     description: Whether to import an existing plan IAM role.
     default: false
-    order: 10
+    order: 9
 
   - name: PlanIamPolicyImportExisting
     type: bool
     description: Whether to import an existing plan IAM policy.
     default: false
-    order: 11
+    order: 10
 
   - name: PlanIAMRolePolicyAttachmentImportExisting
     type: bool
     description: Whether to import an existing plan IAM role policy attachment.
     default: false
-    order: 12
-
-  - name: PlanIAMPolicyImportARN
-    type: string
-    description: ARN of an existing plan IAM policy to import.
-    # Format is arn:aws:iam::account-id:policy/policy-name
-    default: "{{if .PlanIAMRoleImportExisting}}arn:aws:iam::{{.AWSAccountID}}:policy/{{.OIDCResourcePrefix}}-plan{{end}}"
-    order: 13
-
-  - name: PlanIAMRolePolicyAttachmentImportARN
-    type: string
-    description: ARN of an existing plan IAM role policy attachment to import.
-    # Format is role-name/policy-arn
-    default: "{{if .PlanIAMRolePolicyAttachmentImportExisting}}{{.OIDCResourcePrefix}}-plan/arn:aws:iam::{{.AWSAccountID}}:policy/{{.OIDCResourcePrefix}}-plan{{end}}"
-    order: 14
+    order: 11
 
   - name: ApplyIAMRoleImportExisting
     type: bool
     description: Whether to import an existing apply IAM role.
     default: false
-    order: 15
+    order: 12
 
   - name: ApplyIamPolicyImportExisting
     type: bool
     description: Whether to import an existing apply IAM policy.
     default: false
-    order: 16
+    order: 13
 
   - name: ApplyIAMRolePolicyAttachmentImportExisting
     type: bool
     description: Whether to import an existing apply IAM role policy attachment.
     default: false
-    order: 17
-
-  - name: ApplyIAMPolicyImportARN
-    type: string
-    description: ARN of an existing apply IAM policy to import.
-    # Format is arn:aws:iam::account-id:policy/policy-name
-    default: "{{if .ApplyIAMRoleImportExisting}}arn:aws:iam::{{.AWSAccountID}}:policy/{{.OIDCResourcePrefix}}-apply{{end}}"
-    order: 18
-
-  - name: ApplyIAMRolePolicyAttachmentImportARN
-    type: string
-    description: ARN of an existing apply IAM role policy attachment to import.
-    # Format is role-name/policy-arn
-    default: "{{if .ApplyIAMRolePolicyAttachmentImportExisting}}{{.OIDCResourcePrefix}}-apply/arn:aws:iam::{{.AWSAccountID}}:policy/{{.OIDCResourcePrefix}}-apply{{end}}"
-    order: 19
+    order: 14

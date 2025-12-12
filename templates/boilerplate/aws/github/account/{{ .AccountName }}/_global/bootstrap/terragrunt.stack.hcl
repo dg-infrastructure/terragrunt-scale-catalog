@@ -22,32 +22,38 @@ stack "bootstrap" {
 
     state_bucket_name = local.account_hcl.locals.state_bucket_name
 
-    {{- if .OIDCProviderImportARN }}
-    oidc_provider_import_arn = "{{ .OIDCProviderImportARN }}"
-    {{- end}}
+    {{- if .OIDCProviderImportExisting }}
+    oidc_provider_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:oidc-provider/
+      {{- if .Issuer -}}
+        {{ trimPrefix .Issuer "https://" }}
+      {{- else -}}
+        token.actions.githubusercontent.com
+      {{- end -}}
+    "
+    {{- end }}
 
     {{- if .PlanIAMRoleImportExisting }}
-    plan_iam_role_import_existing = {{ .PlanIAMRoleImportExisting }}
+    plan_iam_role_import_existing = true
     {{- end }}
 
-    {{- if .PlanIAMPolicyImportARN }}
-    plan_iam_policy_import_arn = "{{ .PlanIAMPolicyImportARN }}"
+    {{- if .PlanIamPolicyImportExisting }}
+    plan_iam_policy_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
     {{- end }}
 
-    {{- if .PlanIAMRolePolicyAttachmentImportARN }}
-    plan_iam_role_policy_attachment_import_arn = "{{ .PlanIAMRolePolicyAttachmentImportARN }}"
+    {{- if .PlanIAMRolePolicyAttachmentImportExisting }}
+    plan_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-plan/arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
     {{- end }}
 
     {{- if .ApplyIAMRoleImportExisting }}
-    apply_iam_role_import_existing = {{ .ApplyIAMRoleImportExisting }}
+    apply_iam_role_import_existing = true
     {{- end }}
 
-    {{- if .ApplyIAMPolicyImportARN }}
-    apply_iam_policy_import_arn = "{{ .ApplyIAMPolicyImportARN }}"
+    {{- if .ApplyIamPolicyImportExisting }}
+    apply_iam_policy_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
     {{- end }}
 
-    {{- if .ApplyIAMRolePolicyAttachmentImportARN }}
-    apply_iam_role_policy_attachment_import_arn = "{{ .ApplyIAMRolePolicyAttachmentImportARN }}"
+    {{- if .ApplyIAMRolePolicyAttachmentImportExisting }}
+    apply_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-apply/arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
     {{- end }}
   }
 }
