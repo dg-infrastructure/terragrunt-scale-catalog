@@ -2,6 +2,12 @@ include "root" {
   path = find_in_parent_folders("root.hcl")
 }
 
+exclude {
+  if      = try(values.exclude_if, false)
+  no_run  = try(values.exclude_no_run, false)
+  actions = ["all"]
+}
+
 terraform {
   source = "${values.base_url}//modules/aws/iam-openid-connect-provider?ref=${values.ref}"
 }

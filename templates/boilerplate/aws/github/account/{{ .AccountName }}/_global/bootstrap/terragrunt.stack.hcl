@@ -24,6 +24,10 @@ stack "bootstrap" {
     additional_audiences = {{ toJson .AdditionalAudiences }}
     {{- end }}
 
+    {{- if .ExcludeOIDCProvider }}
+    exclude_oidc_provider = true
+    {{- end }}
+
     state_bucket_name = local.account_hcl.locals.state_bucket_name
 
     {{- if .OIDCProviderImportExisting }}
