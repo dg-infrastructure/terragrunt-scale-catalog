@@ -1,0 +1,78 @@
+dependencies:
+  - name: gcp-project
+    template-url: ../../../.dependencies/gcp/project
+    output-folder: .
+
+variables:
+  - name: ProjectName
+    type: string
+    description: The name of the GCP project you are bootstrapping Pipelines in.
+    order: 1
+
+  - name: GCPProjectID
+    type: string
+    description: The GCP project ID you are bootstrapping Pipelines in.
+    order: 2
+
+  - name: GCPProjectNumber
+    type: string
+    description: The GCP project number (numeric ID) for the project you are bootstrapping Pipelines in.
+    order: 3
+
+  - name: GitHubOrgName
+    type: string
+    description: The name of the GitHub organization you are bootstrapping Pipelines in.
+    order: 4
+
+  - name: GitHubRepoName
+    type: string
+    description: The name of the GitHub repository you are bootstrapping Pipelines in.
+    order: 5
+
+  - name: TerragruntScaleCatalogRef
+    type: string
+    description: The Git reference of the Terragrunt catalog to use.
+    default: "v1.2.0"
+    order: 6
+
+  - name: OIDCResourcePrefix
+    type: string
+    description: The prefix for the OIDC resources you using to bootstrap Pipelines.
+    default: "pipelines"
+    order: 7
+
+  - name: Issuer
+    type: string
+    description: The issuer URL for the OIDC provider (is computed dynamically from the SCM provider if not specified).
+    default: ""
+    order: 8
+
+  - name: DeployBranch
+    type: string
+    description: The branch that is allowed to run apply operations.
+    default: "main"
+    order: 9
+
+  - name: WorkloadIdentityPoolID
+    type: string
+    description: The ID of the Workload Identity Pool (computed from prefix if not specified).
+    default: ""
+    order: 10
+
+  - name: WorkloadIdentityPoolProviderID
+    type: string
+    description: The ID of the Workload Identity Pool Provider (computed from prefix if not specified).
+    default: ""
+    order: 11
+
+  - name: PlanRoles
+    type: list
+    description: The IAM roles to grant to the plan service account.
+    default: []
+    order: 12
+
+  - name: ApplyRoles
+    type: list
+    description: The IAM roles to grant to the apply service account.
+    default: []
+    order: 13

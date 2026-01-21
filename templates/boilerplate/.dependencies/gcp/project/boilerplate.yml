@@ -1,0 +1,31 @@
+variables:
+  - name: ProjectName
+    type: string
+    description: The name of the GCP project you are bootstrapping Pipelines in. This is a human-readable name used for folder naming.
+    order: 1
+
+  - name: GCPProjectID
+    type: string
+    description: The GCP project ID you are bootstrapping Pipelines in.
+    order: 2
+
+  - name: GCPProjectNumber
+    type: string
+    description: The GCP project number (numeric ID) for the project you are bootstrapping Pipelines in.
+    order: 3
+
+  - name: GCPRegion
+    type: string
+    description: The GCP region to configure the Google provider for.
+    order: 4
+
+  - name: StateBucketName
+    type: string
+    description: The name of the GCS bucket to use for storing OpenTofu state. Make sure this value is globally unique.
+    order: 5
+
+  - name: OIDCResourcePrefix
+    type: string
+    description: The prefix for the OIDC resources you using to bootstrap Pipelines.
+    default: "pipelines"
+    order: 6

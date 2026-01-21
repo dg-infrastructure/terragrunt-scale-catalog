@@ -1,0 +1,20 @@
+variables:
+  - name: TerragruntVersion
+    type: string
+    description: The version of Terragrunt to use.
+    default: "0.88.0"
+
+  - name: OpenTofuVersion
+    type: string
+    description: The version of OpenTofu to use.
+    default: "1.10.6"
+
+  - name: GCloudVersion
+    type: string
+    description: The version of Google Cloud CLI to use.
+    default: "525.0.0"
+
+  - name: PythonVersion
+    type: string
+    description: The version of Python to use.
+    default: "3.10.11"
