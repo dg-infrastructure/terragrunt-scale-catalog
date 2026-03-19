@@ -1,3 +1,6 @@
+// Bootstrap stack: provisions plan/apply App Registrations (Federated Identity) and Azure Blob state storage.
+// Terragrunt Stacks: https://docs.terragrunt.com/features/stacks/
+
 locals {
   // Read from parent configurations instead of defining these values locally
   // so that other stacks and units in this directory can reuse the same configurations.
@@ -5,12 +8,15 @@ locals {
 }
 
 stack "bootstrap" {
+  // To upgrade: update the ?ref= tag and review https://github.com/gruntwork-io/terragrunt-scale-catalog/releases
   source = "github.com/gruntwork-io/terragrunt-scale-catalog//stacks/azure/gitlab/pipelines-bootstrap?ref={{ .TerragruntScaleCatalogRef }}"
   path   = "bootstrap"
 
   values = {
+    // Prefix for the App Registrations created: <prefix>-plan and <prefix>-apply.
     oidc_resource_prefix = "{{ .OIDCResourcePrefix }}"
 
+    // Only CI pipelines in this GitLab group/project can authenticate via the App Registrations.
     gitlab_group_name   = "{{ .GitLabGroupName }}"
     gitlab_project_name = "{{ .GitLabProjectName }}"
 
@@ -29,4 +35,3 @@ stack "bootstrap" {
     state_storage_container_name = local.sub_hcl.locals.state_storage_container_name
   }
 }
-
