@@ -1,7 +1,7 @@
 locals {
   // Source resolution
   terragrunt_scale_catalog_url = try(values.terragrunt_scale_catalog_url, "github.com/gruntwork-io/terragrunt-scale-catalog")
-  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.3.1")
+  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.10.0")
 
   // State values
   location = values.location
@@ -18,9 +18,9 @@ locals {
   github_org_name  = values.github_org_name
   github_repo_name = values.github_repo_name
 
-  audiences            = try(values.audiences, ["api://AzureADTokenExchange"])
-  issuer               = try(values.issuer, "https://${local.github_token_actions_domain}")
-  deploy_branch        = try(values.deploy_branch, "main")
+  audiences     = try(values.audiences, ["api://AzureADTokenExchange"])
+  issuer        = try(values.issuer, "https://${local.github_token_actions_domain}")
+  deploy_branch = try(values.deploy_branch, "main")
 
   plan_service_principal_to_sub_role_definition_assignment = try(
     values.plan_service_principal_to_sub_role_definition_assignment,
