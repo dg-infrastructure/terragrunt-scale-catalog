@@ -1,7 +1,7 @@
 locals {
   // Source resolution
   terragrunt_scale_catalog_url = try(values.terragrunt_scale_catalog_url, "github.com/gruntwork-io/terragrunt-scale-catalog")
-  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.3.1")
+  terragrunt_scale_catalog_ref = try(values.terragrunt_scale_catalog_ref, "v1.10.0")
 
   // AWS account values
   aws_account_id = values.aws_account_id
@@ -58,12 +58,12 @@ locals {
 
   exclude_oidc_provider = try(values.exclude_oidc_provider, false)
 
-  plan_iam_role_import_existing = try(values.plan_iam_role_import_existing, false)
-  plan_iam_policy_import_arn = try(values.plan_iam_policy_import_arn, "")
+  plan_iam_role_import_existing              = try(values.plan_iam_role_import_existing, false)
+  plan_iam_policy_import_arn                 = try(values.plan_iam_policy_import_arn, "")
   plan_iam_role_policy_attachment_import_arn = try(values.plan_iam_role_policy_attachment_import_arn, "")
 
-  apply_iam_role_import_existing = try(values.apply_iam_role_import_existing, false)
-  apply_iam_policy_import_arn = try(values.apply_iam_policy_import_arn, "")
+  apply_iam_role_import_existing              = try(values.apply_iam_role_import_existing, false)
+  apply_iam_policy_import_arn                 = try(values.apply_iam_policy_import_arn, "")
   apply_iam_role_policy_attachment_import_arn = try(values.apply_iam_role_policy_attachment_import_arn, "")
 
   oidc_provider_tags = try(values.oidc_provider_tags, {})
@@ -144,8 +144,8 @@ unit "plan_iam_role_policy_attachment" {
     iam_policy_config_path = "../iam-policy"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_role_name   = "${local.oidc_resource_prefix}-plan"
-    mock_iam_policy_arn  = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan"
+    mock_iam_role_name  = "${local.oidc_resource_prefix}-plan"
+    mock_iam_policy_arn = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan"
 
     import_arn = local.plan_iam_role_policy_attachment_import_arn
   }
@@ -203,8 +203,8 @@ unit "apply_iam_role_policy_attachment" {
     iam_policy_config_path = "../iam-policy"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_role_name   = "${local.oidc_resource_prefix}-apply"
-    mock_iam_policy_arn  = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply"
+    mock_iam_role_name  = "${local.oidc_resource_prefix}-apply"
+    mock_iam_policy_arn = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply"
 
     import_arn = local.apply_iam_role_policy_attachment_import_arn
   }
