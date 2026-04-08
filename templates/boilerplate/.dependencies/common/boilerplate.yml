@@ -16,3 +16,9 @@ variables:
     description: The branch to use for bootstrapping Pipelines.
     default: "main"
     order: 3
+
+  - name: ConsolidateComments
+    type: bool
+    description: Whether Pipelines should update a single PR/MR comment in-place on each push instead of creating a new comment.
+    default: false
+    order: 4

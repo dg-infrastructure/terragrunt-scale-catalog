@@ -10,3 +10,9 @@ variables:
     description: The branch with live infrastructure to be deployed.
     default: "main"
     order: 2
+
+  - name: ConsolidateComments
+    type: bool
+    description: Whether Pipelines should update a single PR comment in-place on each push instead of creating a new comment. GitHub preserves comment edit history.
+    default: true
+    order: 3
