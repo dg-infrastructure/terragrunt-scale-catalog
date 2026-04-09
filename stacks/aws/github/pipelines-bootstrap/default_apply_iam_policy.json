@@ -15,7 +15,7 @@
       "Action": [
         "iam:CreateServiceLinkedRole"
       ],
-      "Resource": "arn:aws:iam::*:role/aws-service-role/orgsdatasync.servicecatalog.amazonaws.com/AWSServiceRoleForServiceCatalogOrgsDataSync"
+      "Resource": "arn:${aws_partition}:iam::*:role/aws-service-role/orgsdatasync.servicecatalog.amazonaws.com/AWSServiceRoleForServiceCatalogOrgsDataSync"
     },
     {
       "Sid": "S3BucketAccess",
@@ -31,7 +31,7 @@
       "Action": [
         "dynamodb:*"
       ],
-      "Resource": "arn:aws:dynamodb:*:*:table/terraform-locks"
+      "Resource": "arn:${aws_partition}:dynamodb:*:*:table/terraform-locks"
     },
     {
       "Sid": "OrganizationsDeployAccess",

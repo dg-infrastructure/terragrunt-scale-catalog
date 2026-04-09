@@ -17,6 +17,7 @@ stack "bootstrap" {
     terragrunt_scale_catalog_ref = "{{ .TerragruntScaleCatalogRef }}"
 
     aws_account_id = "{{ .AWSAccountID }}"
+    aws_partition  = "{{ .Partition }}"
 
     // Prefix for the IAM roles created: <prefix>-plan and <prefix>-apply.
     oidc_resource_prefix = "{{ .OIDCResourcePrefix }}"
@@ -57,7 +58,7 @@ stack "bootstrap" {
     // have been successfully imported, it is safe to remove this entire section.
     // =========================================================================
     {{- if .OIDCProviderImportExisting }}
-    oidc_provider_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:oidc-provider/
+    oidc_provider_import_arn = "arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:oidc-provider/
       {{- if .Issuer -}}
         {{ trimPrefix .Issuer "https://" }}
       {{- else -}}
@@ -71,11 +72,11 @@ stack "bootstrap" {
     {{- end }}
 
     {{- if .PlanIamPolicyImportExisting }}
-    plan_iam_policy_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
+    plan_iam_policy_import_arn = "arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
     {{- end }}
 
     {{- if .PlanIAMRolePolicyAttachmentImportExisting }}
-    plan_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-plan/arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
+    plan_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-plan/arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-plan"
     {{- end }}
 
     {{- if .ApplyIAMRoleImportExisting }}
@@ -83,11 +84,11 @@ stack "bootstrap" {
     {{- end }}
 
     {{- if .ApplyIamPolicyImportExisting }}
-    apply_iam_policy_import_arn = "arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
+    apply_iam_policy_import_arn = "arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
     {{- end }}
 
     {{- if .ApplyIAMRolePolicyAttachmentImportExisting }}
-    apply_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-apply/arn:aws:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
+    apply_iam_role_policy_attachment_import_arn = "{{ .OIDCResourcePrefix }}-apply/arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:policy/{{ .OIDCResourcePrefix }}-apply"
     {{- end }}
     // =========================================================================
     // End Import Variables

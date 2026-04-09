@@ -5,6 +5,7 @@ locals {
 
   // AWS account values
   aws_account_id = values.aws_account_id
+  aws_partition  = try(values.aws_partition, "aws")
 
   // OIDC values
   oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
@@ -41,9 +42,11 @@ locals {
 
   default_plan_iam_policy = templatefile(local.plan_iam_policy_template_path, {
     state_bucket_name = local.state_bucket_name
+    aws_partition     = local.aws_partition
   })
   default_apply_iam_policy = templatefile(local.apply_iam_policy_template_path, {
     state_bucket_name = local.state_bucket_name
+    aws_partition     = local.aws_partition
   })
 
   plan_iam_policy  = try(values.plan_iam_policy, local.default_plan_iam_policy)
@@ -98,7 +101,7 @@ unit "plan_iam_role" {
     iam_openid_connect_provider_config_path = "../../oidc-provider"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_openid_connect_provider_arn = "arn:aws:iam::${local.aws_account_id}:oidc-provider/${local.gitlab_server_domain}"
+    mock_iam_openid_connect_provider_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:oidc-provider/${local.gitlab_server_domain}"
 
     name = "${local.oidc_resource_prefix}-plan"
 
@@ -140,7 +143,7 @@ unit "plan_iam_role_policy_attachment" {
 
     // Used to generate accurate mock values; actual values come from dependencies
     mock_iam_role_name  = "${local.oidc_resource_prefix}-plan"
-    mock_iam_policy_arn = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan"
+    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan"
 
     import_arn = local.plan_iam_role_policy_attachment_import_arn
   }
@@ -157,7 +160,7 @@ unit "apply_iam_role" {
     iam_openid_connect_provider_config_path = "../../oidc-provider"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_openid_connect_provider_arn = "arn:aws:iam::${local.aws_account_id}:oidc-provider/${local.gitlab_server_domain}"
+    mock_iam_openid_connect_provider_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:oidc-provider/${local.gitlab_server_domain}"
 
     name = "${local.oidc_resource_prefix}-apply"
 
@@ -199,7 +202,7 @@ unit "apply_iam_role_policy_attachment" {
 
     // Used to generate accurate mock values; actual values come from dependencies
     mock_iam_role_name  = "${local.oidc_resource_prefix}-apply"
-    mock_iam_policy_arn = "arn:aws:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply"
+    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply"
 
     import_arn = local.apply_iam_role_policy_attachment_import_arn
   }

@@ -14,6 +14,7 @@ stack "bootstrap" {
 
   values = {
     aws_account_id = "{{ .AWSAccountID }}"
+    aws_partition  = "{{ .Partition }}"
 
     // Prefix for the IAM roles created: <prefix>-plan and <prefix>-apply.
     oidc_resource_prefix = "{{ .OIDCResourcePrefix }}"
