@@ -11,8 +11,8 @@ variables:
     default: "main"
     order: 2
 
-  - name: ConsolidateComments
+  - name: NewCommentPerPush
     type: bool
-    description: Whether Pipelines should update a single PR comment in-place on each push instead of creating a new comment. GitHub preserves comment edit history.
-    default: true
+    description: Whether each push creates a new status comment (true) or updates the existing one in-place (false). GitHub preserves comment edit history when updating in-place.
+    default: false
     order: 3

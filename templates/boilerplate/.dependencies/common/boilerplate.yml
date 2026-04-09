@@ -17,8 +17,8 @@ variables:
     default: "main"
     order: 3
 
-  - name: ConsolidateComments
+  - name: NewCommentPerPush
     type: bool
-    description: Whether Pipelines should update a single PR/MR comment in-place on each push instead of creating a new comment.
-    default: false
+    description: Whether each push creates a new status comment (true) or updates the existing one in-place (false).
+    default: true
     order: 4
