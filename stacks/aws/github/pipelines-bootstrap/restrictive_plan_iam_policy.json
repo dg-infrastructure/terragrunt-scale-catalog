@@ -23,7 +23,7 @@
         "s3:PutLifecycleConfiguration",
         "s3:PutBucketOwnershipControls"
       ],
-      "Resource": "arn:aws:s3:::${state_bucket_name}"
+      "Resource": "arn:${aws_partition}:s3:::${state_bucket_name}"
     },
     {
       "Sid": "AllowGetAndPutS3ActionsOnSpecifiedBucketPath",
@@ -33,7 +33,7 @@
         "s3:GetObject",
         "s3:DeleteObject"
       ],
-      "Resource": "arn:aws:s3:::${state_bucket_name}/*"
+      "Resource": "arn:${aws_partition}:s3:::${state_bucket_name}/*"
     },
     {
       "Sid": "AllowReadOnlyS3ActionsOnTestBuckets",
@@ -42,7 +42,7 @@
         "s3:List*",
         "s3:Get*"
       ],
-      "Resource": "arn:aws:s3:::test-pipelines-*"
+      "Resource": "arn:${aws_partition}:s3:::test-pipelines-*"
     }
   ]
 }
