@@ -2,13 +2,13 @@ variables:
   - name: TerragruntVersion
     type: string
     description: The version of Terragrunt to use.
-    default: "0.93.1"
+    default: "1.0.0"
     order: 1
 
   - name: OpenTofuVersion
     type: string
     description: The version of OpenTofu to use.
-    default: "1.10.6"
+    default: "1.11.5"
     order: 2
 
   - name: DeployBranch
@@ -16,3 +16,9 @@ variables:
     description: The branch to use for bootstrapping Pipelines.
     default: "main"
     order: 3
+
+  - name: NewCommentPerPush
+    type: bool
+    description: Whether each push creates a new status comment (true) or updates the existing one in-place (false).
+    default: true
+    order: 4

@@ -1,8 +1,17 @@
+# Gruntwork Pipelines workflow. Runs plan on MRs, apply on merge to default branch, and supports drift detection and unlock.
+# To upgrade Pipelines, update the @ref below. Docs: https://docs.gruntwork.io/2.0/docs/pipelines/concepts/overview
+
 spec:
   inputs:
+    # Selects the workflow: infrachanges (default), drift-detection, unlock-unit, or unlock-all.
     pipelines_workflow:
       default: "infrachanges"
+{{- if .IncludeDriftDetection }}
       options: ["infrachanges", "drift-detection", "unlock-unit", "unlock-all"]
+{{- else }}
+      options: ["infrachanges", "unlock-unit", "unlock-all"]
+{{- end }}
+{{- if .IncludeDriftDetection }}
     pipelines_drift_detection_filter:
       type: string
       description: "[drift-detection] Limit drift detection to units matching filter https://docs.gruntwork.io/2.0/docs/pipelines/guides/running-drift-detection#drift-detection-filter"
@@ -11,6 +20,7 @@ spec:
       type: string
       description: "[drift-detection] The branch name used for drift remediation MRs"
       default: "drift-detection"
+{{- end }}
     pipelines_unlock_unit_path:
       type: string
       description: "[unlock-unit] Path to the Terragrunt Unit directory where the lock is held (everything up to but not including terragrunt.hcl)"
@@ -34,11 +44,14 @@ include:
   - component: $CI_SERVER_FQDN/gruntwork-io/pipelines-workflows/pipelines@{{ .PipelinesWorkflowRef }}
     inputs:
       pipelines_workflow: $[[ inputs.pipelines_workflow ]]
+{{- if .IncludeDriftDetection }}
       pipelines_drift_detection_filter: $[[ inputs.pipelines_drift_detection_filter ]]
       pipelines_drift_detection_branch: $[[ inputs.pipelines_drift_detection_branch ]]
+{{- end }}
       pipelines_unlock_unit_path: $[[ inputs.pipelines_unlock_unit_path ]]
       pipelines_unlock_unit_lock_id: $[[ inputs.pipelines_unlock_unit_lock_id ]]
       pipelines_unlock_unit_stack_path: $[[ inputs.pipelines_unlock_unit_stack_path ]]
 
 variables:
+  # Full git history required for Pipelines to accurately detect which units changed.
   GIT_DEPTH: 0

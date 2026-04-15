@@ -256,7 +256,7 @@
       "Action": [
         "dynamodb:*"
       ],
-      "Resource": "arn:aws:dynamodb:*:*:table/terraform-locks"
+      "Resource": "arn:${aws_partition}:dynamodb:*:*:table/terraform-locks"
     },
     {
       "Sid": "S3StateBucketAccess",
@@ -265,8 +265,8 @@
         "s3:*"
       ],
       "Resource": [
-        "arn:aws:s3:::${state_bucket_name}",
-        "arn:aws:s3:::${state_bucket_name}/*"
+        "arn:${aws_partition}:s3:::${state_bucket_name}",
+        "arn:${aws_partition}:s3:::${state_bucket_name}/*"
       ]
     },
     {
