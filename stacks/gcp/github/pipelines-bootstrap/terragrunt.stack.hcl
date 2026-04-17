@@ -40,13 +40,26 @@ locals {
   default_plan_roles = [
     "roles/viewer",
     "roles/storage.objectViewer",
+    "roles/legacyBucketReader",
   ]
 
   // Default IAM roles for apply (read-write)
   default_apply_roles = [
-    "roles/editor",
-    "roles/storage.objectAdmin",
+    "roles/compute.admin",
+    "roles/container.admin",
+    "roles/cloudsql.admin",
+    "roles/iam.roleAdmin",
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/storage.admin",
+    "roles/compute.networkAdmin",
+    "roles/run.admin",
+    "roles/pubsub.admin",
+    "roles/dns.admin",
+    "roles/secretmanager.admin",
+    "roles/bigquery.admin",
+    "roles/iam.serviceAccountAdmin",
     "roles/iam.serviceAccountUser",
+    "roles/serviceusage.serviceUsageAdmin",
   ]
 
   plan_roles  = try(values.plan_roles, local.default_plan_roles)
