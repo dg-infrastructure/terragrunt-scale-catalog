@@ -40,7 +40,6 @@ locals {
   default_plan_roles = [
     "roles/viewer",
     "roles/storage.objectViewer",
-    "roles/legacyBucketReader",
   ]
 
   // Default IAM roles for apply (read-write)
