@@ -32,7 +32,7 @@ variables:
   - name: TerragruntScaleCatalogRef
     type: string
     description: The Git reference of the Terragrunt catalog to use.
-    default: "v1.2.0"
+    default: "gcp-stacks"
     order: 6
 
   - name: OIDCResourcePrefix
