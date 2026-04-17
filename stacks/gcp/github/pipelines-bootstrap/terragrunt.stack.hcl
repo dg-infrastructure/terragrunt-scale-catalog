@@ -40,7 +40,6 @@ locals {
   default_plan_roles = [
     "roles/viewer",
     "roles/storage.objectViewer",
-    "serviceAccountTokenCreator",
   ]
 
   // Default IAM roles for apply (read-write)
@@ -59,7 +58,6 @@ locals {
     "roles/bigquery.admin",
     "roles/iam.serviceAccountAdmin",
     "roles/iam.serviceAccountUser",
-    "roles/serviceAccountTokenCreator",
     "roles/serviceusage.serviceUsageAdmin",
   ]
 
