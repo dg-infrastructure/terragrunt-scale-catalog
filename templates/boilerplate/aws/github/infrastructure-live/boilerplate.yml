@@ -1,3 +1,7 @@
+skip_files:
+  - path: "README.md"
+    if: "true"
+
 variables:
   - name: IncludeDriftDetection
     type: bool
