@@ -4,7 +4,7 @@ This is a catalog of free, open-source Infrastructure as Code (IaC) configuratio
 
 ## Overview
 
-The Terragrunt Scale Catalog provides pre-built, production-ready infrastructure components for bootstrapping CI/CD pipelines with OIDC authentication. It supports both AWS and Azure cloud providers, with integrations for GitHub and GitLab.
+The Terragrunt Scale Catalog provides pre-built, production-ready infrastructure components for bootstrapping CI/CD pipelines with OIDC authentication. It supports AWS, Azure, and GCP cloud providers, with integrations for GitHub and GitLab.
 
 ## Repository Structure
 
@@ -31,6 +31,14 @@ Reusable OpenTofu modules that define cloud resources. These are the building bl
   - `storage-account` - Azure storage account
   - `storage-container` - Azure storage container
 
+- **`modules/gcp/`** - GCP-specific OpenTofu modules
+  - `project-iam-member` - IAM member binding at the project level
+  - `service-account` - GCP service account
+  - `service-account-iam-binding` - IAM binding for a service account
+  - `storage-bucket` - GCS bucket for remote state
+  - `workload-identity-pool` - Workload Identity Pool for OIDC federation
+  - `workload-identity-pool-provider` - Workload Identity Pool Provider
+
 ### Units (`units/`)
 
 Terragrunt unit configurations that wrap modules with specific configurations and dependencies. Units represent deployable infrastructure components.
@@ -54,6 +62,13 @@ Terragrunt unit configurations that wrap modules with specific configurations an
   - `service-principal-to-scope-role-assignment` - Role assignment to a specific scope
   - `service-principal-to-sub-role-assignment` - Role assignment at subscription level
 
+- **`units/gcp/oidc/`** - GCP OIDC configuration units
+  - `project-iam-member` - Configured project-level IAM member
+  - `service-account` - Configured GCP service account
+  - `service-account-iam-binding` - Configured service account IAM binding
+  - `workload-identity-pool` - Configured Workload Identity Pool
+  - `workload-identity-pool-provider` - Configured Workload Identity Pool Provider
+
 ### Stacks (`stacks/`)
 
 Terragrunt stack configurations that compose multiple units into complete infrastructure setups. Stacks represent end-to-end solutions.
@@ -62,6 +77,7 @@ Terragrunt stack configurations that compose multiple units into complete infras
 - **`stacks/aws/gitlab/pipelines-bootstrap/`** - Bootstrap AWS resources for Gruntwork Pipelines (GitLab CI) with OIDC
 - **`stacks/azure/github/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitHub Actions) with OIDC
 - **`stacks/azure/gitlab/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitLab CI) with OIDC
+- **`stacks/gcp/github/pipelines-bootstrap/`** - Bootstrap GCP resources for Gruntwork Pipelines (GitHub Actions) with OIDC
 
 ### Templates (`templates/`)
 
@@ -99,6 +115,15 @@ Boilerplate repository templates that include all necessary Terragrunt configura
 - **`azure/gitlab/`** - Complete Azure + GitLab CI setup
   - `subscription/` - Subscription-level bootstrap configuration
     - `{{ .SubscriptionName }}/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
+**GCP Templates:**
+
+- **`gcp/github/`** - Complete GCP + GitHub Actions setup
+  - `project/` - Project-level bootstrap configuration
+    - `{{ .ProjectName }}/bootstrap/` - Bootstrap stack configuration
     - `boilerplate.yml` - Template variables and dependencies
   - `infrastructure-live/` - Infrastructure live repository structure
     - `boilerplate.yml` - Repository-level dependencies and configuration
