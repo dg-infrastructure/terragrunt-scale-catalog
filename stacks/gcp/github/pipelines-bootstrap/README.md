@@ -22,7 +22,7 @@ This Terragrunt stack bootstraps GCP infrastructure for GitHub Actions with OIDC
 
 - Service account for running Terragrunt applies & destroys
 - Workload Identity binding using `principal` (restricted to specific branch)
-- Default IAM roles: `roles/editor`, `roles/storage.objectAdmin`, `roles/iam.serviceAccountUser`
+- Default IAM roles: `roles/compute.admin`, `roles/container.admin`, `roles/cloudsql.admin`, `roles/iam.roleAdmin`, `roles/resourcemanager.projectIamAdmin`, `roles/storage.admin`, `roles/compute.networkAdmin`, `roles/run.admin`, `roles/pubsub.admin`, `roles/dns.admin`, `roles/secretmanager.admin`, `roles/bigquery.admin`, `roles/iam.serviceAccountAdmin`, `roles/iam.serviceAccountUser`, `roles/serviceusage.serviceUsageAdmin`
 
 ## Usage
 
@@ -54,7 +54,7 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.repository == 'org/repo'` |
 | `plan_roles` | IAM roles for plan | `["roles/viewer", "roles/storage.objectViewer"]` |
-| `apply_roles` | IAM roles for apply | `["roles/editor", "roles/storage.objectAdmin", "roles/iam.serviceAccountUser"]` |
+| `apply_roles` | IAM roles for apply | `["roles/compute.admin", "roles/container.admin", "roles/cloudsql.admin", "roles/iam.roleAdmin", "roles/resourcemanager.projectIamAdmin", "roles/storage.admin", "roles/compute.networkAdmin", "roles/run.admin", "roles/pubsub.admin", "roles/dns.admin", "roles/secretmanager.admin", "roles/bigquery.admin", "roles/iam.serviceAccountAdmin", "roles/iam.serviceAccountUser", "roles/serviceusage.serviceUsageAdmin"]` |
 
 ### Default Attribute Mapping
 
@@ -126,20 +126,18 @@ The apply service account is restricted to the `deploy_branch` (default: `main`)
 
 ### Least Privilege
 
-The default roles provide broad access. For production, consider using custom roles with only the specific permissions needed:
+The default `apply_roles` cover a broad set of GCP services. For production, remove any roles for services you are not managing:
 
 ```hcl
-plan_roles = [
-  "roles/viewer",
-  "roles/storage.objectViewer",
-]
-
 apply_roles = [
-  # Instead of roles/editor, use specific roles:
-  "roles/compute.admin",           # If managing Compute Engine
-  "roles/container.admin",         # If managing GKE
-  "roles/storage.objectAdmin",     # For state management
-  "roles/iam.serviceAccountUser",  # For impersonation
+  # Keep only what your infrastructure actually uses, e.g.:
+  "roles/compute.admin",                    # Compute Engine
+  "roles/container.admin",                  # GKE
+  "roles/storage.admin",                    # GCS
+  "roles/iam.serviceAccountAdmin",          # Service account management
+  "roles/iam.serviceAccountUser",           # Service account impersonation
+  "roles/resourcemanager.projectIamAdmin",  # IAM policy management
+  "roles/serviceusage.serviceUsageAdmin",   # API enablement
 ]
 ```
 
