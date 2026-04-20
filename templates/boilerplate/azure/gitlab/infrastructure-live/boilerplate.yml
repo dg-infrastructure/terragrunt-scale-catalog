@@ -1,3 +1,7 @@
+skip_files:
+  - path: "README.md"
+    if: "true"
+
 dependencies:
   - name: common
     template-url: ../../../.dependencies/common

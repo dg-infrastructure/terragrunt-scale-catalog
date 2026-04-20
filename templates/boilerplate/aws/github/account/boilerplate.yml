@@ -3,6 +3,10 @@ dependencies:
     template-url: ../../../.dependencies/aws/account
     output-folder: .
 
+skip_files:
+  - path: "README.md"
+    if: "true"
+
 variables:
   - name: AccountName
     type: string
