@@ -2,28 +2,16 @@
 
 ## Overview
 
-This OpenTofu module creates a Google Cloud Storage (GCS) bucket. GCS buckets provide object storage for a wide range of use cases including static assets, backups, and data archival. In the context of Terragrunt Scale, storage buckets are commonly used for storing OpenTofu state files.
+This OpenTofu module creates a Google Cloud Storage (GCS) bucket. GCS buckets provide object storage for a wide range of use cases including static assets, backups, and data archival.
 
 ## Usage
-
-```hcl
-module "storage_bucket" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/storage-bucket?ref=main"
-
-  project_id = "my-gcp-project"
-  name       = "my-storage-bucket"
-  location   = "US"
-}
-```
-
-### Example: Bucket for OpenTofu State
 
 ```hcl
 module "state_bucket" {
   source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/storage-bucket?ref=main"
 
   project_id = "my-gcp-project"
-  name       = "my-project-tofu-state"
+  name       = "my-storage-bucket"
   location   = "us-central1"
 
   versioning_enabled = true

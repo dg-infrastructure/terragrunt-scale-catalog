@@ -35,7 +35,7 @@ Reusable OpenTofu modules that define cloud resources. These are the building bl
   - `project-iam-member` - IAM member binding at the project level
   - `service-account` - GCP service account
   - `service-account-iam-binding` - IAM binding for a service account
-  - `storage-bucket` - GCS bucket for remote state
+  - `storage-bucket` - GCS bucket
   - `workload-identity-pool` - Workload Identity Pool for OIDC federation
   - `workload-identity-pool-provider` - Workload Identity Pool Provider
 
