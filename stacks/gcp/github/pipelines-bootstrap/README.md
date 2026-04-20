@@ -92,28 +92,6 @@ flowchart TD
     end
 ```
 
-## GitHub Actions Workflow Configuration
-
-To use these credentials in your GitHub Actions workflow:
-
-```yaml
-jobs:
-  plan:
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/pipelines-github-pool/providers/pipelines-github-provider
-          service_account: pipelines-plan@${{ vars.GCP_PROJECT_ID }}.iam.gserviceaccount.com
-
-      - uses: google-github-actions/setup-gcloud@v2
-
-      - run: terragrunt plan
-```
-
 ## Security Considerations
 
 ### Branch Protection
