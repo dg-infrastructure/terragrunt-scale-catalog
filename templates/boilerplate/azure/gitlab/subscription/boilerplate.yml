@@ -3,6 +3,10 @@ dependencies:
     template-url: ../../../.dependencies/azure/subscription
     output-folder: .
 
+skip_files:
+  - path: "README.md"
+    if: "true"
+
 variables:
   - name: SubscriptionName
     type: string
