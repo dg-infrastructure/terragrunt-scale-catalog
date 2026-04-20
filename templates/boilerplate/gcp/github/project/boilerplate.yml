@@ -3,6 +3,10 @@ dependencies:
     template-url: ../../../.dependencies/gcp/project
     output-folder: .
 
+skip_files:
+  - path: "README.md"
+    if: "true"
+
 variables:
   - name: ProjectName
     type: string

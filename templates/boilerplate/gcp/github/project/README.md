@@ -1,0 +1,47 @@
+# GCP + GitHub Actions: Project Bootstrap Template
+
+Boilerplate template that scaffolds the project-level bootstrap configuration for Terragrunt Scale on GCP with GitHub Actions.
+
+Rendering this template produces a `{{ .ProjectName }}/bootstrap/` directory containing a `terragrunt.stack.hcl` that references the [`stacks/gcp/github/pipelines-bootstrap`](../../../../stacks/gcp/github/pipelines-bootstrap) stack. Applying that stack provisions a Workload Identity Pool, Workload Identity Pool Provider, and the `plan`/`apply` service accounts with IAM bindings that GitHub Actions workflows use to authenticate to GCP.
+
+This template is typically pulled in as a dependency of the sibling [`infrastructure-live`](../infrastructure-live) template, but it can also be rendered on its own to add another project to an existing Terragrunt Scale repository.
+
+## Usage
+
+```bash
+boilerplate \
+  --template-url 'github.com/gruntwork-io/terragrunt-scale-catalog//templates/boilerplate/gcp/github/project?ref=main' \
+  --output-folder ./infrastructure-live \
+  --var ProjectName=prod \
+  --var GCPProjectID=my-project-123 \
+  --var GCPProjectNumber=123456789012 \
+  --var GitHubOrgName=acme \
+  --var GitHubRepoName=infrastructure-live \
+  --var GCPRegion=us-central1 \
+  --var StateBucketName=my-project-tfstate
+```
+
+## Variables
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `ProjectName` | yes | | Human-readable name of the GCP project being bootstrapped; used as a folder name. |
+| `GCPProjectID` | yes | | GCP project ID (string identifier) of the project being bootstrapped. |
+| `GCPProjectNumber` | yes | | GCP project number (numeric ID) of the project being bootstrapped. |
+| `GitHubOrgName` | yes | | GitHub organization that owns the repository. |
+| `GitHubRepoName` | yes | | Repository name; only workflows in this repo may authenticate. |
+| `GCPRegion` | yes | | GCP region used to configure the Google provider and GCS state backend. |
+| `StateBucketName` | yes | | Name of the GCS bucket used for storing OpenTofu state. Must be globally unique. |
+| `DeployBranch` | no | `main` | Branch granted the apply service account binding. |
+| `TerragruntScaleCatalogRef` | no | `gcp-stacks` | Git ref of this catalog to pin the stack source to. |
+| `OIDCResourcePrefix` | no | `pipelines` | Prefix applied to Workload Identity Pool and service account resources. |
+| `Issuer` | no | computed | Override for the OIDC issuer URL; defaults to `https://token.actions.githubusercontent.com`. |
+| `WorkloadIdentityPoolID` | no | computed | ID of the Workload Identity Pool; computed from `OIDCResourcePrefix` if not specified. |
+| `WorkloadIdentityPoolProviderID` | no | computed | ID of the Workload Identity Pool Provider; computed from `OIDCResourcePrefix` if not specified. |
+| `PlanRoles` | no | `["roles/viewer", "roles/storage.objectViewer"]` | IAM roles granted to the plan service account. |
+| `ApplyRoles` | no | See bootstrap stack | IAM roles granted to the apply service account. |
+
+## How It Works
+
+- `boilerplate.yml` declares the variables above and a dependency on [`.dependencies/gcp/project`](../../../.dependencies/gcp/project), which contributes the `project.hcl` and `.gruntwork/environment-<project>.hcl` files the rendered stack reads.
+- `skip_files` excludes this README from the rendered output so the scaffolded repository does not inherit catalog-internal documentation.
