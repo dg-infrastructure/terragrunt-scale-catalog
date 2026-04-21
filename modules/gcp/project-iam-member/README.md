@@ -25,9 +25,11 @@ module "project_iam" {
 ```hcl
 roles = [
   "roles/viewer",                    # Read-only access to most resources
-  "roles/storage.objectViewer",      # Read state files from GCS
+  "roles/storage.objectViewer",      # Read GCS bucket metadata (does not grant object-content access)
 ]
 ```
+
+> **Note:** `roles/viewer` does not include `storage.objects.get`, so Terraform state reads require `roles/storage.objectViewer` at minimum. For state locking (`terraform plan` acquires a lock), grant `roles/storage.objectUser` scoped to the state bucket rather than at the project level.
 
 ### Apply (Read-Write)
 

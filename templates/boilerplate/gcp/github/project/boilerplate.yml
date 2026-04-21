@@ -69,14 +69,20 @@ variables:
     default: ""
     order: 11
 
+  - name: StateBucketName
+    type: string
+    description: The name of the GCS bucket used for Terraform state. When provided, the plan service account gets bucket-scoped object permissions for state locking instead of project-wide object access.
+    default: ""
+    order: 12
+
   - name: PlanRoles
     type: list
     description: The IAM roles to grant to the plan service account.
     default: []
-    order: 12
+    order: 13
 
   - name: ApplyRoles
     type: list
     description: The IAM roles to grant to the apply service account.
     default: []
-    order: 13
+    order: 14

@@ -16,7 +16,8 @@ This Terragrunt stack bootstraps GCP infrastructure for GitHub Actions with OIDC
 
 - Service account for running Terragrunt plans
 - Workload Identity binding using `principalSet` (allows any branch/PR from the repository)
-- Default IAM roles: `roles/viewer`, `roles/storage.objectViewer`
+- Default project-level IAM roles: `roles/viewer`, `roles/storage.objectViewer`
+- When `state_bucket_name` is provided, also receives `roles/storage.objectUser` scoped to that bucket (required for state locking during `plan`)
 
 ### Apply Service Account (Read-Write Operations)
 
@@ -53,7 +54,8 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `workload_identity_pool_provider_id` | Provider ID | `pipelines-github-provider` |
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.repository == 'org/repo'` |
-| `plan_roles` | IAM roles for plan | `["roles/viewer", "roles/storage.objectViewer"]` |
+| `state_bucket_name` | GCS bucket name for Terraform state; when set, grants the plan SA `roles/storage.objectUser` on this bucket for state locking | `""` (disabled) |
+| `plan_roles` | Project-level IAM roles for plan SA | `["roles/viewer", "roles/storage.objectViewer"]` |
 | `apply_roles` | IAM roles for apply | `["roles/compute.admin", "roles/container.admin", "roles/cloudsql.admin", "roles/iam.roleAdmin", "roles/resourcemanager.projectIamAdmin", "roles/storage.admin", "roles/compute.networkAdmin", "roles/run.admin", "roles/pubsub.admin", "roles/dns.admin", "roles/secretmanager.admin", "roles/bigquery.admin", "roles/iam.serviceAccountAdmin", "roles/iam.serviceAccountUser", "roles/serviceusage.serviceUsageAdmin"]` |
 
 ### Default Attribute Mapping
@@ -84,8 +86,8 @@ flowchart TD
         D -->|principalSet: any branch| E[Plan Service Account]
         D -->|principal: main branch only| F[Apply Service Account]
 
-        E[Plan Service Account<br/>roles/viewer<br/>roles/storage.objectViewer]
-        F[Apply Service Account<br/>roles/editor<br/>roles/storage.objectAdmin<br/>roles/iam.serviceAccountUser]
+        E[Plan Service Account<br/>roles/viewer<br/>roles/storage.objectViewer<br/>roles/storage.objectUser on state bucket]
+        F[Apply Service Account<br/>roles/compute.admin + roles/storage.admin<br/>roles/iam.serviceAccountAdmin + others]
 
         E --> G[GCS State Bucket]
         F --> G[GCS State Bucket<br/>OpenTofu state files]

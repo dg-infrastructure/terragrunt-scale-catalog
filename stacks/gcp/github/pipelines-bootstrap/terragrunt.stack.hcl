@@ -64,6 +64,8 @@ locals {
   plan_roles  = try(values.plan_roles, local.default_plan_roles)
   apply_roles = try(values.apply_roles, local.default_apply_roles)
 
+  state_bucket_name = try(values.state_bucket_name, null)
+
   // Workload Identity principal formats
   // For plan: allow any workflow from the repository (principalSet with attribute filter)
   plan_member = "principalSet://iam.googleapis.com/projects/${local.project_number}/locations/global/workloadIdentityPools/${local.workload_identity_pool_id}/attribute.repository/${local.github_org_name}/${local.github_repo_name}"
@@ -155,6 +157,24 @@ unit "plan_project_iam_bindings" {
 
     project_id = local.project_id
     roles      = local.plan_roles
+  }
+}
+
+// Plan State Bucket IAM Binding (bucket-scoped, only when state_bucket_name is provided)
+unit "plan_state_bucket_iam_binding" {
+  source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
+  path   = "oidc/plan/state-bucket-iam-binding"
+
+  enabled = local.state_bucket_name != null
+
+  values = {
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
+
+    service_account_config_path = "../service-account"
+
+    bucket = local.state_bucket_name
+    roles  = ["roles/storage.objectUser"]
   }
 }
 
