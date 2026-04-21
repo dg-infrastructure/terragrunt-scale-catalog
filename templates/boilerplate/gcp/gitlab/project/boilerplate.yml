@@ -1,0 +1,94 @@
+dependencies:
+  - name: gcp-project
+    template-url: ../../../.dependencies/gcp/project
+    output-folder: .
+
+skip_files:
+  - path: "README.md"
+    if: "true"
+
+variables:
+  - name: ProjectName
+    type: string
+    description: The name of the GCP project you are bootstrapping Pipelines in.
+    order: 1
+
+  - name: GCPProjectID
+    type: string
+    description: The GCP project ID you are bootstrapping Pipelines in.
+    order: 2
+
+  - name: GCPProjectNumber
+    type: string
+    description: The GCP project number (numeric ID) for the project you are bootstrapping Pipelines in.
+    order: 3
+
+  - name: GitLabGroupName
+    type: string
+    description: The name of the GitLab group you are bootstrapping Pipelines in.
+    order: 4
+
+  - name: GitLabProjectName
+    type: string
+    description: The name of the GitLab project you are bootstrapping Pipelines in.
+    order: 5
+
+  - name: TerragruntScaleCatalogRef
+    type: string
+    description: The Git reference of the Terragrunt catalog to use.
+    default: "gcp-stacks"
+    order: 6
+
+  - name: OIDCResourcePrefix
+    type: string
+    description: The prefix for the OIDC resources you using to bootstrap Pipelines.
+    default: "pipelines"
+    order: 7
+
+  - name: GitLabServerDomain
+    type: string
+    description: The domain of your GitLab server. Set this for self-hosted GitLab instances; leave empty to use gitlab.com.
+    default: ""
+    order: 8
+
+  - name: Issuer
+    type: string
+    description: The issuer URL for the OIDC provider (is computed dynamically from GitLabServerDomain if not specified).
+    default: ""
+    order: 9
+
+  - name: DeployBranch
+    type: string
+    description: The branch that is allowed to run apply operations.
+    default: "main"
+    order: 10
+
+  - name: WorkloadIdentityPoolID
+    type: string
+    description: The ID of the Workload Identity Pool (computed from prefix if not specified).
+    default: ""
+    order: 11
+
+  - name: WorkloadIdentityPoolProviderID
+    type: string
+    description: The ID of the Workload Identity Pool Provider (computed from prefix if not specified).
+    default: ""
+    order: 12
+
+  - name: StateBucketName
+    type: string
+    description: The name of the GCS bucket used for Terraform state. When provided, the plan service account gets bucket-scoped object permissions for state locking instead of project-wide object access.
+    default: ""
+    order: 13
+
+  - name: PlanRoles
+    type: list
+    description: The IAM roles to grant to the plan service account.
+    default: []
+    order: 14
+
+  - name: ApplyRoles
+    type: list
+    description: The IAM roles to grant to the apply service account.
+    default: []
+    order: 15

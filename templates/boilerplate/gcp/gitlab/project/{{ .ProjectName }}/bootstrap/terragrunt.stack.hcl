@@ -1,0 +1,55 @@
+locals {
+  // Read from parent configurations instead of defining these values locally
+  // so that other stacks and units in this directory can reuse the same configurations.
+  project_hcl = read_terragrunt_config(find_in_parent_folders("project.hcl"))
+}
+
+stack "bootstrap" {
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//stacks/gcp/gitlab/pipelines-bootstrap?ref={{ .TerragruntScaleCatalogRef }}"
+  path   = "bootstrap"
+
+  values = {
+    terragrunt_scale_catalog_ref = "{{ .TerragruntScaleCatalogRef }}"
+
+    project_id     = "{{ .GCPProjectID }}"
+    project_number = "{{ .GCPProjectNumber }}"
+
+    oidc_resource_prefix = "{{ .OIDCResourcePrefix }}"
+
+    // Only CI pipelines in this GitLab group/project can authenticate
+    gitlab_group_name   = "{{ .GitLabGroupName }}"
+    gitlab_project_name = "{{ .GitLabProjectName }}"
+
+    {{- if .GitLabServerDomain }}
+    gitlab_server_domain = "{{ .GitLabServerDomain }}"
+    {{- end }}
+
+    {{- if .Issuer }}
+    issuer = "{{ .Issuer }}"
+    {{- end }}
+
+    {{- if .DeployBranch }}
+    deploy_branch = "{{ .DeployBranch }}"
+    {{- end }}
+
+    {{- if .WorkloadIdentityPoolID }}
+    workload_identity_pool_id = "{{ .WorkloadIdentityPoolID }}"
+    {{- end }}
+
+    {{- if .WorkloadIdentityPoolProviderID }}
+    workload_identity_pool_provider_id = "{{ .WorkloadIdentityPoolProviderID }}"
+    {{- end }}
+
+    {{- if .StateBucketName }}
+    state_bucket_name = "{{ .StateBucketName }}"
+    {{- end }}
+
+    {{- if .PlanRoles }}
+    plan_roles = {{ toJson .PlanRoles }}
+    {{- end }}
+
+    {{- if .ApplyRoles }}
+    apply_roles = {{ toJson .ApplyRoles }}
+    {{- end }}
+  }
+}
