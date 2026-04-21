@@ -165,7 +165,10 @@ unit "plan_state_bucket_iam_binding" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
   path   = "oidc/plan/state-bucket-iam-binding"
 
-  enabled = local.state_bucket_name != null
+  exclude {
+    if      = local.state_bucket_name == null
+    actions = ["all"]
+  }
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
