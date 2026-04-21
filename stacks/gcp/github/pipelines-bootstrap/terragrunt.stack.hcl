@@ -66,6 +66,9 @@ locals {
 
   state_bucket_name = try(values.state_bucket_name, null)
 
+  // Custom role ID for plan SA state bucket access (hyphens replaced to satisfy GCP role_id constraints)
+  state_bucket_custom_role_id = replace("${local.oidc_resource_prefix}_state_bucket", "-", "_")
+
   // Workload Identity principal formats
   // For plan: allow any workflow from the repository (principalSet with attribute filter)
   plan_member = "principalSet://iam.googleapis.com/projects/${local.project_number}/locations/global/workloadIdentityPools/${local.workload_identity_pool_id}/attribute.repository/${local.github_org_name}/${local.github_repo_name}"
@@ -160,9 +163,35 @@ unit "plan_project_iam_bindings" {
   }
 }
 
+// Plan State Bucket Custom Role (bucket-scoped, only when state_bucket_name is provided)
+// Combines storage.objectUser permissions with storage.buckets.getIamPolicy for least-privilege plan access
+unit "plan_state_bucket_custom_role" {
+  source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/custom-role?ref=${local.terragrunt_scale_catalog_ref}"
+  path   = "oidc/plan/state-bucket-custom-role"
+
+  values = {
+    base_url = local.terragrunt_scale_catalog_url
+    ref      = local.terragrunt_scale_catalog_ref
+
+    project_id  = local.project_id
+    role_id     = local.state_bucket_custom_role_id
+    title       = "Pipelines Plan State Bucket Role"
+    description = "Least-privilege role for plan SA: state locking (storage.objectUser) and bucket IAM policy reads (storage.buckets.getIamPolicy)"
+    permissions = [
+      "storage.objects.create",
+      "storage.objects.delete",
+      "storage.objects.get",
+      "storage.objects.list",
+      "storage.objects.update",
+      "storage.buckets.getIamPolicy",
+    ]
+    exclude_if = local.state_bucket_name == null
+  }
+}
+
 // Plan State Bucket IAM Binding (bucket-scoped, only when state_bucket_name is provided)
 unit "plan_state_bucket_iam_binding" {
-  source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
+  source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-custom-role-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
   path   = "oidc/plan/state-bucket-iam-binding"
 
   values = {
@@ -170,9 +199,9 @@ unit "plan_state_bucket_iam_binding" {
     ref      = local.terragrunt_scale_catalog_ref
 
     service_account_config_path = "../service-account"
+    custom_role_config_path     = "../state-bucket-custom-role"
 
     bucket     = local.state_bucket_name
-    roles      = ["roles/storage.objectUser", "roles/storage.legacyBucketReader"]
     exclude_if = local.state_bucket_name == null
   }
 }
