@@ -23,6 +23,7 @@ module "bucket_iam" {
 |------|-------------|----------|
 | `roles/storage.objectViewer` | `objects.get`, `objects.list` | Read-only state access |
 | `roles/storage.objectUser` | `objects.create`, `objects.delete`, `objects.get`, `objects.list` | State read + locking (plan SA) |
+| `roles/storage.legacyBucketReader` | `buckets.get`, `objects.list` | Read bucket IAM policy during plan |
 | `roles/storage.objectAdmin` | All object permissions | Full state management (apply SA) |
 
 ## Inputs

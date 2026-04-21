@@ -172,7 +172,7 @@ unit "plan_state_bucket_iam_binding" {
     service_account_config_path = "../service-account"
 
     bucket     = local.state_bucket_name
-    roles      = ["roles/storage.objectUser"]
+    roles      = ["roles/storage.objectUser", "roles/storage.legacyBucketReader"]
     exclude_if = local.state_bucket_name == null
   }
 }
