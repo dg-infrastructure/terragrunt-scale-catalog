@@ -8,7 +8,7 @@ locals {
   project_number = values.project_number
 
   // OIDC values
-  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
+  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines-gitlab")
 
   gitlab_server_domain = try(values.gitlab_server_domain, "gitlab.com")
 
@@ -20,8 +20,8 @@ locals {
   deploy_branch  = try(values.deploy_branch, "main")
 
   // Workload Identity Pool settings
-  workload_identity_pool_id          = try(values.workload_identity_pool_id, "${local.oidc_resource_prefix}-gitlab-pool")
-  workload_identity_pool_provider_id = try(values.workload_identity_pool_provider_id, "${local.oidc_resource_prefix}-gitlab-provider")
+  workload_identity_pool_id          = try(values.workload_identity_pool_id, "${local.oidc_resource_prefix}-pool")
+  workload_identity_pool_provider_id = try(values.workload_identity_pool_provider_id, "${local.oidc_resource_prefix}-provider")
 
   // Attribute mapping for GitLab CI OIDC tokens
   default_attribute_mapping = {

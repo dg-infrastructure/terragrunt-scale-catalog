@@ -8,7 +8,7 @@ locals {
   project_number = values.project_number
 
   // OIDC values
-  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
+  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines-github")
 
   github_token_actions_domain = try(values.github_token_actions_domain, "token.actions.githubusercontent.com")
 
@@ -19,8 +19,8 @@ locals {
   deploy_branch = try(values.deploy_branch, "main")
 
   // Workload Identity Pool settings
-  workload_identity_pool_id          = try(values.workload_identity_pool_id, "${local.oidc_resource_prefix}-github-pool")
-  workload_identity_pool_provider_id = try(values.workload_identity_pool_provider_id, "${local.oidc_resource_prefix}-github-provider")
+  workload_identity_pool_id          = try(values.workload_identity_pool_id, "${local.oidc_resource_prefix}-pool")
+  workload_identity_pool_provider_id = try(values.workload_identity_pool_provider_id, "${local.oidc_resource_prefix}-provider")
 
   // Attribute mapping for GitHub Actions OIDC tokens
   default_attribute_mapping = {
