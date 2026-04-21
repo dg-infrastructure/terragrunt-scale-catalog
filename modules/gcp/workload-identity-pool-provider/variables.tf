@@ -47,3 +47,9 @@ variable "attribute_condition" {
   type        = string
   default     = null
 }
+
+variable "allowed_audiences" {
+  description = "Acceptable values for the `aud` field in the OIDC token. If empty, the audience must equal the provider's full resource name. Set to [\"auth:pipelines:gruntwork\"] for Gruntwork Pipelines."
+  type        = list(string)
+  default     = null
+}

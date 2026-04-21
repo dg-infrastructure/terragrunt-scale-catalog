@@ -26,4 +26,5 @@ inputs = {
   description         = try(values.description, null)
   disabled            = try(values.disabled, false)
   attribute_condition = try(values.attribute_condition, null)
+  allowed_audiences   = try(values.allowed_audiences, null)
 }

@@ -107,6 +107,7 @@ unit "workload_identity_pool_provider" {
     issuer_uri          = local.issuer
     attribute_mapping   = local.attribute_mapping
     attribute_condition = local.attribute_condition
+    allowed_audiences   = try(values.allowed_audiences, ["auth:pipelines:gruntwork"])
   }
 }
 

@@ -10,6 +10,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   attribute_mapping = var.attribute_mapping
 
   oidc {
-    issuer_uri = var.issuer_uri
+    issuer_uri        = var.issuer_uri
+    allowed_audiences = var.allowed_audiences
   }
 }
