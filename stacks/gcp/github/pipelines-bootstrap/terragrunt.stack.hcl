@@ -165,19 +165,15 @@ unit "plan_state_bucket_iam_binding" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
   path   = "oidc/plan/state-bucket-iam-binding"
 
-  exclude {
-    if      = local.state_bucket_name == null
-    actions = ["all"]
-  }
-
   values = {
     base_url = local.terragrunt_scale_catalog_url
     ref      = local.terragrunt_scale_catalog_ref
 
     service_account_config_path = "../service-account"
 
-    bucket = local.state_bucket_name
-    roles  = ["roles/storage.objectUser"]
+    bucket     = local.state_bucket_name
+    roles      = ["roles/storage.objectUser"]
+    exclude_if = local.state_bucket_name == null
   }
 }
 
