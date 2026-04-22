@@ -8,7 +8,7 @@ This module creates a Google Cloud Workload Identity Pool, which is used to fede
 
 ```hcl
 module "workload_identity_pool" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/workload-identity-pool?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/workload-identity-pool?ref=main"
 
   project_id                = "my-gcp-project"
   workload_identity_pool_id = "github-pool"

@@ -8,7 +8,7 @@ This module creates a GCP project-level custom IAM role with a specified set of 
 
 ```hcl
 module "custom_role" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/custom-role?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/custom-role?ref=main"
 
   project_id  = "my-gcp-project"
   role_id     = "pipelines_state_bucket"

@@ -8,7 +8,7 @@ This module creates a Workload Identity Pool Provider for OIDC authentication. T
 
 ```hcl
 module "workload_identity_pool_provider" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/workload-identity-pool-provider?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/workload-identity-pool-provider?ref=main"
 
   project_id                         = "my-gcp-project"
   workload_identity_pool_id          = "github-pool"

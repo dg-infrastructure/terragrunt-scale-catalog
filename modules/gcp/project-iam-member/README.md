@@ -8,7 +8,7 @@ This module grants one or more IAM roles to a member at the project level.
 
 ```hcl
 module "project_iam" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/project-iam-member?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/project-iam-member?ref=main"
 
   project_id = "my-gcp-project"
   member     = "serviceAccount:pipelines-plan@my-project.iam.gserviceaccount.com"

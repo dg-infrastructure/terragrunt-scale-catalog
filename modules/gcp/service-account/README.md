@@ -8,7 +8,7 @@ This module creates a Google Cloud Service Account that can be used with Workloa
 
 ```hcl
 module "service_account" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account?ref=main"
 
   project_id   = "my-gcp-project"
   account_id   = "pipelines-plan"

@@ -8,7 +8,7 @@ This module grants one or more IAM roles to a member scoped to a specific GCS bu
 
 ```hcl
 module "bucket_iam" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/storage-bucket-iam-member?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/storage-bucket-iam-member?ref=main"
 
   bucket = "my-terraform-state-bucket"
   member = "serviceAccount:pipelines-plan@my-project.iam.gserviceaccount.com"

@@ -10,7 +10,7 @@ This module grants an external identity (from Workload Identity Federation) the 
 
 ```hcl
 module "plan_workload_identity_binding" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account-iam-binding?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account-iam-binding?ref=main"
 
   service_account_id = "projects/my-project/serviceAccounts/pipelines-plan@my-project.iam.gserviceaccount.com"
 
@@ -23,7 +23,7 @@ module "plan_workload_identity_binding" {
 
 ```hcl
 module "apply_workload_identity_binding" {
-  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account-iam-binding?ref=v1.0.0"
+  source = "github.com/gruntwork-io/terragrunt-scale-catalog//modules/gcp/service-account-iam-binding?ref=main"
 
   service_account_id = "projects/my-project/serviceAccounts/pipelines-apply@my-project.iam.gserviceaccount.com"
 
