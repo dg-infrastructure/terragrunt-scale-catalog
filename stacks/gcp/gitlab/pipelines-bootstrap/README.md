@@ -58,7 +58,7 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `workload_identity_pool_provider_id` | Provider ID | `pipelines-gitlab-provider` |
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.project_path == 'group/project'` |
-| `allowed_audiences` | Expected OIDC token audiences | `["https://gitlab.com"]` |
+| `allowed_audiences` | Expected OIDC token audiences | `["https://gitlab.com/<gitlab_group_name>"]` |
 | `state_bucket_name` | GCS bucket name for Terraform state; when set, creates a custom role combining `storage.objectUser` permissions with `storage.buckets.getIamPolicy` and binds it to the plan SA on this bucket | `""` (disabled) |
 | `plan_roles` | Project-level IAM roles for plan SA | `["roles/viewer", "roles/storage.objectViewer"]` |
 | `apply_roles` | IAM roles for apply | `["roles/compute.admin", ...]` |
@@ -147,7 +147,7 @@ For self-hosted GitLab instances, set `gitlab_server_domain` to your GitLab serv
 ```hcl
 gitlab_server_domain = "gitlab.example.com"
 # issuer         → https://gitlab.example.com
-# allowed_audiences → ["https://gitlab.example.com"]
+# allowed_audiences → ["https://gitlab.example.com/<gitlab_group_name>"]
 ```
 
 ## Outputs

@@ -58,6 +58,7 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `workload_identity_pool_provider_id` | Provider ID | `pipelines-github-provider` |
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.repository == 'org/repo'` |
+| `allowed_audiences` | Expected OIDC token audiences | `["auth:pipelines:gruntwork"]` |
 | `state_bucket_name` | GCS bucket name for Terraform state; when set, creates a custom role combining `storage.objectUser` permissions with `storage.buckets.getIamPolicy` and binds it to the plan SA on this bucket | `""` (disabled) |
 | `plan_roles` | Project-level IAM roles for plan SA | `["roles/viewer", "roles/storage.objectViewer"]` |
 | `apply_roles` | IAM roles for apply | `["roles/compute.admin", "roles/container.admin", "roles/cloudsql.admin", "roles/iam.roleAdmin", "roles/resourcemanager.projectIamAdmin", "roles/storage.admin", "roles/compute.networkAdmin", "roles/run.admin", "roles/pubsub.admin", "roles/dns.admin", "roles/secretmanager.admin", "roles/bigquery.admin", "roles/iam.serviceAccountAdmin", "roles/iam.serviceAccountUser", "roles/serviceusage.serviceUsageAdmin"]` |

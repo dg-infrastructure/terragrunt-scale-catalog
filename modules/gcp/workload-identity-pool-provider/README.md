@@ -54,6 +54,7 @@ For GitHub Actions OIDC, the following attribute mappings are commonly used:
 | `description` | Description of the provider | `string` | No |
 | `disabled` | Whether the provider is disabled | `bool` | No |
 | `attribute_condition` | CEL expression to restrict authentication | `string` | No |
+| `allowed_audiences` | Acceptable values for the `aud` field in the OIDC token. If null, the audience must equal the provider's full resource name. | `list(string)` | No |
 
 ## Outputs
 
