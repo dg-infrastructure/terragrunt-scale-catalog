@@ -83,7 +83,7 @@ locals {
 // Workload Identity Pool (shared by plan and apply)
 unit "workload_identity_pool" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/workload-identity-pool?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/workload-identity-pool"
+  path   = "oidc/github/workload-identity-pool"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -101,7 +101,7 @@ unit "workload_identity_pool" {
 // Workload Identity Pool Provider
 unit "workload_identity_pool_provider" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/workload-identity-pool-provider?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/workload-identity-pool-provider"
+  path   = "oidc/github/workload-identity-pool-provider"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -126,7 +126,7 @@ unit "workload_identity_pool_provider" {
 // Plan Service Account
 unit "plan_service_account" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/service-account?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/service-account"
+  path   = "oidc/github/plan/service-account"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -142,7 +142,7 @@ unit "plan_service_account" {
 // Plan Service Account Workload Identity Binding (allows any branch/PR)
 unit "plan_workload_identity_binding" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/service-account-iam-binding?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/workload-identity-binding"
+  path   = "oidc/github/plan/workload-identity-binding"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -157,7 +157,7 @@ unit "plan_workload_identity_binding" {
 // Plan IAM Role Bindings
 unit "plan_project_iam_bindings" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/project-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/project-iam-bindings"
+  path   = "oidc/github/plan/project-iam-bindings"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -174,7 +174,7 @@ unit "plan_project_iam_bindings" {
 // Combines storage.objectUser permissions with storage.buckets.getIamPolicy for least-privilege plan access
 unit "plan_state_bucket_custom_role" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/custom-role?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/state-bucket-custom-role"
+  path   = "oidc/github/plan/state-bucket-custom-role"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -199,7 +199,7 @@ unit "plan_state_bucket_custom_role" {
 // Plan State Bucket IAM Binding (bucket-scoped, only when state_bucket_name is provided)
 unit "plan_state_bucket_iam_binding" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/storage-bucket-custom-role-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/plan/state-bucket-iam-binding"
+  path   = "oidc/github/plan/state-bucket-iam-binding"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -216,7 +216,7 @@ unit "plan_state_bucket_iam_binding" {
 // Apply Service Account
 unit "apply_service_account" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/service-account?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/apply/service-account"
+  path   = "oidc/github/apply/service-account"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -232,7 +232,7 @@ unit "apply_service_account" {
 // Apply Service Account Workload Identity Binding (restricted to deploy branch)
 unit "apply_workload_identity_binding" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/service-account-iam-binding?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/apply/workload-identity-binding"
+  path   = "oidc/github/apply/workload-identity-binding"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
@@ -247,7 +247,7 @@ unit "apply_workload_identity_binding" {
 // Apply IAM Role Bindings
 unit "apply_project_iam_bindings" {
   source = "${local.terragrunt_scale_catalog_url}//units/gcp/oidc/project-iam-member?ref=${local.terragrunt_scale_catalog_ref}"
-  path   = "oidc/apply/project-iam-bindings"
+  path   = "oidc/github/apply/project-iam-bindings"
 
   values = {
     base_url = local.terragrunt_scale_catalog_url
