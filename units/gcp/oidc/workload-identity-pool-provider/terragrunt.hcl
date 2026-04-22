@@ -27,4 +27,5 @@ inputs = {
   disabled            = try(values.disabled, false)
   attribute_condition = try(values.attribute_condition, null)
   allowed_audiences   = try(values.allowed_audiences, null)
+  import_existing     = try(values.import_existing, false)
 }

@@ -1,3 +1,9 @@
+import {
+  for_each = var.import_existing ? toset(["provider"]) : toset([])
+  to       = google_iam_workload_identity_pool_provider.provider
+  id       = "projects/${var.project_id}/locations/global/workloadIdentityPools/${var.workload_identity_pool_id}/providers/${var.workload_identity_pool_provider_id}"
+}
+
 resource "google_iam_workload_identity_pool_provider" "provider" {
   project                            = var.project_id
   workload_identity_pool_id          = var.workload_identity_pool_id

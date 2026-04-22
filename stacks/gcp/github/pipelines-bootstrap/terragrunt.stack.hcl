@@ -66,6 +66,9 @@ locals {
 
   state_bucket_name = try(values.state_bucket_name, null)
 
+  workload_identity_pool_import_existing          = try(values.workload_identity_pool_import_existing, false)
+  workload_identity_pool_provider_import_existing = try(values.workload_identity_pool_provider_import_existing, false)
+
   // Custom role ID for plan SA state bucket access (hyphens replaced to satisfy GCP role_id constraints)
   state_bucket_custom_role_id = replace("${local.oidc_resource_prefix}_state_bucket", "-", "_")
 
@@ -90,6 +93,8 @@ unit "workload_identity_pool" {
     workload_identity_pool_id = local.workload_identity_pool_id
     display_name              = "GitHub Actions Pool"
     description               = "Workload Identity Pool for GitHub Actions OIDC authentication"
+
+    import_existing = local.workload_identity_pool_import_existing
   }
 }
 
@@ -113,6 +118,8 @@ unit "workload_identity_pool_provider" {
     attribute_mapping   = local.attribute_mapping
     attribute_condition = local.attribute_condition
     allowed_audiences   = try(values.allowed_audiences, ["auth:pipelines:gruntwork"])
+
+    import_existing = local.workload_identity_pool_provider_import_existing
   }
 }
 

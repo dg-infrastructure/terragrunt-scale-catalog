@@ -11,6 +11,7 @@ inputs = {
   workload_identity_pool_id = values.workload_identity_pool_id
   display_name              = values.display_name
 
-  description = try(values.description, null)
-  disabled    = try(values.disabled, false)
+  description     = try(values.description, null)
+  disabled        = try(values.disabled, false)
+  import_existing = try(values.import_existing, false)
 }

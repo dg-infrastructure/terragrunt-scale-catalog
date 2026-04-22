@@ -26,3 +26,9 @@ variable "disabled" {
   type        = bool
   default     = false
 }
+
+variable "import_existing" {
+  description = "Set to true to import an existing workload identity pool into Terraform state rather than creating it. Use this when the pool already exists in GCP (e.g., after state loss) but is not soft-deleted."
+  type        = bool
+  default     = false
+}

@@ -67,6 +67,9 @@ locals {
 
   state_bucket_name = try(values.state_bucket_name, null)
 
+  workload_identity_pool_import_existing          = try(values.workload_identity_pool_import_existing, false)
+  workload_identity_pool_provider_import_existing = try(values.workload_identity_pool_provider_import_existing, false)
+
   // Custom role ID for plan SA state bucket access (hyphens replaced to satisfy GCP role_id constraints)
   state_bucket_custom_role_id = replace("${local.oidc_resource_prefix}_state_bucket", "-", "_")
 
@@ -91,6 +94,8 @@ unit "workload_identity_pool" {
     workload_identity_pool_id = local.workload_identity_pool_id
     display_name              = "GitLab CI Pool"
     description               = "Workload Identity Pool for GitLab CI OIDC authentication"
+
+    import_existing = local.workload_identity_pool_import_existing
   }
 }
 
@@ -114,6 +119,8 @@ unit "workload_identity_pool_provider" {
     attribute_mapping   = local.attribute_mapping
     attribute_condition = local.attribute_condition
     allowed_audiences   = try(values.allowed_audiences, ["https://${local.gitlab_server_domain}"])
+
+    import_existing = local.workload_identity_pool_provider_import_existing
   }
 }
 
