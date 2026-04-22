@@ -118,7 +118,7 @@ unit "workload_identity_pool_provider" {
     issuer_uri          = local.issuer
     attribute_mapping   = local.attribute_mapping
     attribute_condition = local.attribute_condition
-    allowed_audiences   = try(values.allowed_audiences, ["https://${local.gitlab_server_domain}"])
+    allowed_audiences   = try(values.allowed_audiences, ["https://${local.gitlab_server_domain}/{local.gitlab_group_name}"])
 
     import_existing = local.workload_identity_pool_provider_import_existing
   }
