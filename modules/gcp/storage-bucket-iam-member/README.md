@@ -1,4 +1,6 @@
-# GCP Storage Bucket IAM Member
+# GCP Storage Bucket IAM Member Module
+
+## Overview
 
 This module grants one or more IAM roles to a member scoped to a specific GCS bucket.
 
@@ -36,3 +38,13 @@ module "bucket_iam" {
 ## Outputs
 
 This module does not produce outputs.
+
+## Related Resources
+
+- [GCP Storage Bucket Module](../storage-bucket/) - The bucket to grant permissions on
+- [GCP Service Account Module](../service-account/) - Service accounts to grant bucket access to
+
+## References
+
+- [GCP Cloud Storage IAM](https://cloud.google.com/storage/docs/access-control/iam)
+- [GCP Cloud Storage IAM Roles](https://cloud.google.com/storage/docs/access-control/iam-roles)

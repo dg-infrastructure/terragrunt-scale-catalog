@@ -1,4 +1,6 @@
-# GCP Workload Identity Pool Provider
+# GCP Workload Identity Pool Provider Module
+
+## Overview
 
 This module creates a Workload Identity Pool Provider for OIDC authentication. The provider configures how external identities (like GitHub Actions) can authenticate to Google Cloud.
 
@@ -61,3 +63,15 @@ For GitHub Actions OIDC, the following attribute mappings are commonly used:
 | `name` | The resource name of the provider |
 | `workload_identity_pool_provider_id` | The provider ID |
 | `state` | The state of the provider |
+
+## Related Resources
+
+- [GCP Workload Identity Pool Module](../workload-identity-pool/) - The pool this provider belongs to
+- [GCP Service Account IAM Binding Module](../service-account-iam-binding/) - Bind pool identities to service accounts
+- [GCP Service Account Module](../service-account/) - Service accounts to be impersonated
+
+## References
+
+- [GCP Workload Identity Pool Providers](https://cloud.google.com/iam/docs/manage-workload-identity-pools-providers)
+- [GitHub Actions OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
+- [GitLab CI/CD OIDC](https://docs.gitlab.com/ee/ci/cloud_services/)

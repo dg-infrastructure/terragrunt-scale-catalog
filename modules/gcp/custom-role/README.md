@@ -1,4 +1,6 @@
-# GCP Custom Role
+# GCP Custom Role Module
+
+## Overview
 
 This module creates a GCP project-level custom IAM role with a specified set of permissions.
 
@@ -40,3 +42,13 @@ module "custom_role" {
 |------|-------------|
 | `role_name` | Fully qualified role name (`projects/PROJECT_ID/roles/ROLE_ID`) |
 | `role_id` | The role ID |
+
+## Related Resources
+
+- [GCP Project IAM Member Module](../project-iam-member/) - Assign this custom role to a member at the project level
+- [GCP Service Account Module](../service-account/) - Service accounts that can be granted custom roles
+
+## References
+
+- [GCP Custom Roles Documentation](https://cloud.google.com/iam/docs/creating-custom-roles)
+- [GCP IAM Permissions Reference](https://cloud.google.com/iam/docs/permissions-reference)

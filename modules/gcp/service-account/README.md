@@ -1,4 +1,6 @@
-# GCP Service Account
+# GCP Service Account Module
+
+## Overview
 
 This module creates a Google Cloud Service Account that can be used with Workload Identity Federation to allow external identities to impersonate it.
 
@@ -34,3 +36,14 @@ module "service_account" {
 | `email` | The email address of the service account |
 | `unique_id` | The unique ID of the service account |
 | `member` | The IAM member string (`serviceAccount:email`) |
+
+## Related Resources
+
+- [GCP Service Account IAM Binding Module](../service-account-iam-binding/) - Allow external identities to impersonate this service account
+- [GCP Project IAM Member Module](../project-iam-member/) - Grant project-level roles to this service account
+- [GCP Storage Bucket IAM Member Module](../storage-bucket-iam-member/) - Grant bucket-level roles to this service account
+
+## References
+
+- [GCP Service Accounts Documentation](https://cloud.google.com/iam/docs/service-accounts)
+- [GCP Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation)

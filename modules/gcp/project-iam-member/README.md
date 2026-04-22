@@ -1,4 +1,6 @@
-# GCP Project IAM Member
+# GCP Project IAM Member Module
+
+## Overview
 
 This module grants one or more IAM roles to a member at the project level.
 
@@ -52,3 +54,13 @@ roles = [
 ## Outputs
 
 This module does not produce outputs.
+
+## Related Resources
+
+- [GCP Service Account Module](../service-account/) - Service accounts to grant roles to
+- [GCP Custom Role Module](../custom-role/) - Custom roles that can be assigned at the project level
+
+## References
+
+- [GCP IAM Overview](https://cloud.google.com/iam/docs/overview)
+- [GCP Predefined Roles](https://cloud.google.com/iam/docs/understanding-roles)

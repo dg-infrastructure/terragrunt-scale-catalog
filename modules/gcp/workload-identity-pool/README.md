@@ -1,4 +1,6 @@
-# GCP Workload Identity Pool
+# GCP Workload Identity Pool Module
+
+## Overview
 
 This module creates a Google Cloud Workload Identity Pool, which is used to federate external identities (like GitHub Actions) with Google Cloud.
 
@@ -33,3 +35,14 @@ module "workload_identity_pool" {
 | `name` | The resource name of the pool |
 | `workload_identity_pool_id` | The pool ID |
 | `state` | The state of the pool |
+
+## Related Resources
+
+- [GCP Workload Identity Pool Provider Module](../workload-identity-pool-provider/) - Add an OIDC provider to this pool
+- [GCP Service Account IAM Binding Module](../service-account-iam-binding/) - Allow pool identities to impersonate service accounts
+- [GCP Service Account Module](../service-account/) - Service accounts to be impersonated
+
+## References
+
+- [GCP Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation)
+- [GCP Manage Workload Identity Pools](https://cloud.google.com/iam/docs/manage-workload-identity-pools-providers)

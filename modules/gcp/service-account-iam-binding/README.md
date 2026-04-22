@@ -1,4 +1,6 @@
-# GCP Service Account IAM Binding
+# GCP Service Account IAM Binding Module
+
+## Overview
 
 This module grants an external identity (from Workload Identity Federation) the ability to impersonate a Google Cloud service account.
 
@@ -47,3 +49,15 @@ module "apply_workload_identity_binding" {
 ## Outputs
 
 This module does not produce outputs.
+
+## Related Resources
+
+- [GCP Service Account Module](../service-account/) - The service account to bind
+- [GCP Workload Identity Pool Module](../workload-identity-pool/) - The pool containing the external identity
+- [GCP Workload Identity Pool Provider Module](../workload-identity-pool-provider/) - The provider that maps external claims to Google attributes
+
+## References
+
+- [GCP Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation)
+- [GitHub Actions OIDC with GCP](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform)
+- [GitLab CI/CD OIDC with GCP](https://docs.gitlab.com/ee/ci/cloud_services/google_cloud/)
