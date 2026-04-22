@@ -13,7 +13,7 @@ environment "{{ .ProjectName }}" {
     // plan service account: read-only, used on MRs. apply service account: write, used on merge to deploy branch.
     // Both Service Accounts are created by the bootstrap stack in bootstrap/.
     gcp_oidc {
-		  workload_identity_provider_id = "projects/{{ .GCPProjectNumber }}/locations/global/workloadIdentityPools/{{ .OIDCResourcePrefix }}-github-pool/providers/{{ .OIDCResourcePrefix }}-github-provider"
+		  workload_identity_provider_id = "projects/{{ .GCPProjectNumber }}/locations/global/workloadIdentityPools/{{ .OIDCResourcePrefix }}-pool/providers/{{ .OIDCResourcePrefix }}-provider"
 		  plan_service_account_email    = "{{ .OIDCResourcePrefix }}-plan@{{ .ProjectName }}.iam.gserviceaccount.com"
 		  apply_service_account_email   = "{{ .OIDCResourcePrefix }}-apply@{{ .ProjectName }}.iam.gserviceaccount.com"
 	  }
