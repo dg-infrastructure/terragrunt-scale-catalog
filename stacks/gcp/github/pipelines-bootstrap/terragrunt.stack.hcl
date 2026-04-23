@@ -8,7 +8,7 @@ locals {
   project_number = values.project_number
 
   // OIDC values
-  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines-github")
+  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
 
   github_token_actions_domain = try(values.github_token_actions_domain, "token.actions.githubusercontent.com")
 

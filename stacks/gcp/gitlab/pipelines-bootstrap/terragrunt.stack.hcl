@@ -8,7 +8,7 @@ locals {
   project_number = values.project_number
 
   // OIDC values
-  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines-gitlab")
+  oidc_resource_prefix = try(values.oidc_resource_prefix, "pipelines")
 
   gitlab_server_domain = try(values.gitlab_server_domain, "gitlab.com")
 
