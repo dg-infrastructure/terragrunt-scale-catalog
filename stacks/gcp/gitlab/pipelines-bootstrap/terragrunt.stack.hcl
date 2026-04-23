@@ -70,6 +70,15 @@ locals {
   workload_identity_pool_import_existing          = try(values.workload_identity_pool_import_existing, false)
   workload_identity_pool_provider_import_existing = try(values.workload_identity_pool_provider_import_existing, false)
 
+  plan_service_account_import_existing            = try(values.plan_service_account_import_existing, false)
+  plan_workload_identity_binding_import_existing  = try(values.plan_workload_identity_binding_import_existing, false)
+  plan_project_iam_bindings_import_existing       = try(values.plan_project_iam_bindings_import_existing, false)
+  plan_state_bucket_custom_role_import_existing   = try(values.plan_state_bucket_custom_role_import_existing, false)
+  plan_state_bucket_iam_binding_import_existing   = try(values.plan_state_bucket_iam_binding_import_existing, false)
+  apply_service_account_import_existing           = try(values.apply_service_account_import_existing, false)
+  apply_workload_identity_binding_import_existing = try(values.apply_workload_identity_binding_import_existing, false)
+  apply_project_iam_bindings_import_existing      = try(values.apply_project_iam_bindings_import_existing, false)
+
   // Custom role ID for plan SA state bucket access (hyphens replaced to satisfy GCP role_id constraints)
   state_bucket_custom_role_id = replace("${local.oidc_resource_prefix}_state_bucket", "-", "_")
 
@@ -137,6 +146,8 @@ unit "plan_service_account" {
     account_id   = "${local.oidc_resource_prefix}-plan"
     display_name = "Pipelines Plan Service Account"
     description  = "Service account used by Gruntwork Pipelines for plans"
+
+    import_existing = local.plan_service_account_import_existing
   }
 }
 
@@ -152,6 +163,8 @@ unit "plan_workload_identity_binding" {
     service_account_config_path = "../service-account"
 
     member = local.plan_member
+
+    import_existing = local.plan_workload_identity_binding_import_existing
   }
 }
 
@@ -168,6 +181,8 @@ unit "plan_project_iam_bindings" {
 
     project_id = local.project_id
     roles      = local.plan_roles
+
+    import_existing = local.plan_project_iam_bindings_import_existing
   }
 }
 
@@ -193,6 +208,8 @@ unit "plan_state_bucket_custom_role" {
       "storage.objects.update",
       "storage.buckets.getIamPolicy",
     ]
+
+    import_existing = local.plan_state_bucket_custom_role_import_existing
   }
 }
 
@@ -209,6 +226,8 @@ unit "plan_state_bucket_iam_binding" {
     custom_role_config_path     = "../state-bucket-custom-role"
 
     bucket = local.state_bucket_name
+
+    import_existing = local.plan_state_bucket_iam_binding_import_existing
   }
 }
 
@@ -225,6 +244,8 @@ unit "apply_service_account" {
     account_id   = "${local.oidc_resource_prefix}-apply"
     display_name = "Pipelines Apply Service Account"
     description  = "Service account used by Gruntwork Pipelines for applies and destroys"
+
+    import_existing = local.apply_service_account_import_existing
   }
 }
 
@@ -240,6 +261,8 @@ unit "apply_workload_identity_binding" {
     service_account_config_path = "../service-account"
 
     member = local.apply_member
+
+    import_existing = local.apply_workload_identity_binding_import_existing
   }
 }
 
@@ -256,5 +279,7 @@ unit "apply_project_iam_bindings" {
 
     project_id = local.project_id
     roles      = local.apply_roles
+
+    import_existing = local.apply_project_iam_bindings_import_existing
   }
 }

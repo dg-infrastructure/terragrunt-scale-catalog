@@ -26,4 +26,6 @@ inputs = {
   bucket = values.bucket
   member = dependency.service_account.outputs.member
   roles  = [dependency.custom_role.outputs.role_name]
+
+  import_existing = try(values.import_existing, false)
 }

@@ -18,4 +18,6 @@ inputs = {
   project_id = values.project_id
   member     = dependency.service_account.outputs.member
   roles      = values.roles
+
+  import_existing = try(values.import_existing, false)
 }

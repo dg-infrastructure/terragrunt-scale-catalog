@@ -18,4 +18,6 @@ inputs = {
   bucket = values.bucket
   member = dependency.service_account.outputs.member
   roles  = values.roles
+
+  import_existing = try(values.import_existing, false)
 }

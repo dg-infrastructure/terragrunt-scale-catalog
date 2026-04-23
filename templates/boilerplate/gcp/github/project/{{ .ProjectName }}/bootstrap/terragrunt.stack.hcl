@@ -44,5 +44,55 @@ stack "bootstrap" {
     {{- if .ApplyRoles }}
     apply_roles = {{ toJson .ApplyRoles }}
     {{- end }}
+
+    // =========================================================================
+    // Import Variables
+    //
+    // The following variables are used to import existing GCP resources into
+    // OpenTofu/Terraform state. Once the stack has been applied and resources
+    // have been successfully imported, it is safe to remove this entire section.
+    // =========================================================================
+    {{- if .WorkloadIdentityPoolImportExisting }}
+    workload_identity_pool_import_existing = true
+    {{- end }}
+
+    {{- if .WorkloadIdentityPoolProviderImportExisting }}
+    workload_identity_pool_provider_import_existing = true
+    {{- end }}
+
+    {{- if .PlanServiceAccountImportExisting }}
+    plan_service_account_import_existing = true
+    {{- end }}
+
+    {{- if .PlanWorkloadIdentityBindingImportExisting }}
+    plan_workload_identity_binding_import_existing = true
+    {{- end }}
+
+    {{- if .PlanStateBucketCustomRoleImportExisting }}
+    plan_state_bucket_custom_role_import_existing = true
+    {{- end }}
+
+    {{- if .ApplyServiceAccountImportExisting }}
+    apply_service_account_import_existing = true
+    {{- end }}
+
+    {{- if .ApplyWorkloadIdentityBindingImportExisting }}
+    apply_workload_identity_binding_import_existing = true
+    {{- end }}
+
+    {{- if .PlanProjectIAMBindingsImportExisting }}
+    plan_project_iam_bindings_import_existing = true
+    {{- end }}
+
+    {{- if .ApplyProjectIAMBindingsImportExisting }}
+    apply_project_iam_bindings_import_existing = true
+    {{- end }}
+
+    {{- if .PlanStateBucketIAMBindingImportExisting }}
+    plan_state_bucket_iam_binding_import_existing = true
+    {{- end }}
+    // =========================================================================
+    // End Import Variables
+    // =========================================================================
   }
 }

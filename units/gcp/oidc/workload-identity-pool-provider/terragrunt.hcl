@@ -6,6 +6,18 @@ terraform {
   source = "${values.base_url}//modules/gcp/workload-identity-pool-provider?ref=${values.ref}"
 }
 
+generate "import" {
+  disable   = values.import_existing ? false : true
+  path      = "import.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+import {
+  to = google_iam_workload_identity_pool_provider.provider
+  id = "projects/$${var.project_id}/locations/global/workloadIdentityPools/$${var.workload_identity_pool_id}/providers/$${var.workload_identity_pool_provider_id}"
+}
+EOF
+}
+
 dependency "workload_identity_pool" {
   config_path = values.workload_identity_pool_config_path
 
@@ -27,5 +39,4 @@ inputs = {
   disabled            = try(values.disabled, false)
   attribute_condition = try(values.attribute_condition, null)
   allowed_audiences   = try(values.allowed_audiences, null)
-  import_existing     = try(values.import_existing, false)
 }

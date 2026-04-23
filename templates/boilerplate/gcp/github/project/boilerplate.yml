@@ -42,7 +42,7 @@ variables:
   - name: OIDCResourcePrefix
     type: string
     description: The prefix for the OIDC resources you using to bootstrap Pipelines.
-    default: "pipelines-github"
+    default: "pipelines"
     order: 7
 
   - name: Issuer
@@ -85,3 +85,63 @@ variables:
     description: The IAM roles to grant to the apply service account.
     default: []
     order: 14
+
+  - name: WorkloadIdentityPoolImportExisting
+    type: bool
+    description: Whether to import an existing Workload Identity Pool.
+    default: false
+    order: 15
+
+  - name: WorkloadIdentityPoolProviderImportExisting
+    type: bool
+    description: Whether to import an existing Workload Identity Pool Provider.
+    default: false
+    order: 16
+
+  - name: PlanServiceAccountImportExisting
+    type: bool
+    description: Whether to import an existing plan service account.
+    default: false
+    order: 17
+
+  - name: PlanWorkloadIdentityBindingImportExisting
+    type: bool
+    description: Whether to import an existing plan service account Workload Identity IAM binding.
+    default: false
+    order: 18
+
+  - name: PlanStateBucketCustomRoleImportExisting
+    type: bool
+    description: Whether to import an existing plan state bucket custom IAM role.
+    default: false
+    order: 19
+
+  - name: ApplyServiceAccountImportExisting
+    type: bool
+    description: Whether to import an existing apply service account.
+    default: false
+    order: 20
+
+  - name: ApplyWorkloadIdentityBindingImportExisting
+    type: bool
+    description: Whether to import an existing apply service account Workload Identity IAM binding.
+    default: false
+    order: 21
+
+  - name: PlanProjectIAMBindingsImportExisting
+    type: bool
+    description: Whether to import existing plan service account project IAM role bindings.
+    default: false
+    order: 22
+
+  - name: ApplyProjectIAMBindingsImportExisting
+    type: bool
+    description: Whether to import existing apply service account project IAM role bindings.
+    default: false
+    order: 23
+
+  - name: PlanStateBucketIAMBindingImportExisting
+    type: bool
+    description: Whether to import an existing plan service account state bucket IAM binding.
+    default: false
+    order: 24
