@@ -35,9 +35,7 @@ stack "bootstrap" {
     workload_identity_pool_provider_id = "{{ .WorkloadIdentityPoolProviderID }}"
     {{- end }}
 
-    {{- if .StateBucketName }}
     state_bucket_name = "{{ .StateBucketName }}"
-    {{- end }}
 
     {{- if .PlanRoles }}
     plan_roles = {{ toJson .PlanRoles }}

@@ -39,7 +39,7 @@ boilerplate \
 | `Issuer` | no | computed | Override for the OIDC issuer URL; defaults to `https://<GitLabServerDomain>`. |
 | `WorkloadIdentityPoolID` | no | computed | ID of the Workload Identity Pool; computed from `OIDCResourcePrefix` if not specified. |
 | `WorkloadIdentityPoolProviderID` | no | computed | ID of the Workload Identity Pool Provider; computed from `OIDCResourcePrefix` if not specified. |
-| `PlanRoles` | no | `[]` | Project-level IAM roles granted to the plan service account. |
+| `PlanRoles` | no | `[]` | Additional project-level IAM roles granted to the plan service account. The bucket-scoped custom role for state locking is always granted on `StateBucketName` regardless of this value. |
 | `ApplyRoles` | no | `[]` | IAM roles granted to the apply service account. |
 
 ## How It Works

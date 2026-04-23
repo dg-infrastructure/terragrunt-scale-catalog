@@ -2,11 +2,6 @@ include "root" {
   path = find_in_parent_folders("root.hcl")
 }
 
-exclude {
-  if      = try(values.exclude_if, false)
-  actions = ["all"]
-}
-
 terraform {
   source = "${values.base_url}//modules/gcp/custom-role?ref=${values.ref}"
 }

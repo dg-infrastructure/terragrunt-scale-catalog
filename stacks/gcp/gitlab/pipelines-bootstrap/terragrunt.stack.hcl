@@ -193,7 +193,6 @@ unit "plan_state_bucket_custom_role" {
       "storage.objects.update",
       "storage.buckets.getIamPolicy",
     ]
-    exclude_if = local.state_bucket_name == null
   }
 }
 
@@ -209,8 +208,7 @@ unit "plan_state_bucket_iam_binding" {
     service_account_config_path = "../service-account"
     custom_role_config_path     = "../state-bucket-custom-role"
 
-    bucket     = local.state_bucket_name
-    exclude_if = local.state_bucket_name == null
+    bucket = local.state_bucket_name
   }
 }
 

@@ -17,11 +17,10 @@ This Terragrunt stack bootstraps GCP infrastructure for GitLab CI with OIDC auth
 - Service account for running Terragrunt plans
 - Workload Identity binding using `principalSet` (allows any pipeline run from the project)
 - Default project-level IAM roles: `roles/viewer`, `roles/storage.objectViewer`
-- When `state_bucket_name` is provided:
-  - A project-level custom IAM role is created (ID: `<oidc_resource_prefix>_state_bucket`) with exactly the permissions needed:
-    - `storage.objects.create/delete/get/list/update` — state read and locking
-    - `storage.buckets.getIamPolicy` — bucket IAM policy reads during `plan`
-  - The custom role is bound to the plan SA scoped to the state bucket only
+- A project-level custom IAM role is created (ID: `<oidc_resource_prefix>_state_bucket`) with exactly the permissions needed for state locking:
+  - `storage.objects.create/delete/get/list/update` — state read and locking
+  - `storage.buckets.getIamPolicy` — bucket IAM policy reads during `plan`
+- The custom role is bound to the plan SA scoped to the state bucket only
 
 ### Apply Service Account (Read-Write Operations)
 
@@ -43,6 +42,7 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `project_number` | GCP project number (numeric) | `123456789012` |
 | `gitlab_group_name` | GitLab group or namespace | `my-group` |
 | `gitlab_project_name` | GitLab project name | `infrastructure` |
+| `state_bucket_name` | GCS bucket name for Terraform state; used for the GCS backend and to scope the plan SA's bucket-level write permissions for state locking | `my-project-tfstate` |
 
 ### Optional
 
@@ -59,7 +59,6 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.project_path == 'group/project'` |
 | `allowed_audiences` | Expected OIDC token audiences | `["https://gitlab.com/<gitlab_group_name>"]` |
-| `state_bucket_name` | GCS bucket name for Terraform state; when set, creates a custom role combining `storage.objectUser` permissions with `storage.buckets.getIamPolicy` and binds it to the plan SA on this bucket | `""` (disabled) |
 | `plan_roles` | Project-level IAM roles for plan SA | `["roles/viewer", "roles/storage.objectViewer"]` |
 | `apply_roles` | IAM roles for apply | `["roles/compute.admin", ...]` |
 
@@ -111,7 +110,7 @@ The apply service account is restricted to the `deploy_branch` (default: `main`)
 
 ### Least Privilege
 
-The plan SA state bucket access uses a custom IAM role with only the specific permissions required — no predefined role grants exactly this combination without excess permissions. The custom role is automatically created and scoped to the state bucket when `state_bucket_name` is set.
+The plan SA state bucket access uses a custom IAM role with only the specific permissions required — no predefined role grants exactly this combination without excess permissions. The custom role is always created and scoped to the state bucket.
 
 The default `apply_roles` cover a broad set of GCP services. For production, remove any roles for services you are not managing:
 
@@ -159,7 +158,7 @@ gitlab_server_domain = "gitlab.example.com"
 | `workload_identity_pool_provider.id` | ID of the OIDC provider |
 | `plan_service_account.email` | Email of the plan service account |
 | `apply_service_account.email` | Email of the apply service account |
-| `plan_state_bucket_custom_role.role_name` | Fully qualified name of the custom state bucket role (only when `state_bucket_name` is set) |
+| `plan_state_bucket_custom_role.role_name` | Fully qualified name of the custom state bucket role |
 
 ## Related Documentation
 
