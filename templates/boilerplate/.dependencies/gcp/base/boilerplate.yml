@@ -13,8 +13,3 @@ variables:
     type: string
     description: The version of Google Cloud CLI to use.
     default: "565.0.0"
-
-  - name: PythonVersion
-    type: string
-    description: The version of Python to use.
-    default: "3.13.3"

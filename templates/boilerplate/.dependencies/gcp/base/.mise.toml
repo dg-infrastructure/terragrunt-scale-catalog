@@ -2,4 +2,3 @@
 terragrunt = "{{ .TerragruntVersion }}"
 opentofu = "{{ .OpenTofuVersion }}"
 gcloud = "{{ .GCloudVersion }}"
-python = "{{ .PythonVersion }}"

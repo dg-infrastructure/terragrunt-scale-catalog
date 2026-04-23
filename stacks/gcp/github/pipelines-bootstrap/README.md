@@ -54,13 +54,23 @@ Read the [official Gruntwork Pipelines installation guide](https://docs.gruntwor
 | `github_token_actions_domain` | GitHub Actions token domain | `token.actions.githubusercontent.com` |
 | `issuer` | Full OIDC issuer URL | `https://token.actions.githubusercontent.com` |
 | `deploy_branch` | Branch allowed to apply | `main` |
-| `workload_identity_pool_id` | Pool ID | `pipelines-github-pool` |
-| `workload_identity_pool_provider_id` | Provider ID | `pipelines-github-provider` |
+| `workload_identity_pool_id` | Pool ID | `pipelines-pool` |
+| `workload_identity_pool_provider_id` | Provider ID | `pipelines-provider` |
 | `attribute_mapping` | Custom attribute mapping | See defaults below |
 | `attribute_condition` | CEL expression for auth | `assertion.repository == 'org/repo'` |
 | `allowed_audiences` | Expected OIDC token audiences | `["auth:pipelines:gruntwork"]` |
 | `plan_roles` | Project-level IAM roles for plan SA | `["roles/viewer", "roles/storage.objectViewer"]` |
 | `apply_roles` | IAM roles for apply | `["roles/compute.admin", "roles/container.admin", "roles/cloudsql.admin", "roles/iam.roleAdmin", "roles/resourcemanager.projectIamAdmin", "roles/storage.admin", "roles/compute.networkAdmin", "roles/run.admin", "roles/pubsub.admin", "roles/dns.admin", "roles/secretmanager.admin", "roles/bigquery.admin", "roles/iam.serviceAccountAdmin", "roles/iam.serviceAccountUser", "roles/serviceusage.serviceUsageAdmin"]` |
+| `workload_identity_pool_import_existing` | Import an existing Workload Identity Pool instead of creating one | `false` |
+| `workload_identity_pool_provider_import_existing` | Import an existing Workload Identity Pool Provider instead of creating one | `false` |
+| `plan_service_account_import_existing` | Import an existing plan service account instead of creating one | `false` |
+| `plan_workload_identity_binding_import_existing` | Import an existing plan SA Workload Identity IAM binding instead of creating one | `false` |
+| `plan_state_bucket_custom_role_import_existing` | Import an existing plan state bucket custom IAM role instead of creating one | `false` |
+| `plan_project_iam_bindings_import_existing` | Import existing plan SA project IAM role bindings instead of creating them | `false` |
+| `plan_state_bucket_iam_binding_import_existing` | Import an existing plan SA state bucket IAM binding instead of creating one | `false` |
+| `apply_service_account_import_existing` | Import an existing apply service account instead of creating one | `false` |
+| `apply_workload_identity_binding_import_existing` | Import an existing apply SA Workload Identity IAM binding instead of creating one | `false` |
+| `apply_project_iam_bindings_import_existing` | Import existing apply SA project IAM role bindings instead of creating them | `false` |
 
 ### Default Attribute Mapping
 

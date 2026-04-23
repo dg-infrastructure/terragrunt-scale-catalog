@@ -34,13 +34,23 @@ boilerplate \
 | `StateBucketName` | yes | | Name of the GCS bucket used for storing OpenTofu state. Must be globally unique. Also used to grant the plan service account `roles/storage.objectUser` scoped to this bucket for state locking. |
 | `DeployBranch` | no | `main` | Branch granted the apply service account binding. |
 | `TerragruntScaleCatalogRef` | no | `gcp-stacks` | Git ref of this catalog to pin the stack source to. |
-| `OIDCResourcePrefix` | no | `pipelines-gitlab` | Prefix applied to Workload Identity Pool and service account resources. |
+| `OIDCResourcePrefix` | no | `pipelines` | Prefix applied to Workload Identity Pool and service account resources. |
 | `GitLabServerDomain` | no | `""` | Domain of your GitLab server. Leave empty to use `gitlab.com`; set for self-hosted instances. |
 | `Issuer` | no | computed | Override for the OIDC issuer URL; defaults to `https://<GitLabServerDomain>`. |
 | `WorkloadIdentityPoolID` | no | computed | ID of the Workload Identity Pool; computed from `OIDCResourcePrefix` if not specified. |
 | `WorkloadIdentityPoolProviderID` | no | computed | ID of the Workload Identity Pool Provider; computed from `OIDCResourcePrefix` if not specified. |
 | `PlanRoles` | no | `[]` | Additional project-level IAM roles granted to the plan service account. The bucket-scoped custom role for state locking is always granted on `StateBucketName` regardless of this value. |
 | `ApplyRoles` | no | `[]` | IAM roles granted to the apply service account. |
+| `WorkloadIdentityPoolImportExisting` | no | `false` | Import an existing Workload Identity Pool instead of creating one. |
+| `WorkloadIdentityPoolProviderImportExisting` | no | `false` | Import an existing Workload Identity Pool Provider instead of creating one. |
+| `PlanServiceAccountImportExisting` | no | `false` | Import an existing plan service account instead of creating one. |
+| `PlanWorkloadIdentityBindingImportExisting` | no | `false` | Import an existing plan SA Workload Identity IAM binding instead of creating one. |
+| `PlanStateBucketCustomRoleImportExisting` | no | `false` | Import an existing plan state bucket custom IAM role instead of creating one. |
+| `PlanProjectIAMBindingsImportExisting` | no | `false` | Import existing plan SA project IAM role bindings instead of creating them. |
+| `PlanStateBucketIAMBindingImportExisting` | no | `false` | Import an existing plan SA state bucket IAM binding instead of creating one. |
+| `ApplyServiceAccountImportExisting` | no | `false` | Import an existing apply service account instead of creating one. |
+| `ApplyWorkloadIdentityBindingImportExisting` | no | `false` | Import an existing apply SA Workload Identity IAM binding instead of creating one. |
+| `ApplyProjectIAMBindingsImportExisting` | no | `false` | Import existing apply SA project IAM role bindings instead of creating them. |
 
 ## How It Works
 
