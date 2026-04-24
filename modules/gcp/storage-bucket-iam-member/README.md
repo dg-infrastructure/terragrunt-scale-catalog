@@ -34,7 +34,6 @@ module "bucket_iam" {
 | `bucket` | The GCS bucket name to grant IAM permissions on | `string` | Yes |
 | `member` | The IAM member to grant roles to | `string` | Yes |
 | `roles` | List of IAM roles to grant on the bucket | `list(string)` | Yes |
-| `import_existing` | Set to true to import existing storage bucket IAM bindings into Terraform state rather than creating them | `bool` | No |
 
 ## Outputs
 

@@ -22,10 +22,21 @@ dependency "custom_role" {
   }
 }
 
+generate "import" {
+  disable   = values.import_existing ? false : true
+  path      = "import.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+import {
+  for_each = toset(var.roles)
+  to       = google_storage_bucket_iam_member.bindings[each.value]
+  id       = "$${var.bucket} $${each.value} $${var.member}"
+}
+EOF
+}
+
 inputs = {
   bucket = values.bucket
   member = dependency.service_account.outputs.member
   roles  = [dependency.custom_role.outputs.role_name]
-
-  import_existing = try(values.import_existing, false)
 }
