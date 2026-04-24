@@ -50,6 +50,7 @@ roles = [
 | `project_id` | The GCP project ID | `string` | Yes |
 | `member` | The IAM member to grant roles to | `string` | Yes |
 | `roles` | List of IAM roles to grant | `list(string)` | Yes |
+| `import_existing` | Set to true to import existing project IAM bindings into Terraform state rather than creating them | `bool` | No |
 
 ## Outputs
 
