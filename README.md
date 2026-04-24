@@ -4,7 +4,7 @@ This is a catalog of free, open-source Infrastructure as Code (IaC) configuratio
 
 ## Overview
 
-The Terragrunt Scale Catalog provides pre-built, production-ready infrastructure components for bootstrapping CI/CD pipelines with OIDC authentication. It supports both AWS and Azure cloud providers, with integrations for GitHub and GitLab.
+The Terragrunt Scale Catalog provides pre-built, production-ready infrastructure components for bootstrapping CI/CD pipelines with OIDC authentication. It supports AWS, Azure, and GCP cloud providers, with integrations for GitHub and GitLab.
 
 ## Repository Structure
 
@@ -19,6 +19,7 @@ Reusable OpenTofu modules that define cloud resources. These are the building bl
   - `iam-openid-connect-provider` - IAM OIDC provider
   - `iam-policy` - IAM policy documents
   - `iam-role-policy-attachment` - Attach policies to IAM roles
+  - `s3-bucket` - S3 bucket for testing Terragrunt Scale workflows
 
 - **`modules/azure/`** - Azure-specific OpenTofu modules
   - `entra-id-application` - Entra ID (Azure AD) application
@@ -30,6 +31,16 @@ Reusable OpenTofu modules that define cloud resources. These are the building bl
   - `resource-group` - Azure resource group
   - `storage-account` - Azure storage account
   - `storage-container` - Azure storage container
+
+- **`modules/gcp/`** - GCP-specific OpenTofu modules
+  - `custom-role` - Custom IAM role at the project level
+  - `project-iam-member` - IAM member binding at the project level
+  - `service-account` - GCP service account
+  - `service-account-iam-binding` - IAM binding for a service account
+  - `storage-bucket` - GCS storage bucket
+  - `storage-bucket-iam-member` - IAM member binding for a GCS bucket
+  - `workload-identity-pool` - Workload Identity Pool for OIDC federation
+  - `workload-identity-pool-provider` - Workload Identity Pool Provider
 
 ### Units (`units/`)
 
@@ -54,6 +65,16 @@ Terragrunt unit configurations that wrap modules with specific configurations an
   - `service-principal-to-scope-role-assignment` - Role assignment to a specific scope
   - `service-principal-to-sub-role-assignment` - Role assignment at subscription level
 
+- **`units/gcp/oidc/`** - GCP OIDC configuration units
+  - `custom-role` - Configured custom IAM role
+  - `project-iam-member` - Configured project-level IAM member
+  - `service-account` - Configured GCP service account
+  - `service-account-iam-binding` - Configured service account IAM binding
+  - `storage-bucket-custom-role-iam-member` - Configured custom role IAM binding for a GCS bucket
+  - `storage-bucket-iam-member` - Configured IAM member binding for a GCS bucket
+  - `workload-identity-pool` - Configured Workload Identity Pool
+  - `workload-identity-pool-provider` - Configured Workload Identity Pool Provider
+
 ### Stacks (`stacks/`)
 
 Terragrunt stack configurations that compose multiple units into complete infrastructure setups. Stacks represent end-to-end solutions.
@@ -62,6 +83,8 @@ Terragrunt stack configurations that compose multiple units into complete infras
 - **`stacks/aws/gitlab/pipelines-bootstrap/`** - Bootstrap AWS resources for Gruntwork Pipelines (GitLab CI) with OIDC
 - **`stacks/azure/github/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitHub Actions) with OIDC
 - **`stacks/azure/gitlab/pipelines-bootstrap/`** - Bootstrap Azure resources for Gruntwork Pipelines (GitLab CI) with OIDC
+- **`stacks/gcp/github/pipelines-bootstrap/`** - Bootstrap GCP resources for Gruntwork Pipelines (GitHub Actions) with OIDC
+- **`stacks/gcp/gitlab/pipelines-bootstrap/`** - Bootstrap GCP resources for Gruntwork Pipelines (GitLab CI) with OIDC
 
 ### Templates (`templates/`)
 
@@ -103,6 +126,22 @@ Boilerplate repository templates that include all necessary Terragrunt configura
   - `infrastructure-live/` - Infrastructure live repository structure
     - `boilerplate.yml` - Repository-level dependencies and configuration
 
+**GCP Templates:**
+
+- **`gcp/github/`** - Complete GCP + GitHub Actions setup
+  - `project/` - Project-level bootstrap configuration
+    - `{{ .ProjectName }}/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
+- **`gcp/gitlab/`** - Complete GCP + GitLab CI setup
+  - `project/` - Project-level bootstrap configuration
+    - `{{ .ProjectName }}/bootstrap/` - Bootstrap stack configuration
+    - `boilerplate.yml` - Template variables and dependencies
+  - `infrastructure-live/` - Infrastructure live repository structure
+    - `boilerplate.yml` - Repository-level dependencies and configuration
+
 ## Documentation
 
 Detailed documentation for each component can be found in their respective directories:
@@ -116,7 +155,7 @@ Detailed documentation for each component can be found in their respective direc
 
 ### Bootstrap Gruntwork Pipelines
 
-Regardless of whether you're using GitHub Actions, GitLab CI, AWS or Azure (GitHub Actions only here, at the moment), you can bootstrap Gruntwork Pipelines by following the documentation in the official [Gruntwork Pipelines setup docs](https://docs.gruntwork.io/2.0/docs/pipelines/installation/addingnewrepo).
+Regardless of whether you're using GitHub Actions or GitLab CI with AWS, Azure, or GCP, you can bootstrap Gruntwork Pipelines by following the documentation in the official [Gruntwork Pipelines setup docs](https://docs.gruntwork.io/2.0/docs/pipelines/installation/addingnewrepo).
 
 ## Contributing
 
