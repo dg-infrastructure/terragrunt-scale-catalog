@@ -37,6 +37,11 @@ locals {
   sub_plan_value  = try(values.sub_plan_value, "repo:${local.github_org_name}/${local.github_repo_name}:*")
   sub_apply_value = try(values.sub_apply_value, "repo:${local.github_org_name}/${local.github_repo_name}:ref:refs/heads/${local.deploy_branch}")
 
+  // Condition operator for the apply IAM role's trust policy. Defaults to StringEquals
+  // (exact match on a single ref). Set to StringLike to allow wildcard matching, e.g. when
+  // a fleet of ephemeral repos shares one set of bootstrap roles.
+  apply_condition_operator = try(values.apply_condition_operator, "StringEquals")
+
   state_bucket_name = values.state_bucket_name
 
   bootstrap_iam_policy_prefix = try(values.bootstrap_iam_policy, "default")
@@ -165,6 +170,8 @@ unit "apply_iam_role" {
     mock_iam_openid_connect_provider_arn = "arn:aws:iam::${local.aws_account_id}:oidc-provider/${local.github_token_actions_domain}"
 
     name = "${local.oidc_resource_prefix}-apply"
+
+    condition_operator = local.apply_condition_operator
 
     sub_key   = local.sub_key
     sub_value = local.sub_apply_value

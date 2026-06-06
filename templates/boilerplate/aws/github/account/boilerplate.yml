@@ -107,3 +107,21 @@ variables:
     description: Whether to import an existing apply IAM role policy attachment.
     default: false
     order: 18
+
+  - name: ApplyConditionOperator
+    type: string
+    description: The IAM condition operator for the apply role trust policy (StringEquals or StringLike).
+    default: ""
+    order: 19
+
+  - name: SubApplyValue
+    type: string
+    description: Override for the apply role trust policy subject value (the sub claim to match).
+    default: ""
+    order: 20
+
+  - name: SubPlanValue
+    type: string
+    description: Override for the plan role trust policy subject value (the sub claim to match).
+    default: ""
+    order: 21

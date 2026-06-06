@@ -41,6 +41,18 @@ stack "bootstrap" {
     exclude_oidc_provider = true
     {{- end }}
 
+    {{- if .ApplyConditionOperator }}
+    apply_condition_operator = "{{ .ApplyConditionOperator }}"
+    {{- end }}
+
+    {{- if .SubApplyValue }}
+    sub_apply_value = "{{ .SubApplyValue }}"
+    {{- end }}
+
+    {{- if .SubPlanValue }}
+    sub_plan_value = "{{ .SubPlanValue }}"
+    {{- end }}
+
     state_bucket_name = local.account_hcl.locals.state_bucket_name
 
     {{- if .OIDCProviderTags }}
