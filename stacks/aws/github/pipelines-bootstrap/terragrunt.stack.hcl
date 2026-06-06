@@ -38,6 +38,12 @@ locals {
   sub_plan_value  = try(values.sub_plan_value, "repo:${local.github_org_name}/${local.github_repo_name}:*")
   sub_apply_value = try(values.sub_apply_value, "repo:${local.github_org_name}/${local.github_repo_name}:ref:refs/heads/${local.deploy_branch}")
 
+  // OIDC condition operator for the apply role. Defaults to "StringEquals" (exact repo+branch match,
+  // the secure default). Set to "StringLike" to allow a wildcard sub_apply_value — e.g. trusting many
+  // repos under a prefix (repo:org/prefix-*:...) for multi-repo / ephemeral-repo setups. The plan role
+  // is always StringLike (any PR ref); this makes the apply role's operator configurable too.
+  apply_condition_operator = try(values.apply_condition_operator, "StringEquals")
+
   state_bucket_name = values.state_bucket_name
 
   bootstrap_iam_policy_prefix = try(values.bootstrap_iam_policy, "default")
@@ -168,6 +174,8 @@ unit "apply_iam_role" {
     mock_iam_openid_connect_provider_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:oidc-provider/${local.github_token_actions_domain}"
 
     name = "${local.oidc_resource_prefix}-apply"
+
+    condition_operator = local.apply_condition_operator
 
     sub_key   = local.sub_key
     sub_value = local.sub_apply_value
