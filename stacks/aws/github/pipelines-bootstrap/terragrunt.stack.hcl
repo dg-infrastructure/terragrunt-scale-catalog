@@ -67,13 +67,28 @@ locals {
 
   exclude_oidc_provider = try(values.exclude_oidc_provider, false)
 
-  plan_iam_role_import_existing              = try(values.plan_iam_role_import_existing, false)
-  plan_iam_policy_import_arn                 = try(values.plan_iam_policy_import_arn, "")
-  plan_iam_role_policy_attachment_import_arn = try(values.plan_iam_role_policy_attachment_import_arn, "")
+  // The iam-policy module (modules/aws/iam-policy) names each policy "<name>-<sha256(policy)[:8]>" so
+  // that a policy-content change produces a NEW policy instead of a 6th version (AWS caps IAM policies
+  // at 5 versions). We recompute that exact suffix here — over the same policy JSON passed to the unit
+  // (`policy = local.{plan,apply}_iam_policy`) — and append it to the un-hashed import ARNs that arrive
+  // from the account template, so the import targets the policy's real, hashed name.
+  plan_iam_policy_name_suffix  = substr(sha256(local.plan_iam_policy), 0, 8)
+  apply_iam_policy_name_suffix = substr(sha256(local.apply_iam_policy), 0, 8)
+
+  plan_iam_role_import_existing      = try(values.plan_iam_role_import_existing, false)
+  raw_plan_iam_policy_import_arn     = try(values.plan_iam_policy_import_arn, "")
+  raw_plan_iam_attachment_import_arn = try(values.plan_iam_role_policy_attachment_import_arn, "")
+  // Append the content hash so the import ARN matches the hashed policy name. The hash lands on the
+  // trailing :policy/<name> segment of both the policy ARN and the "<role>/<policy-arn>" attachment id.
+  // Empty stays empty so the unit's `disable = import_arn == ""` still suppresses the import block.
+  plan_iam_policy_import_arn                 = local.raw_plan_iam_policy_import_arn == "" ? "" : "${local.raw_plan_iam_policy_import_arn}-${local.plan_iam_policy_name_suffix}"
+  plan_iam_role_policy_attachment_import_arn = local.raw_plan_iam_attachment_import_arn == "" ? "" : "${local.raw_plan_iam_attachment_import_arn}-${local.plan_iam_policy_name_suffix}"
 
   apply_iam_role_import_existing              = try(values.apply_iam_role_import_existing, false)
-  apply_iam_policy_import_arn                 = try(values.apply_iam_policy_import_arn, "")
-  apply_iam_role_policy_attachment_import_arn = try(values.apply_iam_role_policy_attachment_import_arn, "")
+  raw_apply_iam_policy_import_arn             = try(values.apply_iam_policy_import_arn, "")
+  raw_apply_iam_attachment_import_arn         = try(values.apply_iam_role_policy_attachment_import_arn, "")
+  apply_iam_policy_import_arn                 = local.raw_apply_iam_policy_import_arn == "" ? "" : "${local.raw_apply_iam_policy_import_arn}-${local.apply_iam_policy_name_suffix}"
+  apply_iam_role_policy_attachment_import_arn = local.raw_apply_iam_attachment_import_arn == "" ? "" : "${local.raw_apply_iam_attachment_import_arn}-${local.apply_iam_policy_name_suffix}"
 
   oidc_provider_tags = try(values.oidc_provider_tags, {})
 }
@@ -153,8 +168,9 @@ unit "plan_iam_role_policy_attachment" {
     iam_policy_config_path = "../iam-policy"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_role_name  = "${local.oidc_resource_prefix}-plan"
-    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan"
+    mock_iam_role_name = "${local.oidc_resource_prefix}-plan"
+    // Hashed to match the iam-policy module's real name (see plan_iam_policy_name_suffix above).
+    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-plan-${local.plan_iam_policy_name_suffix}"
 
     import_arn = local.plan_iam_role_policy_attachment_import_arn
   }
@@ -214,8 +230,9 @@ unit "apply_iam_role_policy_attachment" {
     iam_policy_config_path = "../iam-policy"
 
     // Used to generate accurate mock values; actual values come from dependencies
-    mock_iam_role_name  = "${local.oidc_resource_prefix}-apply"
-    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply"
+    mock_iam_role_name = "${local.oidc_resource_prefix}-apply"
+    // Hashed to match the iam-policy module's real name (see apply_iam_policy_name_suffix above).
+    mock_iam_policy_arn = "arn:${local.aws_partition}:iam::${local.aws_account_id}:policy/${local.oidc_resource_prefix}-apply-${local.apply_iam_policy_name_suffix}"
 
     import_arn = local.apply_iam_role_policy_attachment_import_arn
   }
