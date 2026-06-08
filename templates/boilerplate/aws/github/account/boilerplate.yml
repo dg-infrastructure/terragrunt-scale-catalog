@@ -111,3 +111,29 @@ variables:
     description: Whether to import an existing apply IAM role policy attachment.
     default: false
     order: 18
+
+  - name: ApplyConditionOperator
+    type: string
+    description: >-
+      OIDC condition operator for the apply IAM role's trust policy. Defaults to "StringEquals"
+      (exact repo+branch match). Set to "StringLike" to allow a wildcard SubApplyValue (e.g. trusting
+      many repos under a prefix). Leave empty to keep the secure default.
+    default: ""
+    order: 19
+
+  - name: SubApplyValue
+    type: string
+    description: >-
+      Override the apply IAM role's OIDC `sub` claim value (e.g.
+      repo:org/prefix-*:ref:refs/heads/main for multi-repo trust). Use with ApplyConditionOperator
+      set to "StringLike". Leave empty to keep the default exact-repo sub.
+    default: ""
+    order: 20
+
+  - name: SubPlanValue
+    type: string
+    description: >-
+      Override the plan IAM role's OIDC `sub` claim value (e.g. repo:org/prefix-*:* for multi-repo
+      trust). The plan role is already StringLike. Leave empty to keep the default exact-repo sub.
+    default: ""
+    order: 21

@@ -48,6 +48,23 @@ stack "bootstrap" {
     oidc_provider_tags = {{ toJson .OIDCProviderTags }}
     {{- end }}
 
+    {{- if .ApplyConditionOperator }}
+    // Override the apply role's OIDC condition operator (default "StringEquals"). Use "StringLike"
+    // together with a wildcard SubApplyValue to trust many repos under a prefix.
+    apply_condition_operator = "{{ .ApplyConditionOperator }}"
+    {{- end }}
+
+    {{- if .SubApplyValue }}
+    // Override the apply role's OIDC `sub` claim (e.g. a wildcard for multi-repo trust).
+    sub_apply_value = "{{ .SubApplyValue }}"
+    {{- end }}
+
+    {{- if .SubPlanValue }}
+    // Override the plan role's OIDC `sub` claim (plan is already StringLike; e.g. a wildcard for
+    // multi-repo trust).
+    sub_plan_value = "{{ .SubPlanValue }}"
+    {{- end }}
+
 
 
     // =========================================================================
