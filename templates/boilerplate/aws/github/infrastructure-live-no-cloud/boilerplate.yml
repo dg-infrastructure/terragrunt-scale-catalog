@@ -1,0 +1,38 @@
+# Auth-less Pipelines bootstrap for the TGS "Run your first pipeline" wizard (DEV-1496).
+#
+# Ships the Pipelines GitHub workflows + repository config + a single Pipelines environment whose
+# authentication block is EMPTY. A self-contained null_resource tutorial unit added on top runs
+# plan/apply with NO cloud credentials, so the customer reaches a green pipeline (the "wow moment")
+# before authorizing their cloud. The "Connect to your cloud" wizard then layers the sibling
+# cloud-config template on top to add the S3 state backend, the bootstrap stack (OIDC provider +
+# plan/apply IAM roles), and the real authentication { aws_oidc { ... } } config.
+#
+# Differs from ../infrastructure-live: it drops the aws-base dependency (no S3 remote-state root.hcl)
+# and swaps the full `account` dependency (bootstrap stack + state files + aws_oidc) for the slim
+# account-no-cloud dependency (an environment with `authentication {}` and nothing else). The existing
+# ../infrastructure-live template is left untouched.
+skip_files:
+  - path: "README.md"
+    if: "true"
+
+variables:
+  - name: IncludeDriftDetection
+    type: bool
+    description: Whether to include the drift detection workflow.
+    default: true
+    order: 1
+
+dependencies:
+  - name: common
+    template-url: ../../../.dependencies/common
+    output-folder: .
+  - name: github
+    template-url: ../../../.dependencies/github
+    output-folder: .
+  - name: github-drift-detection
+    template-url: ../../../.dependencies/github-drift-detection
+    output-folder: .
+    skip: "{{ not .IncludeDriftDetection }}"
+  - name: account-no-cloud
+    template-url: ../../../.dependencies/aws/account-no-cloud
+    output-folder: .
