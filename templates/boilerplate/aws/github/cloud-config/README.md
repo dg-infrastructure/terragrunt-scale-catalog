@@ -26,7 +26,7 @@ template and keeps the existing [`../infrastructure-live`](../infrastructure-liv
 
 ## Variables
 
-Inherited from the `aws-base` and `account` dependencies — see
+Inherited from the `account` dependency chain — see
 [`../account/boilerplate.yml`](../account/boilerplate.yml) and
 [`../../../.dependencies/aws/account/boilerplate.yml`](../../../.dependencies/aws/account/boilerplate.yml):
 `AccountName`, `AWSAccountID`, `AWSRegion`, `StateBucketName`, `OIDCResourcePrefix`, `Partition`,
