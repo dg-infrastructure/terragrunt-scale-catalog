@@ -1,7 +1,7 @@
 # infrastructure-live-no-cloud
 
-Auth-less Pipelines bootstrap used by the TGS Scale-Free **"Run your first pipeline"** onboarding
-wizard (DEV-1496). It is the no-cloud sibling of [`../infrastructure-live`](../infrastructure-live).
+Auth-less Pipelines bootstrap used by the Terragrunt Scale **"Run your first pipeline"** onboarding
+wizard. It is the no-cloud sibling of [`../infrastructure-live`](../infrastructure-live).
 
 ## What it renders
 
