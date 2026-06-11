@@ -1,5 +1,5 @@
-# Slim, auth-less variant of .dependencies/aws/account used by the TGS "Run your first pipeline"
-# wizard (DEV-1496). Emits ONLY the Pipelines environment file with an empty authentication block.
+# Slim, auth-less variant of .dependencies/aws/account used by the Terragrunt Scale "Run your first pipeline"
+# wizard. Emits ONLY the Pipelines environment file with an empty authentication block.
 # It deliberately omits everything that requires cloud credentials: no S3 state backend (root.hcl),
 # no account.hcl/region.hcl, and no bootstrap stack (OIDC provider + IAM roles). A self-contained
 # null_resource tutorial unit added on top runs plan/apply with NO cloud credentials.
