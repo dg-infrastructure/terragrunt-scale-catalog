@@ -4,13 +4,10 @@
 // plan/apply with no cloud credentials. The real cloud OIDC config is added later by the
 // "Connect to your cloud" wizard (the cloud-config template) once the customer authorizes their cloud.
 
-environment "{{ .AccountName }}" {
-  // Matches all units under {{ .AccountName }}/.
+environment "{{ .AccountName }}" {  
   filter {
     paths = ["{{ .AccountName }}/*"]
   }
 
-  // Empty authentication: no cloud provider configured yet, so Pipelines runs plan/apply without
-  // assuming any role. Valid HCL — parses to a zero-value Authentication struct.
   authentication {}
 }
