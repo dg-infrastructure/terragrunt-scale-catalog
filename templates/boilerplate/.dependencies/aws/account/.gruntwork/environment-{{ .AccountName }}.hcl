@@ -16,7 +16,6 @@ environment "{{ .AccountName }}" {
       account_id         = "{{ .AWSAccountID }}"
       plan_iam_role_arn  = "arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:role/{{ .OIDCResourcePrefix }}-plan"
       apply_iam_role_arn = "arn:{{ .Partition }}:iam::{{ .AWSAccountID }}:role/{{ .OIDCResourcePrefix }}-apply"
-      aws_partition      = "{{ .Partition }}"
     }
   }
 }
