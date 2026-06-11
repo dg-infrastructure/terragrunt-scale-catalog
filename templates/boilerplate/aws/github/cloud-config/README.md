@@ -1,7 +1,7 @@
 # cloud-config
 
-The cloud-authorization layer for the TGS Scale-Free **"Connect to your cloud"** onboarding wizard
-(DEV-1496). It is applied **on top of** a repo that was already bootstrapped with the auth-less
+The cloud-authorization layer for the Terragrunt Scale **"Connect to your cloud"** onboarding wizard.
+It is applied **on top of** a repo that was already bootstrapped with the auth-less
 [`../infrastructure-live-no-cloud`](../infrastructure-live-no-cloud) template.
 
 ## What it renders (additively)
