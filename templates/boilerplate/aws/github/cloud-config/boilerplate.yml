@@ -1,0 +1,20 @@
+# "Connect to your cloud" wizard: layered on top of a repository already bootstrapped with the
+# auth-less ../infrastructure-live-no-cloud template. See README.md for the full flow and variables.
+# Adds everything deferred until the customer authorizes their cloud:
+#   - aws-base       -> the S3 remote-state root.hcl (state backend + AWS provider generation)
+#   - account        -> account.hcl/region.hcl, the bootstrap stack (OIDC provider + plan/apply IAM
+#                       roles), and a real Pipelines environment with authentication { aws_oidc { ... } }
+#
+# The Pipelines workflows + repository.hcl already exist from the no-cloud bootstrap, so this template
+# does NOT re-render the `common`/`github` dependencies.
+skip_files:
+  - path: "README.md"
+    if: "true"
+
+dependencies:
+  - name: aws-base
+    template-url: ../../../.dependencies/aws/base
+    output-folder: .
+  - name: account
+    template-url: ../account
+    output-folder: .
