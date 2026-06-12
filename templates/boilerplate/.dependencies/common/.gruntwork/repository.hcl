@@ -14,5 +14,11 @@ repository {
 
   env {
     PIPELINES_FEATURE_EXPERIMENT_IGNORE_UNITS_WITHOUT_ENVIRONMENT = "true"
+
+{{- if and .StateLockTimeout (ne .StateLockTimeout "0s") }}
+    TF_CLI_ARGS_plan    = "-lock-timeout={{ .StateLockTimeout }}"
+    TF_CLI_ARGS_apply   = "-lock-timeout={{ .StateLockTimeout }}"
+    TF_CLI_ARGS_destroy = "-lock-timeout={{ .StateLockTimeout }}"
+{{- end }}
   }
 }
