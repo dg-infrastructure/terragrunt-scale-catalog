@@ -22,3 +22,9 @@ variables:
     description: Whether each push creates a new status comment (true) or updates the existing one in-place (false).
     default: true
     order: 4
+
+  - name: StateLockTimeout
+    type: string
+    description: Duration OpenTofu waits to acquire the state lock before erroring (passed as -lock-timeout). Lets a concurrent plan/apply against shared state wait instead of failing immediately. Default "0s" fails immediately (OpenTofu's own default).
+    default: "0s"
+    order: 5
